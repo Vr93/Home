@@ -1,14 +1,16 @@
-package Controllers;
+package Devices.Com_Master.Controller;
 
-import Model.Digital_Output_1;
-import Model.SerialPortTest;
+
+import Devices.Com_Master.Model.SerialPort_Master;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SerialController {
 
+    //@Autowired
+    //private SerialPort serialPort;
     @Autowired
-    private SerialPortTest serialPortTest;
+    private SerialPort_Master serialPort;
 
 }

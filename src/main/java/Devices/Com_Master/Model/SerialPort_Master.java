@@ -1,4 +1,4 @@
-package Model;
+package Devices.Com_Master.Model;
 
 import com.pi4j.io.serial.*;
 import org.springframework.stereotype.Service;
@@ -11,10 +11,10 @@ import java.io.IOException;
  * @author Robert Savage
  */
 @Service
-public class SerialPortTest {
+public class SerialPort_Master {
     private Serial serial;
 
-    public SerialPortTest() {
+    public SerialPort_Master() {
         this.serial = SerialFactory.createInstance();
         System.out.println("Starting serial!");
         try {
