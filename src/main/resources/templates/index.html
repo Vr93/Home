@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Bare - Start Bootstrap Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/custom.css" rel="stylesheet">
+    <!-- Bootstrap core JavaScript -->
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Start Bootstrap</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-lg-12">
+        <button id = "ledon" type="button" class="btn btn-primary">LED ON</button>
+        <button id ="ledoff" type="button" class="btn btn-primary">LED OFF</button>
+      </div>
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <div id="ledstate">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div id="smokedetector">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LED Pin 2, POST, Turn on LED -->
+  <script>
+  $( document ).ready(function() {
+      $('#ledon').click(function(){
+		ledOnPost();
+	  });
+        function ledOnPost(){
+            // DO POST
+            $.ajax({
+                type : "POST",
+                contentType : "application/json",
+                accept: 'text/plain',
+                url : window.location + "changeState",
+                data : "on",
+                dataType: 'text',
+                success : function(result) {
+                    console.log("LEDON FORM SUCCESS");
+                    console.log(result);
+                },
+                error : function(e) {
+                    alert("Error!")
+                    console.log("ERROR: ", e);
+                }
+            });
+        }
+    })
+  </script>
+
+    <!-- LED Pin 2, POST, Turn off LED -->
+    <script>
+  $( document ).ready(function() {
+      $('#ledoff').click(function(){
+		ledOffPost();
+	  });
+        function ledOffPost(){
+            // DO POST
+            $.ajax({
+                type : "POST",
+                contentType : "application/json",
+                accept: 'text/plain',
+                url : window.location + "changeState",
+                data : "off",
+                dataType: 'text',
+                success : function(result) {
+                    console.log("LEDON FORM SUCCESS");
+                    console.log(result);
+                },
+                error : function(e) {
+                    alert("Error!")
+                    console.log("ERROR: ", e);
+                }
+            });
+        }
+    })
+  </script>
+
+    <!-- LED Pin 2, GET, get state of LED pin -->
+  <script>
+    $( document ).ready(function() {
+    window.setInterval(getLEDState, 1000);
+      // DO GET
+	function getLEDState(){
+		$.ajax({
+			type : "GET",
+			url : window.location + "state",
+			success: function(result){
+					$("#ledstate").empty();
+					$("#ledstate").html(result);
+			},
+			error : function(e) {
+				$("#ledstate").html("<strong>Error</strong>");
+				console.log("ERROR: ", e);
+			}
+		});
+		}
+    })
+  </script>
+
+    <!-- Smoke detector, get analog value -->
+    <script>
+    $( document ).ready(function() {
+    window.setInterval(getSmokeDetectorValue, 1000);
+      // DO GET
+	function getSmokeDetectorValue(){
+		$.ajax({
+			type : "GET",
+			url : window.location + "smokedetectorvalue",
+			success: function(result){
+					$("#smokedetector").empty();
+					$("#smokedetector").html(result);
+			},
+			error : function(e) {
+				$("#smokedetector").html("<strong>Error</strong>");
+				console.log("ERROR: ", e);
+			}
+		});
+		}
+    })
+  </script>
+
+
+
+
+
+
+
+
+  </body>
+
+</html>
