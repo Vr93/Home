@@ -13,6 +13,7 @@ import java.io.IOException;
 @Service
 public class SerialPort_Master {
     private Serial serial;
+    private SerialHandler serialHandler;
 
     public SerialPort_Master() {
         this.serial = SerialFactory.createInstance();
@@ -57,8 +58,9 @@ public class SerialPort_Master {
 
                 // print out the data received to the console
                 try {
-                    System.out.println("Serial Receive: " + event.getHexByteString());
+                    //System.out.println("Serial Receive: " + event.getHexByteString());
                     System.out.println("Serial Receive: " + event.getAsciiString());
+                    serialHandler.handleSerialInput(event.getAsciiString());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
