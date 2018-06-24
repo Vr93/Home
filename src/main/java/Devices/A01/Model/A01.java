@@ -1,5 +1,7 @@
 package Devices.A01.Model;
 
+import Devices.A01.SQL.A01_SQL;
+
 public class A01 {
 
     private float temperature;      // Current temperature value.
@@ -13,7 +15,8 @@ public class A01 {
     private int updateInterval; // Interval time to send values to SQL.
 
     public A01(){
-        this.updateInterval = 30;   // Minutes
+        System.out.println("init A01");
+        this.updateInterval = 1;   // Minutes
         startThread();
 
         }
@@ -23,13 +26,14 @@ public class A01 {
         Thread t = new Thread(new Runnable(){
             @Override
             public void run() {
-                try {
-                    Thread.sleep(getUpdateInterval() * 1000 * 1000);
-                    System.out.println("StartThread A01");
-                    checkValuesAndPostSQL();
-                }
-                catch(InterruptedException ex){
-                    ex.printStackTrace();
+                while (true) {
+                    try {
+                        Thread.sleep(getUpdateInterval() * 60000); // Millis to minutes.
+                        checkValuesAndPostSQL();
+                    }
+                    catch(InterruptedException ex){
+                        ex.printStackTrace();
+                    }
                 }
             }
         });
@@ -39,18 +43,15 @@ public class A01 {
 
     private void checkValuesAndPostSQL(){
         /* Check if there is updated values, post these to SQL if there is. */
-        if( (getHumidity() != getHumidityOLD()) ||
-                (getPressure() != getHumidityOLD()) ||
-                (getTemperature() != getTemperatureOLD()) ){
+        if( (getHumidity() != getHumidityOLD()) || (getPressure() != getPressureOLD()) || (getTemperature() != getTemperatureOLD()) ){
             A01_SQL sql = new A01_SQL();
             sql.insertValuesA01(getTemperature(),getHumidity(),getPressure());  //Insert to SQL, Home - > Temperature.
-            System.out.println("Updated Values A01");
             setTemperatureOLD(getTemperature());
             setHumidityOLD(getHumidity());
             setPressureOLD(getPressure());
         }
         else{
-            System.out.println("NO Updated Values A01");
+            //Do nothing
         }
     }
 

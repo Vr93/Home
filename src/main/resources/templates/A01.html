@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Guard</title>
+    <title>Home - Sikthaugen 4</title>
 
     <!-- Bootstrap CSS CDN -->
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
@@ -33,23 +33,48 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand">Guard</a>
+                    <a class="navbar-brand">Device - A01</a>
                 </div>
 
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item active"><a th:href="@{/index}">Home</a></li>
-                        <li class="nav-item"><a th:href="@{/citect}">Citect</a></li>
-                        <li class="nav-item disabled"><a href="#"><strike>Schneider</strike></a></li>
-                        <li class="nav-item disabled"><a href="#"><strike>RS-Logix</strike></a></li>
-                        <li class="nav-item"><a th:href="@{/pls_database}">PLS Bibliotek</a></li>
+                        <li class="nav-item"><a th:href="@{/index}">Home</a></li>
+                        <li class="nav-item"><a th:href="@{/device}">Device</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
         <div id="mainContent">
-        <div class="col-lg-4 panel panel-default">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="text-center"> A01 - Weather Station</h3>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-10 offset-md-1 panel panel-default">
+                    <div id="A01GraphText"></div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Selection
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" onclick="dataDay()">Day</a>
+                            <a class="dropdown-item" onclick="dataWeek()" >Week</a>
+                            <a class="dropdown-item" onclick="dataMonth()">Month</a>
+                            <a class="dropdown-item" onclick="dataYear()">Year</a>
+                        </div>
+                    </div>
+                    <div class="line"></div>
+                    <canvas id="A01Graph" width="500" height="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>
+                </div>
+            </div>
+
+        <!--<div class="col-lg-4 panel panel-default">
             <h4 class="text-center"> PLS Bibliotek</h4>
             <div class="line"></div>
             <canvas id="plsLibraryGraph" width="500" height="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>
@@ -60,7 +85,7 @@
                 <canvas id="citectGraph" width="500" height="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>
             </div>
             <div class="col-lg-6 my-3">
-            </div>
+            </div>-->
         </div>
     </div>
 <!--</div>-->
@@ -73,55 +98,63 @@
     }
 </script>
 
-<!-- START -- Week graph, Amount of tags produced Citect -->
+<!-- START -- Day graph, A01 -->
 <script>
 	$(document).ready(function(){
+	    dataDay();
+	});
+
+	function dataDay(){
 	$.ajax({
-		url: "/index/SQLCitectWeek",
+		url: "/A01/dataDay",
 		method: "GET",
 		success: function(data) {
 		    var time = [];
-			var variable = [];
-			var advalm = [];
-			var trend = [];
+			var temperature = [];
+			var pressure = [];
+			var humidity = [];
+
 			console.log(data.length);
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
-		    variable[i] = obj.variable;
-            advalm[i] = obj.advalm;
-            trend[i] = obj.trend;
+		    temperature[i] = obj.temp;
+            pressure[i] = obj.pressure/100.0;
+            humidity[i] = obj.humidity;
             time[i] = obj.timestamp.substring(0,10);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
 				labels: time,
 				datasets: [{
-					label: "Variable",
+					label: "Temperature",
 					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
 					backgroundColor: 'rgba(255,0,0,1)',
 					borderColor: 'rgba(255,0,0,1)',
 					fill: false,
-					data: variable
+					data: temperature
 				}, {
-					label: "Advalm",
+					label: "Humidity",
 					//backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
 					backgroundColor: 'rgba(0,0,255,1)',
 					borderColor: 'rgba(0,0,255,1)',
 					fill: false,
-					data: advalm
+					data: humidity
 				}, {
-					label: "Trend",
+					label: "Pressure(x10^2)",
 					//backgroundColor: color(window.chartColors.purple).alpha(0.5).rgbString(),
 					backgroundColor: 'rgba(0,255,0,1)',
 					borderColor: 'rgba(0,255,0,1)',
 					fill: false,
-					data: trend
+					data: pressure
 				},
 
 				]
 			};
 
-			var ctx = $("#citectGraph");
+			var ctx = $("#A01Graph");
+            $('#A01Graph').empty();
+            $('#A01GraphText').empty();
+            $('#A01GraphText').html('<h4 class="text-center">Day</h4>');
 
 			var barGraph = new Chart(ctx, {
 				type: 'line',
@@ -129,7 +162,7 @@
 				options: {
 					title:{
 						display:true,
-						text:"Antall tags produsert (Uke)"
+						text:"Day"
 					}
 
 				}
@@ -139,49 +172,70 @@
 			console.log(data);
 		}
 	});
-});
+};
 </script>
-<!-- END -- Week graph, Amount of tags produced Citect -->
+<!-- END -- Day graph, A01 -->
 
-<!-- START --  Week graph, Amount of functionblocks downloaded -->
+<!-- START -- Week graph, A01 -->
 <script>
-	$(document).ready(function(){
+	function dataWeek(){
 	$.ajax({
-		url: "/index/SQLSchneiderWeek",
+		url: "/A01/dataWeek",
 		method: "GET",
 		success: function(data) {
 		    var time = [];
-            var schneiderFB = [];
+			var temperature = [];
+			var pressure = [];
+			var humidity = [];
+
 			console.log(data.length);
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
-		    schneiderFB[i] = obj.fb;
+		    temperature[i] = obj.temp;
+            pressure[i] = obj.pressure/100.0;
+            humidity[i] = obj.humidity;
             time[i] = obj.timestamp.substring(0,10);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
 				labels: time,
 				datasets: [{
-					label: "Schneider",
+					label: "Temperature",
 					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
 					backgroundColor: 'rgba(255,0,0,1)',
 					borderColor: 'rgba(255,0,0,1)',
 					fill: false,
-					data: schneiderFB
-				} ,
+					data: temperature
+				}, {
+					label: "Humidity",
+					//backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+					backgroundColor: 'rgba(0,0,255,1)',
+					borderColor: 'rgba(0,0,255,1)',
+					fill: false,
+					data: humidity
+				}, {
+					label: "Pressure(x10^2)",
+					//backgroundColor: color(window.chartColors.purple).alpha(0.5).rgbString(),
+					backgroundColor: 'rgba(0,255,0,1)',
+					borderColor: 'rgba(0,255,0,1)',
+					fill: false,
+					data: pressure
+				},
 
 				]
 			};
 
-			var ctx = $("#plsLibraryGraph");
-
+			var ctx = $("#A01Graph");
+            $('#A01Graph').empty();
+            $('#A01GraphText').empty();
+            $('#A01GraphText').html('<h4 class="text-center">Week</h4>');
 			var barGraph = new Chart(ctx, {
 				type: 'line',
 				data: chartdata,
 				options: {
 					title:{
 						display:true,
-						text:"Antall funksjonsblokker nedlastet (Uke)"
+						text:"Week"
 					}
 
 				}
@@ -191,9 +245,157 @@
 			console.log(data);
 		}
 	});
-});
+};
 </script>
-<!-- END -- Week graph, Amount of functionblocks downloaded -->
+<!-- END -- Week graph, A01 -->
+
+<!-- START -- Month graph, A01 -->
+<script>
+	function dataMonth(){
+	$.ajax({
+		url: "/A01/dataMonth",
+		method: "GET",
+		success: function(data) {
+		    var time = [];
+			var temperature = [];
+			var pressure = [];
+			var humidity = [];
+
+			console.log(data.length);
+		for(var i = 0; i < data.length; i++){
+		    var obj = JSON.parse(data[i]);
+		    temperature[i] = obj.temp;
+            pressure[i] = obj.pressure/100.0;
+            humidity[i] = obj.humidity;
+            time[i] = obj.timestamp.substring(0,10);
+		}
+	var color = Chart.helpers.color;
+			var chartdata = {
+				labels: time,
+				datasets: [{
+					label: "Temperature",
+					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+					backgroundColor: 'rgba(255,0,0,1)',
+					borderColor: 'rgba(255,0,0,1)',
+					fill: false,
+					data: temperature
+				}, {
+					label: "Humidity",
+					//backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+					backgroundColor: 'rgba(0,0,255,1)',
+					borderColor: 'rgba(0,0,255,1)',
+					fill: false,
+					data: humidity
+				}, {
+					label: "Pressure(x10^2)",
+					//backgroundColor: color(window.chartColors.purple).alpha(0.5).rgbString(),
+					backgroundColor: 'rgba(0,255,0,1)',
+					borderColor: 'rgba(0,255,0,1)',
+					fill: false,
+					data: pressure
+				},
+
+				]
+			};
+
+			var ctx = $("#A01Graph");
+            $('#A01Graph').empty();
+            $('#A01GraphText').empty();
+            $('#A01GraphText').html('<h4 class="text-center">Month</h4>');
+			var barGraph = new Chart(ctx, {
+				type: 'line',
+				data: chartdata,
+				options: {
+					title:{
+						display:true,
+						text:"Month"
+					}
+
+				}
+			});
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+};
+</script>
+<!-- END -- Month graph, A01 -->
+
+<!-- START -- Year graph, A01 -->
+<script>
+	function dataMonth(){
+	$.ajax({
+		url: "/A01/dataYear",
+		method: "GET",
+		success: function(data) {
+		    var time = [];
+			var temperature = [];
+			var pressure = [];
+			var humidity = [];
+
+			console.log(data.length);
+		for(var i = 0; i < data.length; i++){
+		    var obj = JSON.parse(data[i]);
+		    temperature[i] = obj.temp;
+            pressure[i] = obj.pressure/100.0;
+            humidity[i] = obj.humidity;
+            time[i] = obj.timestamp.substring(0,10);
+		}
+	var color = Chart.helpers.color;
+			var chartdata = {
+				labels: time,
+				datasets: [{
+					label: "Temperature",
+					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+					backgroundColor: 'rgba(255,0,0,1)',
+					borderColor: 'rgba(255,0,0,1)',
+					fill: false,
+					data: temperature
+				}, {
+					label: "Humidity",
+					//backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+					backgroundColor: 'rgba(0,0,255,1)',
+					borderColor: 'rgba(0,0,255,1)',
+					fill: false,
+					data: humidity
+				}, {
+					label: "Pressure(x10^2)",
+					//backgroundColor: color(window.chartColors.purple).alpha(0.5).rgbString(),
+					backgroundColor: 'rgba(0,255,0,1)',
+					borderColor: 'rgba(0,255,0,1)',
+					fill: false,
+					data: pressure
+				},
+
+				]
+			};
+
+			var ctx = $("#A01Graph");
+            $('#A01Graph').empty();
+            $('#A01GraphText').empty();
+            $('#A01GraphText').html('<h4 class="text-center">Year</h4>');
+			var barGraph = new Chart(ctx, {
+				type: 'line',
+				data: chartdata,
+				options: {
+					title:{
+						display:true,
+						text:"Year"
+					}
+
+				}
+			});
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+};
+</script>
+<!-- END -- Year graph, A01 -->
+
+
 
 
 <!-- jQuery CDN -->

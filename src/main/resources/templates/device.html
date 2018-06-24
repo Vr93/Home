@@ -33,32 +33,38 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand">Guard</a>
+                    <a class="navbar-brand">Device</a>
                 </div>
 
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item active"><a th:href="@{/index}">Home</a></li>
-                        <li class="nav-item"><a th:href="@{/device}">Device</a></li>
+                        <li class="nav-item"><a th:href="@{/index}">Home</a></li>
+                        <li class="nav-item active"><a th:href="@{/device}">Device</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
         <div id="mainContent">
+
             <div class="row">
-                 <div class="col-lg-6 panel panel-default">
-                     <div class="embed-responsive embed-responsive-16by9">
-                     <iframe src="https://calendar.google.com/calendar/embed?src=vegardrognee%40gmail.com&ctz=Europe%2FOslo" style="border: 0" width="500" height="500" frameborder="0" scrolling="no"></iframe>
-                     </div>
-                 </div>
-                <div class="col-lg-6 panel panel-default">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe src="https://calendar.google.com/calendar/embed?src=vegardrognee%40gmail.com&ctz=Europe%2FOslo"></iframe>
-                    </div>
+                <div class="col-lg-12">
+                    <h3 class="text-center"> Devices</h3>
                 </div>
             </div>
-            <!--
+
+            <div class="row">
+                <div class="col-lg-4 panel panel-default">
+                    <h4 class="text-center grow"><a th:href="@{/A01}">A01 - Weather Station </a> </h4>
+                </div>
+            </div>
+
+
+        <!--<div class="col-lg-4 panel panel-default">
+            <h4 class="text-center"> PLS Bibliotek</h4>
+            <div class="line"></div>
+            <canvas id="plsLibraryGraph" width="500" height="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>
+        </div>
             <div class="col-lg-4 panel panel-default">
                 <h4 class="text-center">Citect</h4>
                 <div class="line"></div>
@@ -69,6 +75,15 @@
         </div>
     </div>
 <!--</div>-->
+
+<style>
+.grow:hover
+{
+        -webkit-transform: scale(1.3);
+        -ms-transform: scale(1.3);
+        transform: scale(1.3);
+}
+</style>
 
 
 <script>

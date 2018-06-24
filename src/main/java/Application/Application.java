@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 //@ComponentScan(basePackageClasses = GreetingController.class)
+@ComponentScan("Application")
 @ComponentScan("Devices")
 public class Application {
 

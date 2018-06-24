@@ -17,6 +17,7 @@ public class SerialPort_Master {
 
     public SerialPort_Master() {
         this.serial = SerialFactory.createInstance();
+        this.serialHandler = new SerialHandler();
         System.out.println("Starting serial!");
         try {
             // create serial config object
