@@ -16,7 +16,7 @@ public class A01 {
 
     public A01(){
         System.out.println("init A01");
-        this.updateInterval = 1;   // Minutes
+        this.updateInterval = 30;   // Minutes
         startThread();
 
         }

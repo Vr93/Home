@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Home - Sikthaugen 4</title>
+    <title>Home - Sikthaugen</title>
 
     <!-- Bootstrap CSS CDN -->
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
@@ -53,24 +53,17 @@
                 </div>
             </div>
 
-
-
             <div class="row">
-                <div class="col-md-10 offset-md-1 panel panel-default">
-                    <div id="A01GraphText"></div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Selection
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" onclick="dataDay()">Day</a>
-                            <a class="dropdown-item" onclick="dataWeek()" >Week</a>
-                            <a class="dropdown-item" onclick="dataMonth()">Month</a>
-                            <a class="dropdown-item" onclick="dataYear()">Year</a>
-                        </div>
-                    </div>
+                <div class="col-sm-4 col-centered panel panel-default">
                     <div class="line"></div>
-                    <canvas id="A01Graph" width="500" height="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>
+                        <div class="text-center"><!--role="group" aria-label="Basic example"-->
+                            <button class="btn btn-secondary" id="btnDataDay" type="button" onclick="dataDay()">Day</button>
+                            <button class="btn btn-secondary" id="btnDataWeek" type="button" onclick="dataWeek()">Week</button>
+                            <button class="btn btn-secondary" id="btnDataMonth" type="button" onclick="dataMonth()">Month</button>
+                            <button class="btn btn-secondary" id="btnDataYear" type="button" onclick="dataYear()">Year</button>
+                        </div>
+                     <div class="line"></div>
+                    <div id="A01Graph"></div>
                 </div>
             </div>
 
@@ -89,6 +82,13 @@
         </div>
     </div>
 <!--</div>-->
+
+<style>
+    .col-centered{
+    float: none;
+    margin: 0 auto;
+}
+</style>
 
 
 <script>
@@ -114,13 +114,12 @@
 			var pressure = [];
 			var humidity = [];
 
-			console.log(data.length);
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
 		    temperature[i] = obj.temp;
             pressure[i] = obj.pressure/100.0;
             humidity[i] = obj.humidity;
-            time[i] = obj.timestamp.substring(0,10);
+            time[i] = obj.timestamp.substring(5,16);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
@@ -151,11 +150,13 @@
 				]
 			};
 
-			var ctx = $("#A01Graph");
-            $('#A01Graph').empty();
-            $('#A01GraphText').empty();
-            $('#A01GraphText').html('<h4 class="text-center">Day</h4>');
-
+		    $('#A01Graph').empty();
+		    $('#A01Graph').html('<canvas id="A01GraphCanvas" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
+			var ctx = $("#A01GraphCanvas");
+            document.getElementById("btnDataDay").style.backgroundColor = '#90EE90';    //green
+            document.getElementById("btnDataWeek").style.backgroundColor = '#D3D3D3';   //gray
+            document.getElementById("btnDataMonth").style.backgroundColor = '#D3D3D3';  //gray
+            document.getElementById("btnDataYear").style.backgroundColor = '#D3D3D3';   //gray
 			var barGraph = new Chart(ctx, {
 				type: 'line',
 				data: chartdata,
@@ -188,13 +189,12 @@
 			var pressure = [];
 			var humidity = [];
 
-			console.log(data.length);
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
 		    temperature[i] = obj.temp;
             pressure[i] = obj.pressure/100.0;
             humidity[i] = obj.humidity;
-            time[i] = obj.timestamp.substring(0,10);
+            time[i] = obj.timestamp.substring(0,16);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
@@ -225,10 +225,13 @@
 				]
 			};
 
-			var ctx = $("#A01Graph");
             $('#A01Graph').empty();
-            $('#A01GraphText').empty();
-            $('#A01GraphText').html('<h4 class="text-center">Week</h4>');
+		    $('#A01Graph').html('<canvas id="A01GraphCanvas" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
+			var ctx = $("#A01GraphCanvas");
+            document.getElementById("btnDataDay").style.backgroundColor = '#D3D3D3';    //gray
+            document.getElementById("btnDataWeek").style.backgroundColor = '#90EE90';   //green
+            document.getElementById("btnDataMonth").style.backgroundColor = '#D3D3D3';  //gray
+            document.getElementById("btnDataYear").style.backgroundColor = '#D3D3D3';   //gray
 			var barGraph = new Chart(ctx, {
 				type: 'line',
 				data: chartdata,
@@ -261,13 +264,12 @@
 			var pressure = [];
 			var humidity = [];
 
-			console.log(data.length);
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
 		    temperature[i] = obj.temp;
             pressure[i] = obj.pressure/100.0;
             humidity[i] = obj.humidity;
-            time[i] = obj.timestamp.substring(0,10);
+            time[i] = obj.timestamp.substring(0,16);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
@@ -298,10 +300,13 @@
 				]
 			};
 
-			var ctx = $("#A01Graph");
             $('#A01Graph').empty();
-            $('#A01GraphText').empty();
-            $('#A01GraphText').html('<h4 class="text-center">Month</h4>');
+		    $('#A01Graph').html('<canvas id="A01GraphCanvas" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
+			var ctx = $("#A01GraphCanvas");
+            document.getElementById("btnDataDay").style.backgroundColor = '#D3D3D3';    //gray
+            document.getElementById("btnDataWeek").style.backgroundColor = '#D3D3D3';   //gray
+            document.getElementById("btnDataMonth").style.backgroundColor = '#90EE90';  //green
+            document.getElementById("btnDataYear").style.backgroundColor = '#D3D3D3';   //gray
 			var barGraph = new Chart(ctx, {
 				type: 'line',
 				data: chartdata,
@@ -324,23 +329,23 @@
 
 <!-- START -- Year graph, A01 -->
 <script>
-	function dataMonth(){
+	function dataYear(){
 	$.ajax({
 		url: "/A01/dataYear",
 		method: "GET",
 		success: function(data) {
+
 		    var time = [];
 			var temperature = [];
 			var pressure = [];
 			var humidity = [];
 
-			console.log(data.length);
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
 		    temperature[i] = obj.temp;
             pressure[i] = obj.pressure/100.0;
             humidity[i] = obj.humidity;
-            time[i] = obj.timestamp.substring(0,10);
+            time[i] = obj.timestamp.substring(0,16);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
@@ -371,10 +376,13 @@
 				]
 			};
 
-			var ctx = $("#A01Graph");
             $('#A01Graph').empty();
-            $('#A01GraphText').empty();
-            $('#A01GraphText').html('<h4 class="text-center">Year</h4>');
+		    $('#A01Graph').html('<canvas id="A01GraphCanvas" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
+			var ctx = $("#A01GraphCanvas");
+            document.getElementById("btnDataDay").style.backgroundColor = '#D3D3D3';    //gray
+            document.getElementById("btnDataWeek").style.backgroundColor = '#D3D3D3';   //gray
+            document.getElementById("btnDataMonth").style.backgroundColor = '#D3D3D3'; //gray
+            document.getElementById("btnDataYear").style.backgroundColor = '#90EE90';   //green
 			var barGraph = new Chart(ctx, {
 				type: 'line',
 				data: chartdata,
