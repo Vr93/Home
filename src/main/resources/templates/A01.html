@@ -10,6 +10,7 @@
     <!-- Bootstrap CSS CDN -->
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
     <link href="bootstrap/css/bootstrap.min-3.3.7.css" rel="stylesheet">
+
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="css/pls_bibliotek.css">
     <script src="js/Charts.js"></script>
@@ -45,7 +46,6 @@
                 </div>
             </div>
         </nav>
-        <div id="mainContent">
 
             <div class="row">
                 <div class="col-lg-12">
@@ -67,20 +67,16 @@
                 </div>
             </div>
 
-        <!--<div class="col-lg-4 panel panel-default">
-            <h4 class="text-center"> PLS Bibliotek</h4>
-            <div class="line"></div>
-            <canvas id="plsLibraryGraph" width="500" height="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>
-        </div>
-            <div class="col-lg-4 panel panel-default">
-                <h4 class="text-center">Citect</h4>
+        <div class="row my-3">
+            <div class="col-sm-4 col-centered panel panel-default">
                 <div class="line"></div>
-                <canvas id="citectGraph" width="500" height="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>
+                <div id="database_interval_text"></div>
             </div>
-            <div class="col-lg-6 my-3">
-            </div>-->
         </div>
-    </div>
+
+
+
+    </div> <!-- Page Content Holder -->
 <!--</div>-->
 
 <style>
@@ -97,6 +93,40 @@
     $("#mainContent").load(link);
     }
 </script>
+
+<!-- START -- Database interval, A01 -->
+<script>
+	$(document).ready(function(){
+	    dataDataBaseInterval();
+	});
+
+	function dataDataBaseInterval(){
+	$.ajax({
+		url: "/A01/database_interval",
+		method: "GET",
+		success: function(data) {
+		    var database_interval_value = [];
+
+
+		for(var i = 0; i < data.length; i++){
+		    database_interval_value[i] = data[i];
+		}
+		// Database interval is in seconds, do this to minutes before it is shown on page.
+		if(database_interval_value[0] > 0){
+		database_interval_value[0] = database_interval_value[0]/60;
+		}
+
+		    $('#database_interval_text').empty();
+		    $('#database_interval_text').html('<h4 class="text-center"> Database interval: ' + database_interval_value[0]
+		    + ' minutes</h4>');
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+};
+</script>
+<!-- END -- A01 database interval -->
 
 <!-- START -- Day graph, A01 -->
 <script>
