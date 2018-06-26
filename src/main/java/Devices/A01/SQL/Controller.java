@@ -11,7 +11,7 @@ public class Controller {
     @GetMapping(value = "/A01/dataDay")
     public String[] A01_DataDay(){
         A01_SQL sql = new A01_SQL();
-        ArrayList<String> arrayList = sql.selectA01Data(1);
+        ArrayList<String> arrayList = sql.selectA01Data(0);
         String[] data = new String[arrayList.size()];
         for(int i = 0; i < arrayList.size(); i++){
             String jsonString = arrayList.get(i);

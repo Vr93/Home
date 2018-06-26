@@ -54,16 +54,38 @@
             </div>
 
             <div class="row">
-                <div class="col-sm-4 col-centered panel panel-default">
+                <div class="col-sm-4 panel panel-default">
                     <div class="line"></div>
-                        <div class="text-center"><!--role="group" aria-label="Basic example"-->
-                            <button class="btn btn-secondary" id="btnDataDay" type="button" onclick="dataDay()">Day</button>
-                            <button class="btn btn-secondary" id="btnDataWeek" type="button" onclick="dataWeek()">Week</button>
-                            <button class="btn btn-secondary" id="btnDataMonth" type="button" onclick="dataMonth()">Month</button>
-                            <button class="btn btn-secondary" id="btnDataYear" type="button" onclick="dataYear()">Year</button>
-                        </div>
-                     <div class="line"></div>
-                    <div id="A01Graph"></div>
+                    <div class="text-center"><!--role="group" aria-label="Basic example"-->
+                        <button class="btn btn-secondary" id="btnDataDay_Temp" type="button" onclick="dataDay_Temp()">Day</button>
+                        <button class="btn btn-secondary" id="btnDataWeek_Temp" type="button" onclick="dataWeek_Temp()">Week</button>
+                        <button class="btn btn-secondary" id="btnDataMonth_Temp" type="button" onclick="dataMonth_Temp()">Month</button>
+                        <button class="btn btn-secondary" id="btnDataYear_Temp" type="button" onclick="dataYear_Temp()">Year</button>
+                    </div>
+                    <div class="line"></div>
+                    <div id="A01Graph_Temp"></div>
+                </div>
+                <div class="col-sm-4 panel panel-default">
+                    <div class="line"></div>
+                    <div class="text-center"><!--role="group" aria-label="Basic example"-->
+                        <button class="btn btn-secondary" id="btnDataDay_Humidity" type="button" onclick="dataDay_Humidity()">Day</button>
+                        <button class="btn btn-secondary" id="btnDataWeek_Humidity" type="button" onclick="dataWeek_Humidity()">Week</button>
+                        <button class="btn btn-secondary" id="btnDataMonth_Humidity" type="button" onclick="dataMonth_Humidity()">Month</button>
+                        <button class="btn btn-secondary" id="btnDataYear_Humidity" type="button" onclick="dataYear_Humidity()">Year</button>
+                    </div>
+                    <div class="line"></div>
+                    <div id="A01Graph_Humidity"></div>
+                </div>
+                <div class="col-sm-4 panel panel-default">
+                    <div class="line"></div>
+                    <div class="text-center"><!--role="group" aria-label="Basic example"-->
+                        <button class="btn btn-secondary" id="btnDataDay_Pressure" type="button" onclick="dataDay_Pressure()">Day</button>
+                        <button class="btn btn-secondary" id="btnDataWeek_Pressure" type="button" onclick="dataWeek_Pressure()">Week</button>
+                        <button class="btn btn-secondary" id="btnDataMonth_Pressure" type="button" onclick="dataMonth_Pressure()">Month</button>
+                        <button class="btn btn-secondary" id="btnDataYear_Pressure" type="button" onclick="dataYear_Pressure()">Year</button>
+                    </div>
+                    <div class="line"></div>
+                    <div id="A01Graph_Pressure"></div>
                 </div>
             </div>
 
@@ -128,65 +150,46 @@
 </script>
 <!-- END -- A01 database interval -->
 
-<!-- START -- Day graph, A01 -->
+<!-- START -- Day graph, A01, Temperature -->
 <script>
 	$(document).ready(function(){
-	    dataDay();
+	    dataDay_Temp();
 	});
 
-	function dataDay(){
+	function dataDay_Temp(){
 	$.ajax({
 		url: "/A01/dataDay",
 		method: "GET",
 		success: function(data) {
 		    var time = [];
 			var temperature = [];
-			var pressure = [];
-			var humidity = [];
 
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
 		    temperature[i] = obj.temp;
-            pressure[i] = obj.pressure/100.0;
-            humidity[i] = obj.humidity;
             time[i] = obj.timestamp.substring(5,16);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
 				labels: time,
 				datasets: [{
-					label: "Temperature",
+					label: "Temperature (°C)",
 					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
 					backgroundColor: 'rgba(255,0,0,1)',
 					borderColor: 'rgba(255,0,0,1)',
 					fill: false,
 					data: temperature
-				}, {
-					label: "Humidity",
-					//backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
-					backgroundColor: 'rgba(0,0,255,1)',
-					borderColor: 'rgba(0,0,255,1)',
-					fill: false,
-					data: humidity
-				}, {
-					label: "Pressure(x10^2)",
-					//backgroundColor: color(window.chartColors.purple).alpha(0.5).rgbString(),
-					backgroundColor: 'rgba(0,255,0,1)',
-					borderColor: 'rgba(0,255,0,1)',
-					fill: false,
-					data: pressure
 				},
-
 				]
 			};
 
-		    $('#A01Graph').empty();
-		    $('#A01Graph').html('<canvas id="A01GraphCanvas" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
-			var ctx = $("#A01GraphCanvas");
-            document.getElementById("btnDataDay").style.backgroundColor = '#90EE90';    //green
-            document.getElementById("btnDataWeek").style.backgroundColor = '#D3D3D3';   //gray
-            document.getElementById("btnDataMonth").style.backgroundColor = '#D3D3D3';  //gray
-            document.getElementById("btnDataYear").style.backgroundColor = '#D3D3D3';   //gray
+		    $('#A01Graph_Temp').empty();
+		    $('#A01Graph_Temp').html('<canvas id="A01GraphCanvas_Temp" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
+			var ctx = $("#A01GraphCanvas_Temp");
+            document.getElementById("btnDataDay_Temp").style.backgroundColor = '#90EE90';    //green
+            document.getElementById("btnDataWeek_Temp").style.backgroundColor = '#D3D3D3';   //gray
+            document.getElementById("btnDataMonth_Temp").style.backgroundColor = '#D3D3D3';  //gray
+            document.getElementById("btnDataYear_Temp").style.backgroundColor = '#D3D3D3';   //gray
 			var barGraph = new Chart(ctx, {
 				type: 'line',
 				data: chartdata,
@@ -205,63 +208,44 @@
 	});
 };
 </script>
-<!-- END -- Day graph, A01 -->
+<!-- END -- Day graph, A01, Temperature -->
 
-<!-- START -- Week graph, A01 -->
+<!-- START -- Week graph, A01, Temperature -->
 <script>
-	function dataWeek(){
+	function dataWeek_Temp(){
 	$.ajax({
 		url: "/A01/dataWeek",
 		method: "GET",
 		success: function(data) {
 		    var time = [];
 			var temperature = [];
-			var pressure = [];
-			var humidity = [];
 
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
 		    temperature[i] = obj.temp;
-            pressure[i] = obj.pressure/100.0;
-            humidity[i] = obj.humidity;
             time[i] = obj.timestamp.substring(0,16);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
 				labels: time,
 				datasets: [{
-					label: "Temperature",
+					label: "Temperature (°C)",
 					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
 					backgroundColor: 'rgba(255,0,0,1)',
 					borderColor: 'rgba(255,0,0,1)',
 					fill: false,
 					data: temperature
-				}, {
-					label: "Humidity",
-					//backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
-					backgroundColor: 'rgba(0,0,255,1)',
-					borderColor: 'rgba(0,0,255,1)',
-					fill: false,
-					data: humidity
-				}, {
-					label: "Pressure(x10^2)",
-					//backgroundColor: color(window.chartColors.purple).alpha(0.5).rgbString(),
-					backgroundColor: 'rgba(0,255,0,1)',
-					borderColor: 'rgba(0,255,0,1)',
-					fill: false,
-					data: pressure
 				},
-
 				]
 			};
 
-            $('#A01Graph').empty();
-		    $('#A01Graph').html('<canvas id="A01GraphCanvas" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
-			var ctx = $("#A01GraphCanvas");
-            document.getElementById("btnDataDay").style.backgroundColor = '#D3D3D3';    //gray
-            document.getElementById("btnDataWeek").style.backgroundColor = '#90EE90';   //green
-            document.getElementById("btnDataMonth").style.backgroundColor = '#D3D3D3';  //gray
-            document.getElementById("btnDataYear").style.backgroundColor = '#D3D3D3';   //gray
+            $('#A01Graph_Temp').empty();
+		    $('#A01Graph_Temp').html('<canvas id="A01GraphCanvas_Temp" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
+			var ctx = $("#A01GraphCanvas_Temp");
+            document.getElementById("btnDataDay_Temp").style.backgroundColor = '#D3D3D3';    //gray
+            document.getElementById("btnDataWeek_Temp").style.backgroundColor = '#90EE90';   //green
+            document.getElementById("btnDataMonth_Temp").style.backgroundColor = '#D3D3D3';  //gray
+            document.getElementById("btnDataYear_Temp").style.backgroundColor = '#D3D3D3';   //gray
 			var barGraph = new Chart(ctx, {
 				type: 'line',
 				data: chartdata,
@@ -280,63 +264,44 @@
 	});
 };
 </script>
-<!-- END -- Week graph, A01 -->
+<!-- END -- Week graph, A01, Temperature -->
 
-<!-- START -- Month graph, A01 -->
+<!-- START -- Month graph, A01, Temperature -->
 <script>
-	function dataMonth(){
+	function dataMonth_Temp(){
 	$.ajax({
 		url: "/A01/dataMonth",
 		method: "GET",
 		success: function(data) {
 		    var time = [];
 			var temperature = [];
-			var pressure = [];
-			var humidity = [];
 
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
 		    temperature[i] = obj.temp;
-            pressure[i] = obj.pressure/100.0;
-            humidity[i] = obj.humidity;
             time[i] = obj.timestamp.substring(0,16);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
 				labels: time,
 				datasets: [{
-					label: "Temperature",
+					label: "Temperature (°C)",
 					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
 					backgroundColor: 'rgba(255,0,0,1)',
 					borderColor: 'rgba(255,0,0,1)',
 					fill: false,
 					data: temperature
-				}, {
-					label: "Humidity",
-					//backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
-					backgroundColor: 'rgba(0,0,255,1)',
-					borderColor: 'rgba(0,0,255,1)',
-					fill: false,
-					data: humidity
-				}, {
-					label: "Pressure(x10^2)",
-					//backgroundColor: color(window.chartColors.purple).alpha(0.5).rgbString(),
-					backgroundColor: 'rgba(0,255,0,1)',
-					borderColor: 'rgba(0,255,0,1)',
-					fill: false,
-					data: pressure
 				},
-
 				]
 			};
 
-            $('#A01Graph').empty();
-		    $('#A01Graph').html('<canvas id="A01GraphCanvas" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
-			var ctx = $("#A01GraphCanvas");
-            document.getElementById("btnDataDay").style.backgroundColor = '#D3D3D3';    //gray
-            document.getElementById("btnDataWeek").style.backgroundColor = '#D3D3D3';   //gray
-            document.getElementById("btnDataMonth").style.backgroundColor = '#90EE90';  //green
-            document.getElementById("btnDataYear").style.backgroundColor = '#D3D3D3';   //gray
+            $('#A01Graph_Temp').empty();
+		    $('#A01Graph_Temp').html('<canvas id="A01GraphCanvas_Temp" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
+			var ctx = $("#A01GraphCanvas_Temp");
+            document.getElementById("btnDataDay_Temp").style.backgroundColor = '#D3D3D3';    //gray
+            document.getElementById("btnDataWeek_Temp").style.backgroundColor = '#D3D3D3';   //gray
+            document.getElementById("btnDataMonth_Temp").style.backgroundColor = '#90EE90';  //green
+            document.getElementById("btnDataYear_Temp").style.backgroundColor = '#D3D3D3';   //gray
 			var barGraph = new Chart(ctx, {
 				type: 'line',
 				data: chartdata,
@@ -355,11 +320,11 @@
 	});
 };
 </script>
-<!-- END -- Month graph, A01 -->
+<!-- END -- Month graph, A01, Temperature -->
 
-<!-- START -- Year graph, A01 -->
+<!-- START -- Year graph, A01, Temperature -->
 <script>
-	function dataYear(){
+	function dataYear_Temp(){
 	$.ajax({
 		url: "/A01/dataYear",
 		method: "GET",
@@ -367,52 +332,33 @@
 
 		    var time = [];
 			var temperature = [];
-			var pressure = [];
-			var humidity = [];
 
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
 		    temperature[i] = obj.temp;
-            pressure[i] = obj.pressure/100.0;
-            humidity[i] = obj.humidity;
             time[i] = obj.timestamp.substring(0,16);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
 				labels: time,
 				datasets: [{
-					label: "Temperature",
+					label: "Temperature (°C)",
 					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
 					backgroundColor: 'rgba(255,0,0,1)',
 					borderColor: 'rgba(255,0,0,1)',
 					fill: false,
 					data: temperature
-				}, {
-					label: "Humidity",
-					//backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
-					backgroundColor: 'rgba(0,0,255,1)',
-					borderColor: 'rgba(0,0,255,1)',
-					fill: false,
-					data: humidity
-				}, {
-					label: "Pressure(x10^2)",
-					//backgroundColor: color(window.chartColors.purple).alpha(0.5).rgbString(),
-					backgroundColor: 'rgba(0,255,0,1)',
-					borderColor: 'rgba(0,255,0,1)',
-					fill: false,
-					data: pressure
 				},
-
 				]
 			};
 
-            $('#A01Graph').empty();
-		    $('#A01Graph').html('<canvas id="A01GraphCanvas" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
-			var ctx = $("#A01GraphCanvas");
-            document.getElementById("btnDataDay").style.backgroundColor = '#D3D3D3';    //gray
-            document.getElementById("btnDataWeek").style.backgroundColor = '#D3D3D3';   //gray
-            document.getElementById("btnDataMonth").style.backgroundColor = '#D3D3D3'; //gray
-            document.getElementById("btnDataYear").style.backgroundColor = '#90EE90';   //green
+            $('#A01Graph_Temp').empty();
+		    $('#A01Graph_Temp').html('<canvas id="A01GraphCanvas_Temp" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
+			var ctx = $("#A01GraphCanvas_Temp");
+            document.getElementById("btnDataDay_Temp").style.backgroundColor = '#D3D3D3';    //gray
+            document.getElementById("btnDataWeek_Temp").style.backgroundColor = '#D3D3D3';   //gray
+            document.getElementById("btnDataMonth_Temp").style.backgroundColor = '#D3D3D3'; //gray
+            document.getElementById("btnDataYear_Temp").style.backgroundColor = '#90EE90';   //green
 			var barGraph = new Chart(ctx, {
 				type: 'line',
 				data: chartdata,
@@ -431,8 +377,468 @@
 	});
 };
 </script>
-<!-- END -- Year graph, A01 -->
+<!-- END -- Year graph, A01, Temperature -->
 
+<!-- START -- Day graph, A01, Humidity -->
+<script>
+	$(document).ready(function(){
+	    dataDay_Humidity();
+	});
+
+	function dataDay_Humidity(){
+	$.ajax({
+		url: "/A01/dataDay",
+		method: "GET",
+		success: function(data) {
+		    var time = [];
+			var humidity = [];
+
+		for(var i = 0; i < data.length; i++){
+		    var obj = JSON.parse(data[i]);
+		    humidity[i] = obj.humidity;
+            time[i] = obj.timestamp.substring(5,16);
+		}
+	var color = Chart.helpers.color;
+			var chartdata = {
+				labels: time,
+				datasets: [{
+					label: "Humidity (%)",
+					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+					backgroundColor: 'rgba(0,0,255,1)',
+					borderColor: 'rgba(0,0,255,1)',
+					fill: false,
+					data: humidity
+				},
+				]
+			};
+
+		    $('#A01Graph_Humidity').empty();
+		    $('#A01Graph_Humidity').html('<canvas id="A01GraphCanvas_Humidity" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
+			var ctx = $("#A01GraphCanvas_Humidity");
+            document.getElementById("btnDataDay_Humidity").style.backgroundColor = '#90EE90';    //green
+            document.getElementById("btnDataWeek_Humidity").style.backgroundColor = '#D3D3D3';   //gray
+            document.getElementById("btnDataMonth_Humidity").style.backgroundColor = '#D3D3D3';  //gray
+            document.getElementById("btnDataYear_Humidity").style.backgroundColor = '#D3D3D3';   //gray
+			var barGraph = new Chart(ctx, {
+				type: 'line',
+				data: chartdata,
+				options: {
+					title:{
+						display:true,
+						text:"Day"
+					}
+
+				}
+			});
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+};
+</script>
+<!-- END -- Day graph, A01, Humidity -->
+
+<!-- START -- Week graph, A01, Humidity -->
+<script>
+	function dataWeek_Humidity(){
+	$.ajax({
+		url: "/A01/dataWeek",
+		method: "GET",
+		success: function(data) {
+		    var time = [];
+			var humidity = [];
+
+		for(var i = 0; i < data.length; i++){
+		    var obj = JSON.parse(data[i]);
+		    humidity[i] = obj.humidity;
+            time[i] = obj.timestamp.substring(0,16);
+		}
+	var color = Chart.helpers.color;
+			var chartdata = {
+				labels: time,
+				datasets: [{
+					label: "Humidity (%)",
+					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+					backgroundColor: 'rgba(0,0,255,1)',
+					borderColor: 'rgba(0,0,255,1)',
+					fill: false,
+					data: humidity
+				},
+				]
+			};
+
+            $('#A01Graph_Humidity').empty();
+		    $('#A01Graph_Humidity').html('<canvas id="A01GraphCanvas_Humidity" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
+			var ctx = $("#A01GraphCanvas_Humidity");
+            document.getElementById("btnDataDay_Humidity").style.backgroundColor = '#D3D3D3';    //gray
+            document.getElementById("btnDataWeek_Humidity").style.backgroundColor = '#90EE90';   //green
+            document.getElementById("btnDataMonth_Humidity").style.backgroundColor = '#D3D3D3';  //gray
+            document.getElementById("btnDataYear_Humidity").style.backgroundColor = '#D3D3D3';   //gray
+			var barGraph = new Chart(ctx, {
+				type: 'line',
+				data: chartdata,
+				options: {
+					title:{
+						display:true,
+						text:"Week"
+					}
+
+				}
+			});
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+};
+</script>
+<!-- END -- Week graph, A01, Humidity -->
+
+<!-- START -- Month graph, A01, Humidity -->
+<script>
+	function dataMonth_Humidity(){
+	$.ajax({
+		url: "/A01/dataMonth",
+		method: "GET",
+		success: function(data) {
+		    var time = [];
+			var humidity = [];
+
+		for(var i = 0; i < data.length; i++){
+		    var obj = JSON.parse(data[i]);
+		    humidity[i] = obj.humidity;
+            time[i] = obj.timestamp.substring(0,16);
+		}
+	var color = Chart.helpers.color;
+			var chartdata = {
+				labels: time,
+				datasets: [{
+					label: "Humidity (%)",
+					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+					backgroundColor: 'rgba(0,0,255,1)',
+					borderColor: 'rgba(0,0,255,1)',
+					fill: false,
+					data: humidity
+				},
+				]
+			};
+
+            $('#A01Graph_Humidity').empty();
+		    $('#A01Graph_Humidity').html('<canvas id="A01GraphCanvas_Humidity" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
+			var ctx = $("#A01GraphCanvas_Humidity");
+            document.getElementById("btnDataDay_Humidity").style.backgroundColor = '#D3D3D3';    //gray
+            document.getElementById("btnDataWeek_Humidity").style.backgroundColor = '#D3D3D3';   //gray
+            document.getElementById("btnDataMonth_Humidity").style.backgroundColor = '#90EE90';  //green
+            document.getElementById("btnDataYear_Humidity").style.backgroundColor = '#D3D3D3';   //gray
+			var barGraph = new Chart(ctx, {
+				type: 'line',
+				data: chartdata,
+				options: {
+					title:{
+						display:true,
+						text:"Month"
+					}
+
+				}
+			});
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+};
+</script>
+<!-- END -- Month graph, A01, Humidity -->
+
+<!-- START -- Year graph, A01, Humidity -->
+<script>
+	function dataYear_Humidity(){
+	$.ajax({
+		url: "/A01/dataYear",
+		method: "GET",
+		success: function(data) {
+
+		    var time = [];
+			var humidity = [];
+
+		for(var i = 0; i < data.length; i++){
+		    var obj = JSON.parse(data[i]);
+		    humidity[i] = obj.humidity;
+            time[i] = obj.timestamp.substring(0,16);
+		}
+	var color = Chart.helpers.color;
+			var chartdata = {
+				labels: time,
+				datasets: [{
+					label: "Humidity (%)",
+					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+					backgroundColor: 'rgba(0,0,255,1)',
+					borderColor: 'rgba(0,0,255,1)',
+					fill: false,
+					data: humidity
+				},
+				]
+			};
+
+            $('#A01Graph_Humidity').empty();
+		    $('#A01Graph_Humidity').html('<canvas id="A01GraphCanvas_Humidity" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
+			var ctx = $("#A01GraphCanvas_Humidity");
+            document.getElementById("btnDataDay_Humidity").style.backgroundColor = '#D3D3D3';    //gray
+            document.getElementById("btnDataWeek_Humidity").style.backgroundColor = '#D3D3D3';   //gray
+            document.getElementById("btnDataMonth_Humidity").style.backgroundColor = '#D3D3D3'; //gray
+            document.getElementById("btnDataYear_Humidity").style.backgroundColor = '#90EE90';   //green
+			var barGraph = new Chart(ctx, {
+				type: 'line',
+				data: chartdata,
+				options: {
+					title:{
+						display:true,
+						text:"Year"
+					}
+
+				}
+			});
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+};
+</script>
+<!-- END -- Year graph, A01, Humidity -->
+
+
+
+
+<!-- START -- Day graph, A01, Pressure -->
+<script>
+	$(document).ready(function(){
+	    dataDay_Pressure();
+	});
+
+	function dataDay_Pressure(){
+	$.ajax({
+		url: "/A01/dataDay",
+		method: "GET",
+		success: function(data) {
+		    var time = [];
+			var pressure = [];
+
+		for(var i = 0; i < data.length; i++){
+		    var obj = JSON.parse(data[i]);
+		    pressure[i] = obj.pressure;
+            time[i] = obj.timestamp.substring(5,16);
+		}
+	var color = Chart.helpers.color;
+			var chartdata = {
+				labels: time,
+				datasets: [{
+					label: "Pressure (Pa)",
+					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+					backgroundColor: 'rgba(0,255,0,1)',
+					borderColor: 'rgba(0,255,0,1)',
+					fill: false,
+					data: pressure
+				},
+				]
+			};
+
+		    $('#A01Graph_Pressure').empty();
+		    $('#A01Graph_Pressure').html('<canvas id="A01GraphCanvas_Pressure" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
+			var ctx = $("#A01GraphCanvas_Pressure");
+            document.getElementById("btnDataDay_Pressure").style.backgroundColor = '#90EE90';    //green
+            document.getElementById("btnDataWeek_Pressure").style.backgroundColor = '#D3D3D3';   //gray
+            document.getElementById("btnDataMonth_Pressure").style.backgroundColor = '#D3D3D3';  //gray
+            document.getElementById("btnDataYear_Pressure").style.backgroundColor = '#D3D3D3';   //gray
+			var barGraph = new Chart(ctx, {
+				type: 'line',
+				data: chartdata,
+				options: {
+					title:{
+						display:true,
+						text:"Day"
+					}
+
+				}
+			});
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+};
+</script>
+<!-- END -- Day graph, A01, Pressure -->
+
+<!-- START -- Week graph, A01, Pressure -->
+<script>
+	function dataWeek_Pressure(){
+	$.ajax({
+		url: "/A01/dataWeek",
+		method: "GET",
+		success: function(data) {
+		    var time = [];
+			var pressure = [];
+
+		for(var i = 0; i < data.length; i++){
+		    var obj = JSON.parse(data[i]);
+		    pressure[i] = obj.pressure;
+            time[i] = obj.timestamp.substring(0,16);
+		}
+	var color = Chart.helpers.color;
+			var chartdata = {
+				labels: time,
+				datasets: [{
+					label: "Pressure (Pa)",
+					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+					backgroundColor: 'rgba(0,255,0,1)',
+					borderColor: 'rgba(0,255,0,1)',
+					fill: false,
+					data: pressure
+				},
+				]
+			};
+
+            $('#A01Graph_Pressure').empty();
+		    $('#A01Graph_Pressure').html('<canvas id="A01GraphCanvas_Pressure" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
+			var ctx = $("#A01GraphCanvas_Pressure");
+            document.getElementById("btnDataDay_Pressure").style.backgroundColor = '#D3D3D3';    //gray
+            document.getElementById("btnDataWeek_Pressure").style.backgroundColor = '#90EE90';   //green
+            document.getElementById("btnDataMonth_Pressure").style.backgroundColor = '#D3D3D3';  //gray
+            document.getElementById("btnDataYear_Pressure").style.backgroundColor = '#D3D3D3';   //gray
+			var barGraph = new Chart(ctx, {
+				type: 'line',
+				data: chartdata,
+				options: {
+					title:{
+						display:true,
+						text:"Week"
+					}
+
+				}
+			});
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+};
+</script>
+<!-- END -- Week graph, A01, Pressure -->
+
+<!-- START -- Month graph, A01, Pressure -->
+<script>
+	function dataMonth_Pressure(){
+	$.ajax({
+		url: "/A01/dataMonth",
+		method: "GET",
+		success: function(data) {
+		    var time = [];
+			var pressure = [];
+
+		for(var i = 0; i < data.length; i++){
+		    var obj = JSON.parse(data[i]);
+		    pressure[i] = obj.pressure;
+            time[i] = obj.timestamp.substring(0,16);
+		}
+	var color = Chart.helpers.color;
+			var chartdata = {
+				labels: time,
+				datasets: [{
+					label: "Pressure (Pa)",
+					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+					backgroundColor: 'rgba(0,255,0,1)',
+					borderColor: 'rgba(0,255,0,1)',
+					fill: false,
+					data: pressure
+				},
+				]
+			};
+
+            $('#A01Graph_Pressure').empty();
+		    $('#A01Graph_Pressure').html('<canvas id="A01GraphCanvas_Pressure" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
+			var ctx = $("#A01GraphCanvas_Pressure");
+            document.getElementById("btnDataDay_Pressure").style.backgroundColor = '#D3D3D3';    //gray
+            document.getElementById("btnDataWeek_Pressure").style.backgroundColor = '#D3D3D3';   //gray
+            document.getElementById("btnDataMonth_Pressure").style.backgroundColor = '#90EE90';  //green
+            document.getElementById("btnDataYear_Pressure").style.backgroundColor = '#D3D3D3';   //gray
+			var barGraph = new Chart(ctx, {
+				type: 'line',
+				data: chartdata,
+				options: {
+					title:{
+						display:true,
+						text:"Month"
+					}
+
+				}
+			});
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+};
+</script>
+<!-- END -- Month graph, A01, Pressure -->
+
+<!-- START -- Year graph, A01, Pressure -->
+<script>
+	function dataYear_Pressure(){
+	$.ajax({
+		url: "/A01/dataYear",
+		method: "GET",
+		success: function(data) {
+
+		    var time = [];
+			var pressure = [];
+
+		for(var i = 0; i < data.length; i++){
+		    var obj = JSON.parse(data[i]);
+		    pressure[i] = obj.pressure;
+            time[i] = obj.timestamp.substring(0,16);
+		}
+	var color = Chart.helpers.color;
+			var chartdata = {
+				labels: time,
+				datasets: [{
+					label: "Pressure (Pa)",
+					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+					backgroundColor: 'rgba(0,255,0,1)',
+					borderColor: 'rgba(0,255,0,1)',
+					fill: false,
+					data: pressure
+				},
+				]
+			};
+
+            $('#A01Graph_Pressure').empty();
+		    $('#A01Graph_Pressure').html('<canvas id="A01GraphCanvas_Pressure" height="500" width="500" style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none"></canvas>');
+			var ctx = $("#A01GraphCanvas_Pressure");
+            document.getElementById("btnDataDay_Pressure").style.backgroundColor = '#D3D3D3';    //gray
+            document.getElementById("btnDataWeek_Pressure").style.backgroundColor = '#D3D3D3';   //gray
+            document.getElementById("btnDataMonth_Pressure").style.backgroundColor = '#D3D3D3'; //gray
+            document.getElementById("btnDataYear_Pressure").style.backgroundColor = '#90EE90';   //green
+			var barGraph = new Chart(ctx, {
+				type: 'line',
+				data: chartdata,
+				options: {
+					title:{
+						display:true,
+						text:"Year"
+					}
+
+				}
+			});
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+};
+</script>
+<!-- END -- Year graph, A01, Pressure -->
 
 
 
