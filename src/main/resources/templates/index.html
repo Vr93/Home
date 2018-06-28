@@ -12,6 +12,7 @@
     <link href="bootstrap/css/bootstrap.min-3.3.7.css" rel="stylesheet">
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="css/pls_bibliotek.css">
+    <link rel="stylesheet" href="css/login.css">
     <script src="js/Charts.js"></script>
     <script src="jquery/jquery.js"></script>
 </head>
@@ -46,18 +47,36 @@
             </div>
         </nav>
         <div id="mainContent">
-            <div class="row">
+            <div id="mainLogin">
+                <div class="col-sm-6 col-md-4 col-md-offset-4">
+                    <div class="account-wall">
+                        <div id="my-tab-content" class="tab-content">
+                            <div class="tab-pane active" id="login">
+                                <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                                     alt="">
+                                <form id="loginForm" class="form-signin" action="" method="">
+                                    <input id="name" type="text" class="form-control" placeholder="Username" required autofocus>
+                                    <input id="password" type="password" class="form-control" placeholder="Password" required>
+                                    <input type="submit" class="btn btn-lg btn-default btn-block" value="Sign In" />
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           <!-- <div class="row">
                  <div class="col-lg-6 panel panel-default">
                      <div class="embed-responsive embed-responsive-16by9">
-                     <iframe src="https://calendar.google.com/calendar/embed?src=vegardrognee%40gmail.com&ctz=Europe%2FOslo" style="border: 0" width="500" height="500" frameborder="0" scrolling="no"></iframe>
+                         <iframe src="https://calendar.google.com/calendar/embed?title=Vegard&amp;showDate=0&amp;showPrint=0&amp;showCalendars=0&amp;showTz=0&amp;mode=WEEK&amp;height=500&amp;wkst=2&amp;hl=no&amp;bgcolor=%23ffffff&amp;src=vegardrognee%40gmail.com&amp;color=%23711616&amp;ctz=Europe%2FOslo" style="border-width:0" width="500" height="500" frameborder="0" scrolling="no"></iframe>
                      </div>
                  </div>
                 <div class="col-lg-6 panel panel-default">
                     <div class="embed-responsive embed-responsive-16by9">
-                        <iframe src="https://calendar.google.com/calendar/embed?src=vegardrognee%40gmail.com&ctz=Europe%2FOslo"></iframe>
+
                     </div>
                 </div>
-            </div>
+            </div>-->
             <!--
             <div class="col-lg-4 panel panel-default">
                 <h4 class="text-center">Citect</h4>
@@ -70,135 +89,55 @@
     </div>
 <!--</div>-->
 
-
 <script>
-    function openFBDocument(link){
-    console.log(link);
-    $("#mainContent").load(link);
+$( document ).ready(function() {
+
+	// SUBMIT FORM
+    $("#loginForm").submit(function(event) {
+		// Prevent the form from submitting via the browser.
+		event.preventDefault();
+		ajaxPost();
+	});
+
+
+    function ajaxPost(){
+
+    	// PREPARE FORM DATA
+    	var formData = {
+    		name : $("#name").val(),
+    		password :  $("#password").val()
+    	}
+    	console.log(formData);
+
+    	// DO POST
+    	$.ajax({
+			type : "POST",
+			contentType : "application/json",
+			url : window.location + "index/login",
+			data : JSON.stringify(formData),
+			dataType : 'json',
+			success : function(result) {
+				console.log("success");
+				console.log(result);
+			},
+			error : function(e) {
+				alert("Error!")
+				console.log("ERROR: ", e);
+			}
+		});
+
+    	// Reset FormData after Posting
+    	resetData();
+
     }
+
+    function resetData(){
+    	$("#name").val("");
+    	$("#password").val("");
+    }
+})
 </script>
 
-<!-- START -- Week graph, Amount of tags produced Citect -->
-<script>
-	$(document).ready(function(){
-	$.ajax({
-		url: "/index/SQLCitectWeek",
-		method: "GET",
-		success: function(data) {
-		    var time = [];
-			var variable = [];
-			var advalm = [];
-			var trend = [];
-			console.log(data.length);
-		for(var i = 0; i < data.length; i++){
-		    var obj = JSON.parse(data[i]);
-		    variable[i] = obj.variable;
-            advalm[i] = obj.advalm;
-            trend[i] = obj.trend;
-            time[i] = obj.timestamp.substring(0,10);
-		}
-	var color = Chart.helpers.color;
-			var chartdata = {
-				labels: time,
-				datasets: [{
-					label: "Variable",
-					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
-					backgroundColor: 'rgba(255,0,0,1)',
-					borderColor: 'rgba(255,0,0,1)',
-					fill: false,
-					data: variable
-				}, {
-					label: "Advalm",
-					//backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
-					backgroundColor: 'rgba(0,0,255,1)',
-					borderColor: 'rgba(0,0,255,1)',
-					fill: false,
-					data: advalm
-				}, {
-					label: "Trend",
-					//backgroundColor: color(window.chartColors.purple).alpha(0.5).rgbString(),
-					backgroundColor: 'rgba(0,255,0,1)',
-					borderColor: 'rgba(0,255,0,1)',
-					fill: false,
-					data: trend
-				},
-
-				]
-			};
-
-			var ctx = $("#citectGraph");
-
-			var barGraph = new Chart(ctx, {
-				type: 'line',
-				data: chartdata,
-				options: {
-					title:{
-						display:true,
-						text:"Antall tags produsert (Uke)"
-					}
-
-				}
-			});
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
-});
-</script>
-<!-- END -- Week graph, Amount of tags produced Citect -->
-
-<!-- START --  Week graph, Amount of functionblocks downloaded -->
-<script>
-	$(document).ready(function(){
-	$.ajax({
-		url: "/index/SQLSchneiderWeek",
-		method: "GET",
-		success: function(data) {
-		    var time = [];
-            var schneiderFB = [];
-			console.log(data.length);
-		for(var i = 0; i < data.length; i++){
-		    var obj = JSON.parse(data[i]);
-		    schneiderFB[i] = obj.fb;
-            time[i] = obj.timestamp.substring(0,10);
-		}
-	var color = Chart.helpers.color;
-			var chartdata = {
-				labels: time,
-				datasets: [{
-					label: "Schneider",
-					//backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
-					backgroundColor: 'rgba(255,0,0,1)',
-					borderColor: 'rgba(255,0,0,1)',
-					fill: false,
-					data: schneiderFB
-				} ,
-
-				]
-			};
-
-			var ctx = $("#plsLibraryGraph");
-
-			var barGraph = new Chart(ctx, {
-				type: 'line',
-				data: chartdata,
-				options: {
-					title:{
-						display:true,
-						text:"Antall funksjonsblokker nedlastet (Uke)"
-					}
-
-				}
-			});
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
-});
-</script>
-<!-- END -- Week graph, Amount of functionblocks downloaded -->
 
 
 <!-- jQuery CDN -->
