@@ -1,4 +1,4 @@
-package Calendar;
+package Calendar.SQL;
 
 import java.sql.*;
 
@@ -65,6 +65,12 @@ public class Calendar_SQL {
                 se.printStackTrace();
             }//end finally try
         }//end try
+        /* If there is no data from SQL, fill array with blank. */
+        for(int i = 0; i < loginInformation.length; i++){
+            if(loginInformation[i] == null){
+                loginInformation[i] = "";
+            }
+        }
         return loginInformation;
     }
 }

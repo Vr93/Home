@@ -113,15 +113,14 @@ $( document ).ready(function() {
     	$.ajax({
 			type : "POST",
 			contentType : "application/json",
-			url : window.location + "index/login",
+			url : "/index/login",
 			data : JSON.stringify(formData),
-			dataType : 'json',
 			success : function(result) {
 				console.log("success");
 				console.log(result);
+				$('#mainContent').html(result);
 			},
 			error : function(e) {
-				alert("Error!")
 				console.log("ERROR: ", e);
 			}
 		});
