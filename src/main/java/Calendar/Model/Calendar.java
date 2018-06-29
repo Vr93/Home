@@ -7,7 +7,7 @@ public class Calendar {
     }
 
 
-    public static String getCalendarIframe(){
+    public static String getCalendarIframe_Vegard(){
         return "<iframe src=\"https://calendar.google.com/calendar/" +
                 "embed?title=Vegard&amp;showDate=0&amp;showPrint=0&amp;" +
                 "showCalendars=0&amp;showTz=0&amp;mode=WEEK&amp;height=500" +
