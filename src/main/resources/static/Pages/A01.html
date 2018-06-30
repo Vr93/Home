@@ -16,7 +16,7 @@
     <script src="js/Charts.js"></script>
     <script src="jquery/jquery.js"></script>
 </head>
-<body>
+<body id="doc">
 
 
 
@@ -40,8 +40,14 @@
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item"><a th:href="@{/index}">Home</a></li>
-                        <li class="nav-item"><a th:href="@{/device}">Device</a></li>
+                        <!--<li class="nav-item"><a onclick="openDocument('Pages/mainPage.html')">Home</a></li>
+                        <li class="nav-item"><a onclick="openDocument('Pages/device.html')">Device</a></li>-->
+                        <li class="nav-item">
+                            <button class="btn btn-secondary" type="button" onclick="openDocument('Pages/mainPage.html')">Home</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn btn-secondary" type="button" onclick="openDocument('Pages/device.html')">Device</button>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -110,9 +116,9 @@
 
 
 <script>
-    function openFBDocument(link){
+    function openDocument(link){
     console.log(link);
-    $("#mainContent").load(link);
+    $("#doc").load(link);
     }
 </script>
 

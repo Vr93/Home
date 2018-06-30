@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.*;
 public class A01_Controller {
 
 
-    @RequestMapping(value="/A01",method = RequestMethod.GET)
+    /*@RequestMapping(value="/A01",method = RequestMethod.GET)
     public String A01(){
         return "A01";
-    }
+    }*/
 
 }

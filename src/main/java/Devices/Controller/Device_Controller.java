@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class Device_Controller {
 
-
+    /*
     @RequestMapping(value="/device",method = RequestMethod.GET)
     public String device(){
         return "device";
-    }
+    }*/
 
 }

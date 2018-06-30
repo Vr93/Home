@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Home - Sikthaugen</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <link href="bootstrap/css/bootstrap.min-3.3.7.css" rel="stylesheet">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="css/pls_bibliotek.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="js/Charts.js"></script>
+    <script src="jquery/jquery.js"></script>
+</head>
+<body id="doc">
+
+
+
+<!--<div class="wrapper">-->
+
+    <!-- Page Content Holder -->
+    <div id="content">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand">Device</a>
+                </div>
+
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="nav-item active">
+                            <button class="btn btn-nav-active" type="button" onclick="openDocument('Pages/mainPage.html')">Home</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn btn-secondary" type="button" onclick="openDocument('Pages/device.html')">Device</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="mainContent">
+            <div class="row">
+                <div class="col-lg-6 panel panel-default">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showDate=0&amp;showPrint=0&amp;mode=WEEK&amp;height=800&amp;wkst=2&amp;hl=no&amp;bgcolor=%23FFFFFF&amp;src=vegardrognee%40gmail.com&amp;color=%23711616&amp;ctz=Europe%2FOslo" style="border-width:0" width="100%" height="auto" min-height="800" frameborder="0" scrolling="no"></iframe>
+                    </div>
+                </div>
+                <div class="col-lg-6 panel panel-default">
+                    <h3 class="text-center"> Hello World</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--</div>-->
+
+<script>
+$( document ).ready(function() {
+
+	// SUBMIT FORM
+    $("#loginForm").submit(function(event) {
+		// Prevent the form from submitting via the browser.
+		event.preventDefault();
+		loginPost();
+	});
+
+
+    function loginPost(){
+
+    	// PREPARE FORM DATA
+    	var formData = {
+    		name : $("#name").val(),
+    		password :  $("#password").val()
+    	}
+
+    	// DO POST
+    	$.ajax({
+			type : "POST",
+			contentType : "application/json",
+			url : "/index/login",
+			data : JSON.stringify(formData),
+			success : function(result) {
+				console.log("success");
+				console.log(result);
+				$('#mainContent').html(result);
+			},
+			error : function(e) {
+				console.log("ERROR: ", e);
+			}
+		});
+    }
+})
+</script>
+
+<script>
+    function openDocument(link){
+    console.log(link);
+    $("#doc").load(link);
+    }
+</script>
+
+
+
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<!-- Bootstrap Js CDN -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+             $(document).ready(function () {
+                 $('#sidebarCollapse').on('click', function () {
+                     $('#sidebar').toggleClass('active');
+                     $(this).toggleClass('active');
+                 });
+             });
+         </script>
+</body>
+</html>
