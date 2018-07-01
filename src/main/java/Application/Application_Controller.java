@@ -16,4 +16,6 @@ public class Application_Controller {
     public String index_empty(){
         return "index";
     }
+
+
 }
