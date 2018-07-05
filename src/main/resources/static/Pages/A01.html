@@ -34,7 +34,8 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand">Device - A01</a>
+                    <a class="navbar-brand">Device - A01 <div id="version"></div></a>
+
                 </div>
 
 
@@ -96,12 +97,29 @@
             </div>
 
         <div class="row my-3">
-            <div class="col-sm-4 col-centered panel panel-default">
-                <div class="line"></div>
+
+            <div class="col-sm-4 col-sm-offset-1 panel panel-default">
                 <div id="database_interval_text"></div>
+                <div class="line"></div>
+                <form id="database_interval_update" class="form-signin" action="" method="">
+                    <div id="database_interval_update_text"></div>
+                    <input id="database_interval_update_value" type="text" class="form-control" placeholder="Value.." required autofocus>
+                    <input type="submit" class="btn btn-lg btn-default btn-block" value="Update" />
+                </form>
             </div>
+
+            <div class="col-sm-4 col-sm-offset-2 panel panel-default">
+                <h4 class="text-center"> A01 status</h4>
+                <div class="line"></div>
+                <div class="text-center" id="A01_status_text"></div>
+            </div>
+
         </div>
 
+
+        <footer>
+            <div id="footer_text"></div>
+        </footer>
 
 
     </div> <!-- Page Content Holder -->
@@ -121,6 +139,89 @@
     }
 </script>
 
+<!-- START -- Version text  -->
+<script>
+	$(document).ready(function(){
+	    Version_Text();
+	});
+
+	function Version_Text(){
+	$.ajax({
+		url: "/version",
+		method: "GET",
+		success: function(data) {
+		    $('#version').empty();
+		    $('#version').html(data);
+		},
+		error: function(data) {
+			console.log(data);
+			$('#version').empty();
+		    $('#version').html(data);
+		}
+	});
+};
+</script>
+<!-- END -- Version text -->
+
+<!-- START -- A01 status  -->
+<script>
+	$(document).ready(function(){
+	    A01_Status();
+	});
+
+	function A01_Status(){
+	$.ajax({
+		url: "/A01/status",
+		method: "GET",
+		success: function(data) {
+		    $('#A01_status_text').empty();
+		    $('#A01_status_text').html(data);
+		},
+		error: function(data) {
+			console.log(data);
+			$('#A01_status_text').empty();
+		    $('#A01_status_text').html(data);
+		}
+	});
+};
+</script>
+<!-- END -- A01 Status -->
+
+<!-- START -- Database interval UPDATE, A01 -->
+<script>
+$( document ).ready(function() {
+
+	// SUBMIT FORM
+    $("#database_interval_update").submit(function(event) {
+		// Prevent the form from submitting via the browser.
+		event.preventDefault();
+		databaseIntervalPost();
+	});
+
+
+    function databaseIntervalPost(){
+    	var formData = {
+    		value : $("#database_interval_update_value").val(),
+    	}
+    	$.ajax({
+			type : "POST",
+			contentType : "application/json",
+			url : "/A01/database_interval_update",
+			data : JSON.stringify(formData),
+			success : function(result) {
+				$("#database_interval_update_text").html(result);
+				dataDataBaseInterval();
+			},
+			error : function(e) {
+			console.log(e);
+	            $("#database_interval_update_text").html(e);
+			}
+		});
+    }
+})
+</script>
+<!-- END -- A01 database interval UPDATE -->
+
 <!-- START -- Database interval, A01 -->
 <script>
 	$(document).ready(function(){
@@ -137,10 +238,6 @@
 
 		for(var i = 0; i < data.length; i++){
 		    database_interval_value[i] = data[i];
-		}
-		// Database interval is in seconds, do this to minutes before it is shown on page.
-		if(database_interval_value[0] > 0){
-		database_interval_value[0] = database_interval_value[0]/60;
 		}
 
 		    $('#database_interval_text').empty();
@@ -172,7 +269,7 @@
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
 		    temperature[i] = obj.temp;
-            time[i] = obj.timestamp.substring(5,16);
+            time[i] = obj.timestamp.substring(10,16);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
@@ -228,7 +325,7 @@
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
 		    temperature[i] = obj.temp;
-            time[i] = obj.timestamp.substring(0,16);
+            time[i] = obj.timestamp.substring(5,16);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
@@ -284,7 +381,7 @@
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
 		    temperature[i] = obj.temp;
-            time[i] = obj.timestamp.substring(0,16);
+            time[i] = obj.timestamp.substring(5,16);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
@@ -401,7 +498,7 @@
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
 		    humidity[i] = obj.humidity;
-            time[i] = obj.timestamp.substring(5,16);
+            time[i] = obj.timestamp.substring(10,16);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
@@ -457,7 +554,7 @@
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
 		    humidity[i] = obj.humidity;
-            time[i] = obj.timestamp.substring(0,16);
+            time[i] = obj.timestamp.substring(5,16);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
@@ -513,7 +610,7 @@
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
 		    humidity[i] = obj.humidity;
-            time[i] = obj.timestamp.substring(0,16);
+            time[i] = obj.timestamp.substring(5,16);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
@@ -613,9 +710,6 @@
 </script>
 <!-- END -- Year graph, A01, Humidity -->
 
-
-
-
 <!-- START -- Day graph, A01, Pressure -->
 <script>
 	$(document).ready(function(){
@@ -633,7 +727,7 @@
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
 		    pressure[i] = obj.pressure;
-            time[i] = obj.timestamp.substring(5,16);
+            time[i] = obj.timestamp.substring(10,16);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
@@ -689,7 +783,7 @@
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
 		    pressure[i] = obj.pressure;
-            time[i] = obj.timestamp.substring(0,16);
+            time[i] = obj.timestamp.substring(5,16);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {
@@ -745,7 +839,7 @@
 		for(var i = 0; i < data.length; i++){
 		    var obj = JSON.parse(data[i]);
 		    pressure[i] = obj.pressure;
-            time[i] = obj.timestamp.substring(0,16);
+            time[i] = obj.timestamp.substring(5,16);
 		}
 	var color = Chart.helpers.color;
 			var chartdata = {

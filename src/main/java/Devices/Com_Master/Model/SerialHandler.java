@@ -20,9 +20,11 @@ public class SerialHandler {
         if(obj.has("id")){
             String id = obj.get("id").toString();
             System.out.println("id is: " + id);
+            /* A01, Outdoor Weather Station. */
             if(id.contains("A01")){
                 A01_Data(obj);
             }
+            /* For new devices, add it here..*/
             else if(id.equalsIgnoreCase("newdevice...")){
                 //....
             }
@@ -42,6 +44,10 @@ public class SerialHandler {
         if(json.has("p")){
             String pressure = json.get("p").toString();
             A01.setPressure(Float.valueOf(pressure));
+        }
+        if(json.has("e")){
+            String error = json.get("e").toString();
+            A01.setError(Integer.valueOf(error));
         }
     }
 

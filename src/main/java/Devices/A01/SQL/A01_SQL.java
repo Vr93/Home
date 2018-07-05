@@ -118,6 +118,48 @@ public class A01_SQL {
         return databaseInterval;
     }
 
+    public boolean updateDatabaseIntervalA01(int inputValue) {
+        boolean valueUpdated = false;       // Returns true if the data in sql has updated.
+        try {
+            //STEP 2: Register JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
+
+            //STEP 3: Open a connection
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            //STEP 4: Execute a query
+            String query = "UPDATE Device_database_interval SET";
+            query = query + " interval_sec='" + Integer.toString(inputValue) + "'";
+            query = query + " WHERE `id`='A01'";
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.execute();
+            conn.close();
+            valueUpdated = true;
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        } finally {
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException se2) {
+            }// nothing we can do
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+        }//end try
+        return valueUpdated;
+    }
+
     public ArrayList<String> selectA01Data(int amountOfDatesBeforeToday) {
         ArrayList<String> arrayList = new ArrayList<>();
         try {

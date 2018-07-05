@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>JavaWebApp</groupId>
     <artifactId>Home</artifactId>
-    <version>0.1</version>
+    <version>v1.0.0</version>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -65,12 +65,11 @@
             <artifactId>json</artifactId>
             <version>20180130</version>
         </dependency>
-
-
     </dependencies>
 
     <properties>
         <java.version>1.8</java.version>
+        <application.version.number>${project.version}</application.version.number>
     </properties>
 
 
