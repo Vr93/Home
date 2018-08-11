@@ -1,7 +1,7 @@
-package Calendar.Controller;
+package Login.Controller;
 
 
-import Calendar.SQL.Calendar_SQL;
+import Login.SQL.Login_SQL;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-public class Calendar_Controller {
+public class Login_Controller {
 
 
     @PostMapping(path="/index/login")
@@ -20,7 +20,7 @@ public class Calendar_Controller {
         String name = inputJson.get("name").toString();
         String password = inputJson.get("password").toString();
         /* Check input from user with SQL database. */
-        Calendar_SQL sql = new Calendar_SQL();
+        Login_SQL sql = new Login_SQL();
         String[] sqlData = sql.selectLogin(name);
         /* Check if JSON contains name and password, and this matches with SQL. */
         if( inputJson.has("name") && inputJson.has("password")

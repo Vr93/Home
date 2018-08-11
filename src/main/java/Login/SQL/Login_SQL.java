@@ -1,8 +1,8 @@
-package Calendar.SQL;
+package Login.SQL;
 
 import java.sql.*;
 
-public class Calendar_SQL {
+public class Login_SQL {
     // JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost:3306/Home";
@@ -13,7 +13,7 @@ public class Calendar_SQL {
     private Connection conn;
     private Statement stmt;
 
-    public Calendar_SQL(){
+    public Login_SQL(){
         this.conn = null;
         this.stmt = null;
     }
