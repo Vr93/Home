@@ -10,6 +10,7 @@
     <!-- Bootstrap CSS CDN -->
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
     <link href="bootstrap/css/bootstrap.min-3.3.7.css" rel="stylesheet">
+
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="css/pls_bibliotek.css">
     <script src="js/Charts.js"></script>
@@ -33,58 +34,59 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand">Device <div id="version"></div></a>
+                    <a class="navbar-brand">Home - Server <div id="version"></div></a>
 
                 </div>
 
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
+                        <!--<li class="nav-item"><a onclick="openDocument('Pages/mainPage.html')">Home</a></li>
+                        <li class="nav-item"><a onclick="openDocument('Pages/device.html')">Device</a></li>-->
                         <li class="nav-item">
                             <button class="btn btn-secondary" type="button" onclick="openDocument('Pages/mainPage.html')">Home</button>
                         </li>
-                        <li class="nav-item active">
-                            <button class="btn btn-nav-active" type="button" onclick="openDocument('Pages/device.html')">Device</button>
+                        <li class="nav-item">
+                            <button class="btn btn-secondary" type="button" onclick="openDocument('Pages/device.html')">Device</button>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <div id="mainContent">
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="text-center"> Devices</h3>
+                    <h3 class="text-center"> Home - Server</h3>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-lg-4 panel panel-default">
-                    <h4 class="text-center grow">
-                        <button class="btn btn-secondary" type="button" onclick="openDocument('Pages/A01.html')">A01 - Weather Station</button>
-                    </h4>
-                </div>
-                <div class="col-lg-4 panel panel-default">
-                    <h4 class="text-center grow">
-                        <button class="btn btn-secondary" type="button" onclick="openDocument('Pages/Server.html')">Home - Server</button>
-                    </h4>
-                </div>
+        <div class="row my-3">
+
+            <div class="col-sm-4 col-sm-offset-1 panel panel-default">
+                <div id="serverFan_setpoint"></div>
+                <div class="line"></div>
+                <form id="serverFan_setpoint_update" class="form-signin" action="" method="">
+                    <div id="serverFan_setpoint_update_text"></div>
+                    <input id="serverFan_setpoint_update_value" type="text" class="form-control" placeholder="Value..">
+                    <input type="submit" class="btn btn-lg btn-default btn-block" value="Update" />
+                </form>
             </div>
+
         </div>
+
 
         <footer>
             <div id="footer_text"></div>
         </footer>
 
-    </div>
+
+    </div> <!-- Page Content Holder -->
 <!--</div>-->
 
 <style>
-.grow:hover
-{
-        -webkit-transform: scale(1.3);
-        -ms-transform: scale(1.3);
-        transform: scale(1.3);
+    .col-centered{
+    float: none;
+    margin: 0 auto;
 }
 </style>
 
@@ -118,6 +120,81 @@
 };
 </script>
 <!-- END -- Version text -->
+
+<!-- START -- GET ServerFan setpoint  -->
+<script>
+	$(document).ready(function(){
+	   getServerFanSetpoint();
+	});
+
+	function getServerFanSetpoint(){
+	$.ajax({
+		url: "/serverFan/setpoint",
+		method: "GET",
+		success: function(data) {
+		    $('#serverFan_setpoint').empty();
+		    $('#serverFan_setpoint').html("Setpoint: " + data + " °C");
+		},
+		error: function(data) {
+			console.log(data);
+			$('#serverFan_setpoint').empty();
+		    $('#serverFan_setpoint').html(data);
+		}
+	});
+};
+</script>
+<!-- END -- GET ServerFan setpoint -->
+
+<!-- START -- UPDATE ServerFan setpoint -->
+<script>
+$( document ).ready(function() {
+
+	// SUBMIT FORM
+    $("#serverFan_setpoint_update").submit(function(event) {
+		// Prevent the form from submitting via the browser.
+		event.preventDefault();
+		setServerFanSetpoint();
+	});
+
+
+    function setServerFanSetpoint(){
+    	var formData = {
+    		setpoint : $("#serverFan_setpoint_update_value").val(),
+    	}
+    	$.ajax({
+			type : "POST",
+			contentType : "application/json",
+			url : "/serverfan/updateSetpoint",
+			data : JSON.stringify(formData),
+			success : function(result) {
+				$("#serverFan_setpoint_update_text").html(result);
+				getServerFanSetpoint();
+			},
+			error : function(e) {
+			console.log(e);
+	            $("#serverFan_setpoint_update_text").html(e.responseText);
+			}
+		});
+    }
+})
+</script>
+<!-- END -- UPDATE ServerFan setpoint -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!-- jQuery CDN -->
 <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>

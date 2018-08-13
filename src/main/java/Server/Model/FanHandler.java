@@ -10,7 +10,6 @@ import java.io.IOException;
 public class FanHandler {
     private Digital_Output fan;
     private Fan_SQL fanSQL;
-    private float setpoint;
 
     public FanHandler() {
         this.fan = new Digital_Output(1);
@@ -58,6 +57,10 @@ public class FanHandler {
     }
 
     public float getSetpoint() {
+        /* If there is no values in SQL, insert fallback value of 50*C */
+        if(getFanSQL().selectSetpointFromSQL() == 0){
+            getFanSQL().insertValuesServerFan(50);
+        }
         return getFanSQL().selectSetpointFromSQL();
     }
 
