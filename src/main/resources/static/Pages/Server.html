@@ -63,6 +63,14 @@
         <div class="row my-3">
 
             <div class="col-sm-4 col-sm-offset-1 panel panel-default">
+                <h3 class="text-center"> Platform information</h3>
+                <div class="line"></div>
+                <div id="server_platformName"></div>
+                <div class="line"></div>
+
+            </div>
+
+            <div class="col-sm-4 col-sm-offset-1 panel panel-default">
                 <h3 class="text-center"> Cooling fan</h3>
                 <div class="line"></div>
                 <div id="serverFan_running"></div>
@@ -75,6 +83,8 @@
                     <input type="submit" class="btn btn-lg btn-default btn-block" value="Update" />
                 </form>
             </div>
+
+
 
         </div>
 
@@ -125,14 +135,37 @@
 </script>
 <!-- END -- Version text -->
 
+<!-- START -- GET Platform Name  -->
+<script>
+	$(document).ready(function(){
+	   getServerPlatformName();
+	});
+
+	function getServerPlatformName(){
+	$.ajax({
+		url: "/server/platformname",
+		method: "GET",
+		success: function(data) {
+		    $('#server_platformName').empty();
+		    $('#server_platformName').html("<h4 class=\"text-center\"> Platform name: " + data + "</h4>");
+
+
+		},
+		error: function(e) {
+			$('#server_platformName').empty();
+		    $('#server_platformName').html(e.responseText);
+		}
+	});
+};
+</script>
+<!-- END -- GET Platform Name  -->
+
 <!-- START -- GET Server Fan Running  -->
 <script>
 	$(document).ready(function(){
 	   getServerFanRunning();
 	   setInterval(getServerFanRunning, 1000);
 	});
-
-
 
 	function getServerFanRunning(){
 	$.ajax({

@@ -25,4 +25,10 @@ public class ServerController {
         }
         return retVal;
     }
+
+    @RequestMapping(value="/server/platformname", method = RequestMethod.GET)
+    @ResponseBody
+    public String getPlatformName() {
+        return ServerInformation.getPlatformName();
+    }
 }
