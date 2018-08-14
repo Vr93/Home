@@ -1,7 +1,5 @@
 package Server.Controller;
 
-import Devices.A01.SQL.A01_SQL;
-import Devices.Com_Master.Model.SerialHandler;
 import Server.Model.FanHandler;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;

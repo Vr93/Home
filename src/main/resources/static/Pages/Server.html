@@ -65,6 +65,7 @@
             <div class="col-sm-4 col-sm-offset-1 panel panel-default">
                 <h3 class="text-center"> Cooling fan</h3>
                 <div class="line"></div>
+                <div id="serverFan_running"></div>
                 <div id="serverFan_setpoint"></div>
                 <div id="serverFan_cpuTemp"></div>
                 <div class="line"></div>
@@ -124,6 +125,40 @@
 </script>
 <!-- END -- Version text -->
 
+<!-- START -- GET Server Fan Running  -->
+<script>
+	$(document).ready(function(){
+	   getServerFanRunning();
+	   setInterval(getServerFanRunning, 1000);
+	});
+
+
+
+	function getServerFanRunning(){
+	$.ajax({
+		url: "/serverFan/output",
+		method: "GET",
+		success: function(data) {
+		    $('#serverFan_running').empty();
+		    if(data == "true"){
+		    $('#serverFan_running').empty();
+		    $('#serverFan_running').html("<img src=\"/image/fan_icon_on.png\" class=\"img-responsive center-block\">");
+		    }
+		    else{
+		    $('#serverFan_running').empty();
+		    $('#serverFan_running').html("<img src=\"/image/fan_icon_off.png\" class=\"img-responsive center-block\">");
+		    }
+
+		},
+		error: function(e) {
+			$('#serverFan_running').empty();
+		    $('#serverFan_running').html(e.responseText);
+		}
+	});
+};
+</script>
+<!-- END -- GET Server Fan Running  -->
+
 <!-- START -- GET Server CPU Temperature  -->
 <script>
 	$(document).ready(function(){
@@ -148,7 +183,7 @@
 	});
 };
 </script>
-<!-- END -- GET ServerFan setpoint -->
+<!-- END -- GET Server CPU Temperature -->
 
 <!-- START -- GET ServerFan setpoint  -->
 <script>
