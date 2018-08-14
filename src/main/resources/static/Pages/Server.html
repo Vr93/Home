@@ -63,7 +63,10 @@
         <div class="row my-3">
 
             <div class="col-sm-4 col-sm-offset-1 panel panel-default">
+                <h3 class="text-center"> Cooling fan</h3>
+                <div class="line"></div>
                 <div id="serverFan_setpoint"></div>
+                <div id="serverFan_cpuTemp"></div>
                 <div class="line"></div>
                 <form id="serverFan_setpoint_update" class="form-signin" action="" method="">
                     <div id="serverFan_setpoint_update_text"></div>
@@ -121,6 +124,32 @@
 </script>
 <!-- END -- Version text -->
 
+<!-- START -- GET Server CPU Temperature  -->
+<script>
+	$(document).ready(function(){
+	   getServerCPUTemp();
+	   setInterval(getServerCPUTemp, 1000);
+	});
+
+
+
+	function getServerCPUTemp(){
+	$.ajax({
+		url: "/server/cputemperature",
+		method: "GET",
+		success: function(data) {
+		    $('#serverFan_cpuTemp').empty();
+		    $('#serverFan_cpuTemp').html("<h4 class=\"text-center\"> CPU temperature: " + data + " °C</h4>");
+		},
+		error: function(e) {
+			$('#serverFan_cpuTemp').empty();
+		    $('#serverFan_cpuTemp').html(e.responseText);
+		}
+	});
+};
+</script>
+<!-- END -- GET ServerFan setpoint -->
+
 <!-- START -- GET ServerFan setpoint  -->
 <script>
 	$(document).ready(function(){
@@ -133,7 +162,7 @@
 		method: "GET",
 		success: function(data) {
 		    $('#serverFan_setpoint').empty();
-		    $('#serverFan_setpoint').html("Setpoint: " + data + " °C");
+		    $('#serverFan_setpoint').html("<h4 class=\"text-center\"> Setpoint: " + data + " °C</h4>");
 		},
 		error: function(data) {
 			console.log(data);

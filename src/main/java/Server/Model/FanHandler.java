@@ -27,14 +27,11 @@ public class FanHandler {
                     try {
                         Thread.sleep(1000*30);
                         float serverTemperature = ServerInformation.getServerCPUTemperature();
-                        System.out.println("server temp: " + serverTemperature);
                         if(serverTemperature > getSetpoint()){
                             fan.setPinHIGH();
-                            System.out.println("Fan is on");
                         }
                         else{
                             fan.setPinLow();
-                            System.out.println("Fan is off");
                         }
 
                     }
