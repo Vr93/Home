@@ -4,6 +4,7 @@ package Devices.Com_Master.Model;
 import Devices.A01.Model.A01;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 public class SerialHandler {
 
@@ -14,20 +15,24 @@ public class SerialHandler {
     }
 
     public void handleSerialInput(String data){
-        data = "{" + data + "}";
-        JsonObject obj = new JsonParser().parse(data).getAsJsonObject();
-        /* Check JSON object for ID. */
-        if(obj.has("id")){
-            String id = obj.get("id").toString();
-            System.out.println("id is: " + id);
-            /* A01, Outdoor Weather Station. */
-            if(id.contains("A01")){
-                A01_Data(obj);
+        try {
+            data = "{" + data + "}";
+            JsonObject obj = new JsonParser().parse(data).getAsJsonObject();
+            /* Check JSON object for ID. */
+            if (obj.has("id")) {
+                String id = obj.get("id").toString();
+                System.out.println("id is: " + id);
+                /* A01, Outdoor Weather Station. */
+                if (id.contains("A01")) {
+                    A01_Data(obj);
+                }
+                /* For new devices, add it here..*/
+                else if (id.equalsIgnoreCase("newdevice...")) {
+                    //....
+                }
             }
-            /* For new devices, add it here..*/
-            else if(id.equalsIgnoreCase("newdevice...")){
-                //....
-            }
+        }
+        catch(JsonSyntaxException ex){
         }
     }
 
