@@ -76,7 +76,7 @@ public class A01 {
         }
         else{
             if (bit.get(0)) {
-                status =  status  + "<p class=\"text-danger\"> Temperatur sensor (BMP280) is not working! </p> <br>";
+                status =  status  + "<p class=\"text-danger\"> Temperature sensor (BMP280) is not working! </p> <br>";
             }
         }
         return status;
