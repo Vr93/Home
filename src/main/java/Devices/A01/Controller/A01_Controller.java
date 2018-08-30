@@ -11,7 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 @RestController
 public class A01_Controller {
@@ -74,6 +79,38 @@ public class A01_Controller {
     public String A01_Status(){
         return SerialHandler.getA01().getStatus();
     }
+
+    @GetMapping(value = "/A01/isonline")
+    public boolean A01_isOnline(){
+        boolean isDeviceOnline = false;
+        A01_SQL sql = new A01_SQL();
+        ArrayList<String> arrayList = sql.selectA01Data(1);
+        /* Get last value stored in database for the past day, if there is data */
+        if(arrayList.size() > 0){
+        String lastValue = arrayList.get(arrayList.size() - 1);
+        /* Parse the last values to json. */
+        JSONObject inputJson = new JSONObject(lastValue);
+        /* Check if the json object has timestamp. */
+        if(inputJson.has("time")){
+            try{
+            /* Convert last time value in database to Timestamp format. */
+            Timestamp lastValueTimestamp = sql.parseTimeStamp(inputJson.get("time").toString());
+            /* Get the current timestamp, one hour ago. */
+            Timestamp oneHourAgo = new Timestamp(System.currentTimeMillis() - (60 * 60 * 1000));
+            /* Check if the value in database is after the timestamp one hour ago, then the device is online. */
+            if(lastValueTimestamp.after(oneHourAgo)){
+                isDeviceOnline = true;
+            }
+            }
+            catch(ParseException ex){
+                ex.printStackTrace();
+            }
+        }
+        }
+        return isDeviceOnline;
+    }
+
+    
 
     @PostMapping(path="/A01/database_interval_update")
     public ResponseEntity<?> save(@RequestBody String input) {

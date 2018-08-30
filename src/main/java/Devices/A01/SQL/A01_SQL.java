@@ -6,7 +6,10 @@ import org.joda.time.DateTime;
 
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class A01_SQL {
     // JDBC driver name and database URL
@@ -218,6 +221,14 @@ public class A01_SQL {
 
         }//end try
         return arrayList;
+    }
+
+
+    public Timestamp parseTimeStamp(String sTimestamp) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date parsedDate = dateFormat.parse(sTimestamp);
+        Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+        return timestamp;
     }
 
 
