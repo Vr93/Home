@@ -110,7 +110,21 @@ public class A01_Controller {
         return isDeviceOnline;
     }
 
-    
+    @GetMapping(value = "/A01/lastvalues")
+    public ResponseEntity<String> A01_lastValues(){
+        A01_SQL sql = new A01_SQL();
+        ArrayList<String> arrayList = sql.selectA01Data(1);
+        if(arrayList.size() > 0){
+            String data = arrayList.get(arrayList.size() - 1);
+            return new ResponseEntity<>(data, HttpStatus.OK);
+        }
+        else{
+            String data = "<p class=\"text-center text-danger\"> Error, no data received </p>";
+            return new ResponseEntity<String>(data, HttpStatus.CONFLICT);
+        }
+    }
+
+
 
     @PostMapping(path="/A01/database_interval_update")
     public ResponseEntity<?> save(@RequestBody String input) {
