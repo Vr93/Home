@@ -18,5 +18,9 @@ public class ServerInformation {
     public static String getSerialNumber() throws IOException, InterruptedException {
         return SystemInfo.getSerial();
     }
-    
+
+    public static String getCPURevision() throws IOException, InterruptedException {
+        return SystemInfo.getCpuRevision();
+    }
+
 }

@@ -42,4 +42,15 @@ public class ServerController {
             return "Error, could not get serial number!";
         }
     }
+
+    @RequestMapping(value="/server/cpurevision", method = RequestMethod.GET)
+    @ResponseBody
+    public String getCPURevision() {
+        try {
+            return ServerInformation.getCPURevision();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get cpu revision!";
+        }
+    }
 }

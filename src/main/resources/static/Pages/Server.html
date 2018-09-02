@@ -163,10 +163,10 @@
 <!-- START -- GET Serial Number  -->
 <script>
 	$(document).ready(function(){
-	   getServerPlatformName();
+	   getServerSerialNumber();
 	});
 
-	function getServerPlatformName(){
+	function getServerSerialNumber(){
 	$.ajax({
 		url: "/server/serialnumber",
 		method: "GET",
@@ -180,6 +180,28 @@
 };
 </script>
 <!-- END -- GET Serial Number  -->
+
+
+<!-- START -- GET CPU Revision  -->
+<script>
+	$(document).ready(function(){
+	   getServerCPURevision();
+	});
+
+	function getServerCPURevision(){
+	$.ajax({
+		url: "/server/cpurevision",
+		method: "GET",
+		success: function(data) {
+		    $('#server_hardwareInfo').append("<p class=\"text-center\"> CPU Revision: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_hardwareInfo').html(e.responseText);
+		}
+	});
+};
+</script>
+<!-- END -- GET CPU Revision  -->
 
 <!-- START -- GET Server Fan Running  -->
 <script>
