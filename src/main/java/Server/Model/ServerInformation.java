@@ -23,4 +23,8 @@ public class ServerInformation {
         return SystemInfo.getCpuRevision();
     }
 
+    public static String getCPUArchitecture() throws IOException, InterruptedException {
+        return SystemInfo.getCpuArchitecture();
+    }
+
 }

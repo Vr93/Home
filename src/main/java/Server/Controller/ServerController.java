@@ -53,4 +53,15 @@ public class ServerController {
             return "Error, could not get cpu revision!";
         }
     }
+
+    @RequestMapping(value="/server/cpuarchitecture", method = RequestMethod.GET)
+    @ResponseBody
+    public String getCPUArchitecture() {
+        try {
+            return ServerInformation.getCPUArchitecture();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get cpu architecture!";
+        }
+    }
 }
