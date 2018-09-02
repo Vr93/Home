@@ -65,6 +65,9 @@
                 <h3 class="text-center"> Platform information</h3>
                 <div class="line"></div>
                 <div id="server_platformName"></div>
+                <h3 class="text-center"> Hardware information</h3>
+                <div class="line"></div>
+                <div id="server_hardwareInfo"></div>
                 <div class="line"></div>
 
             </div>
@@ -146,9 +149,7 @@
 		method: "GET",
 		success: function(data) {
 		    $('#server_platformName').empty();
-		    $('#server_platformName').html("<h4 class=\"text-center\"> Platform name: " + data + "</h4>");
-
-
+		    $('#server_platformName').html("<p class=\"text-center\"> Platform name: " + data + "</p>");
 		},
 		error: function(e) {
 			$('#server_platformName').empty();
@@ -158,6 +159,27 @@
 };
 </script>
 <!-- END -- GET Platform Name  -->
+
+<!-- START -- GET Serial Number  -->
+<script>
+	$(document).ready(function(){
+	   getServerPlatformName();
+	});
+
+	function getServerPlatformName(){
+	$.ajax({
+		url: "/server/serialnumber",
+		method: "GET",
+		success: function(data) {
+		    $('#server_hardwareInfo').append("<p class=\"text-center\"> Serial number: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_hardwareInfo').html(e.responseText);
+		}
+	});
+};
+</script>
+<!-- END -- GET Serial Number  -->
 
 <!-- START -- GET Server Fan Running  -->
 <script>

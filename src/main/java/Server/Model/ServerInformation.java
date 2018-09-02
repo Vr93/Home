@@ -14,4 +14,9 @@ public class ServerInformation {
     public static String getPlatformName() {
         return PlatformManager.getPlatform().getLabel();
     }
+
+    public static String getSerialNumber() throws IOException, InterruptedException {
+        return SystemInfo.getSerial();
+    }
+    
 }

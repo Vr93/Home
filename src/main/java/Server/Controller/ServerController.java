@@ -31,4 +31,15 @@ public class ServerController {
     public String getPlatformName() {
         return ServerInformation.getPlatformName();
     }
+
+    @RequestMapping(value="/server/serialnumber", method = RequestMethod.GET)
+    @ResponseBody
+    public String getSerialNumber() {
+        try {
+            return ServerInformation.getSerialNumber();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get serial number!";
+        }
+    }
 }
