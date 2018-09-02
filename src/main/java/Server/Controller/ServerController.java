@@ -75,4 +75,15 @@ public class ServerController {
             return "Error, could not get cpu part!";
         }
     }
+
+    @RequestMapping(value="/server/cpuvoltage", method = RequestMethod.GET)
+    @ResponseBody
+    public String getCPUVoltage() {
+        try {
+            return ServerInformation.getCPUVoltage();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get cpu voltage!";
+        }
+    }
 }

@@ -67,6 +67,7 @@
                 <div id="server_platformName"></div>
                 <h3 class="text-center"> Hardware information</h3>
                 <div class="line"></div>
+                <div id="serverFan_cpuTempInfo"></div>
                 <div id="server_hardwareInfo"></div>
                 <div class="line"></div>
 
@@ -245,6 +246,27 @@
 </script>
 <!-- END -- GET CPU Architecture  -->
 
+<!-- START -- GET CPU Architecture  -->
+<script>
+	$(document).ready(function(){
+	   getServerCPUVoltage();
+	});
+
+	function getServerCPUVoltage(){
+	$.ajax({
+		url: "/server/cpuvoltage",
+		method: "GET",
+		success: function(data) {
+		    $('#server_hardwareInfo').append("<p class=\"text-center\"> CPU Voltage: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_hardwareInfo').html(e.responseText);
+		}
+	});
+};
+</script>
+<!-- END -- GET CPU Architecture  -->
+
 <!-- START -- GET Server Fan Running  -->
 <script>
 	$(document).ready(function(){
@@ -293,6 +315,8 @@
 		success: function(data) {
 		    $('#serverFan_cpuTemp').empty();
 		    $('#serverFan_cpuTemp').html("<h4 class=\"text-center\"> CPU temperature: " + data + " °C</h4>");
+		    $('#serverFan_cpuTempInfo').empty();
+		    $('#serverFan_cpuTempInfo').html("<p class=\"text-center\"> CPU temperature: " + data + " °C</p>");
 		},
 		error: function(e) {
 			$('#serverFan_cpuTemp').empty();

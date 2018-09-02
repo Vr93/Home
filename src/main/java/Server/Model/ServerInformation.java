@@ -31,4 +31,8 @@ public class ServerInformation {
         return SystemInfo.getCpuPart();
     }
 
+    public static String getCPUVoltage() throws IOException, InterruptedException {
+        return Float.toString(SystemInfo.getCpuVoltage());
+    }
+
 }
