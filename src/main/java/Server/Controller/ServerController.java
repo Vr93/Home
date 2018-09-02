@@ -64,4 +64,15 @@ public class ServerController {
             return "Error, could not get cpu architecture!";
         }
     }
+
+    @RequestMapping(value="/server/cpupart", method = RequestMethod.GET)
+    @ResponseBody
+    public String getCPUPart() {
+        try {
+            return ServerInformation.getCPUPart();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get cpu part!";
+        }
+    }
 }

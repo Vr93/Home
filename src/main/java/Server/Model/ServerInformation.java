@@ -27,4 +27,8 @@ public class ServerInformation {
         return SystemInfo.getCpuArchitecture();
     }
 
+    public static String getCPUPart() throws IOException, InterruptedException {
+        return SystemInfo.getCpuPart();
+    }
+
 }

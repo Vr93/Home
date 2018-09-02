@@ -224,6 +224,27 @@
 </script>
 <!-- END -- GET CPU Architecture  -->
 
+<!-- START -- GET CPU Architecture  -->
+<script>
+	$(document).ready(function(){
+	   getServerCPUPart();
+	});
+
+	function getServerCPUPart(){
+	$.ajax({
+		url: "/server/cpupart",
+		method: "GET",
+		success: function(data) {
+		    $('#server_hardwareInfo').append("<p class=\"text-center\"> CPU Part: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_hardwareInfo').html(e.responseText);
+		}
+	});
+};
+</script>
+<!-- END -- GET CPU Architecture  -->
+
 <!-- START -- GET Server Fan Running  -->
 <script>
 	$(document).ready(function(){
