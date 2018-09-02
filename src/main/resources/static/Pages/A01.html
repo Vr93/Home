@@ -242,13 +242,13 @@
             temperature = obj.temp;
             humidity = obj.humidity;
             pressure = obj.pressure;
-            time = obj.time;
+            time = obj.timestamp;
 
         $('#A01_lastValues').empty();
-        var data = "<p class=\"text-center\">" + temperature + " °C </p>";
-        data = data + "<p class=\"text-center\">" + humidity + " % </p>";
-        data = data + "<p class=\"text-center\">" + pressure + " hPa </p>";
-        data = data + "<p class=\"text-center\">" + time + "</p>";
+        var data = "<h3 class=\"text-center\">" + temperature + " °C </p>";
+        data = data + "<h3 class=\"text-center\">" + humidity + " % </p>";
+        data = data + "<h3 class=\"text-center\">" + pressure + " hPa </p>";
+        data = data + "<h3 class=\"text-center\">" + time + "</p>";
         $('#A01_lastValues').html(data);
 		},
 		error: function(data) {

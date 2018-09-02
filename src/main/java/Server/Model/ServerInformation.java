@@ -11,7 +11,7 @@ public class ServerInformation {
         return SystemInfo.getCpuTemperature();
     }
 
-    public static String getPlatformName(){
+    public static String getPlatformName() {
         return PlatformManager.getPlatform().getLabel();
     }
 }
