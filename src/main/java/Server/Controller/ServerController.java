@@ -185,4 +185,15 @@ public class ServerController {
             return "Error, could not get free memory!";
         }
     }
+
+    @RequestMapping(value="/server/sharedmemory", method = RequestMethod.GET)
+    @ResponseBody
+    public String getSharedMemory() {
+        try {
+            return ServerInformation.getSharedMemory();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get shared memory!";
+        }
+    }
 }

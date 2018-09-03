@@ -71,5 +71,9 @@ public class ServerInformation {
         return Long.toString(SystemInfo.getMemoryFree());
     }
 
+    public static String getSharedMemory() throws IOException, InterruptedException {
+        return Long.toString(SystemInfo.getMemoryShared());
+    }
+
 
 }

@@ -295,6 +295,23 @@ $(document).ready(function(){
 	});
 };
 
+$(document).ready(function(){
+	   getSharedMemory();
+	});
+
+	function getSharedMemory(){
+	$.ajax({
+		url: "/server/sharedmemory",
+		method: "GET",
+		success: function(data) {
+		    $('#server_memoryInfo').append("<p class=\"text-center\"> Shared Memory: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_memoryInfo').html(e.responseText);
+		}
+	});
+};
+
 
 
 	$(document).ready(function(){
