@@ -163,4 +163,15 @@ public class ServerController {
             return "Error, could not get total memory!";
         }
     }
+
+    @RequestMapping(value="/server/usedmemory", method = RequestMethod.GET)
+    @ResponseBody
+    public String getUsedMemory() {
+        try {
+            return ServerInformation.getUsedMemory();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get used memory!";
+        }
+    }
 }

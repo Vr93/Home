@@ -261,6 +261,23 @@ $(document).ready(function(){
 	});
 };
 
+$(document).ready(function(){
+	   getUsedMemory();
+	});
+
+	function getUsedMemory(){
+	$.ajax({
+		url: "/server/usedmemory",
+		method: "GET",
+		success: function(data) {
+		    $('#server_memoryInfo').append("<p class=\"text-center\"> Used Memory: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_memoryInfo').html(e.responseText);
+		}
+	});
+};
+
 
 
 	$(document).ready(function(){

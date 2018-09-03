@@ -63,5 +63,9 @@ public class ServerInformation {
         return Long.toString(SystemInfo.getMemoryTotal());
     }
 
+    public static String getUsedMemory() throws IOException, InterruptedException {
+        return Long.toString(SystemInfo.getMemoryUsed());
+    }
+
 
 }
