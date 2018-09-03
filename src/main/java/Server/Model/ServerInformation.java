@@ -59,4 +59,9 @@ public class ServerInformation {
         return SystemInfo.getBoardType().name();
     }
 
+    public static String getTotalMemory() throws IOException, InterruptedException {
+        return Long.toString(SystemInfo.getMemoryTotal());
+    }
+
+
 }

@@ -152,4 +152,15 @@ public class ServerController {
             return "Error, could not get board type!";
         }
     }
+
+    @RequestMapping(value="/server/totalmemory", method = RequestMethod.GET)
+    @ResponseBody
+    public String getTotalMemory() {
+        try {
+            return ServerInformation.getTotalMemory();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get total memory!";
+        }
+    }
 }

@@ -244,6 +244,23 @@ $(document).ready(function(){
 	});
 };
 
+$(document).ready(function(){
+	   getTotalMemory();
+	});
+
+	function getTotalMemory(){
+	$.ajax({
+		url: "/server/totalmemory",
+		method: "GET",
+		success: function(data) {
+		    $('#server_memoryInfo').append("<p class=\"text-center\"> Total Memory: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_memoryInfo').html(e.responseText);
+		}
+	});
+};
+
 
 
 	$(document).ready(function(){
