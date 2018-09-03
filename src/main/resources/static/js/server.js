@@ -193,6 +193,23 @@ $(document).ready(function(){
 	});
 };
 
+$(document).ready(function(){
+	   getHardwareRevision();
+	});
+
+	function getHardwareRevision(){
+	$.ajax({
+		url: "/server/hardwarerevision",
+		method: "GET",
+		success: function(data) {
+		    $('#server_hardwareInfo').append("<p class=\"text-center\"> Hardware Revision: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_hardwareInfo').html(e.responseText);
+		}
+	});
+};
+
 
 
 	$(document).ready(function(){

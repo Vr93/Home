@@ -47,4 +47,8 @@ public class ServerInformation {
         return SystemInfo.getHardware();
     }
 
+    public static String getHardwareRevision() throws IOException, InterruptedException {
+        return SystemInfo.getRevision();
+    }
+
 }

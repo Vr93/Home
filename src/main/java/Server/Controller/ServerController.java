@@ -119,4 +119,15 @@ public class ServerController {
             return "Error, could not get hardware!";
         }
     }
+
+    @RequestMapping(value="/server/hardwarerevision", method = RequestMethod.GET)
+    @ResponseBody
+    public String getHardwareRevision() {
+        try {
+            return ServerInformation.getHardwareRevision();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get hardware revision!";
+        }
+    }
 }
