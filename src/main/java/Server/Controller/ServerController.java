@@ -108,4 +108,15 @@ public class ServerController {
             return "Error, could not get processor!";
         }
     }
+
+    @RequestMapping(value="/server/hardware", method = RequestMethod.GET)
+    @ResponseBody
+    public String getHardware() {
+        try {
+            return ServerInformation.getHardware();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get hardware!";
+        }
+    }
 }

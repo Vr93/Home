@@ -43,4 +43,8 @@ public class ServerInformation {
         return SystemInfo.getProcessor();
     }
 
+    public static String getHardware() throws IOException, InterruptedException {
+        return SystemInfo.getHardware();
+    }
+
 }

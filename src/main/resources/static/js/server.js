@@ -176,6 +176,23 @@ $(document).ready(function(){
 	});
 };
 
+$(document).ready(function(){
+	   getHardware();
+	});
+
+	function getHardware(){
+	$.ajax({
+		url: "/server/hardware",
+		method: "GET",
+		success: function(data) {
+		    $('#server_hardwareInfo').append("<p class=\"text-center\"> Hardware: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_hardwareInfo').html(e.responseText);
+		}
+	});
+};
+
 
 
 	$(document).ready(function(){
