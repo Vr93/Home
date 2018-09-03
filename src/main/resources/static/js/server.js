@@ -312,6 +312,23 @@ $(document).ready(function(){
 	});
 };
 
+$(document).ready(function(){
+	   getMemoryBuffers();
+	});
+
+	function getMemoryBuffers(){
+	$.ajax({
+		url: "/server/memorybuffers",
+		method: "GET",
+		success: function(data) {
+		    $('#server_memoryInfo').append("<p class=\"text-center\"> Memory Buffers: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_memoryInfo').html(e.responseText);
+		}
+	});
+};
+
 
 
 	$(document).ready(function(){

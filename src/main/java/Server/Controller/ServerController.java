@@ -196,4 +196,15 @@ public class ServerController {
             return "Error, could not get shared memory!";
         }
     }
+
+    @RequestMapping(value="/server/memorybuffers", method = RequestMethod.GET)
+    @ResponseBody
+    public String getMemoryBuffers() {
+        try {
+            return ServerInformation.getMemoryBuffers();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get memory buffers!";
+        }
+    }
 }
