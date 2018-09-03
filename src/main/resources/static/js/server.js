@@ -329,6 +329,23 @@ $(document).ready(function(){
 	});
 };
 
+$(document).ready(function(){
+	   getMemoryCached();
+	});
+
+	function getMemoryCached(){
+	$.ajax({
+		url: "/server/memorycached",
+		method: "GET",
+		success: function(data) {
+		    $('#server_memoryInfo').append("<p class=\"text-center\"> Memory Cached: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_memoryInfo').html(e.responseText);
+		}
+	});
+};
+
 
 
 	$(document).ready(function(){

@@ -79,5 +79,9 @@ public class ServerInformation {
         return Long.toString(SystemInfo.getMemoryBuffers());
     }
 
+    public static String getMemoryCached() throws IOException, InterruptedException {
+        return Long.toString(SystemInfo.getMemoryCached());
+    }
+
 
 }

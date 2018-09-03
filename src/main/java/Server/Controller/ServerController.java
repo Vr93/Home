@@ -207,4 +207,15 @@ public class ServerController {
             return "Error, could not get memory buffers!";
         }
     }
+
+    @RequestMapping(value="/server/memorycached", method = RequestMethod.GET)
+    @ResponseBody
+    public String getMemoryCached() {
+        try {
+            return ServerInformation.getMemoryCached();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get memory cached!";
+        }
+    }
 }
