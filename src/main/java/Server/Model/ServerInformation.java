@@ -39,4 +39,8 @@ public class ServerInformation {
         return SystemInfo.getModelName();
     }
 
+    public static String getProcessor() throws IOException, InterruptedException {
+        return SystemInfo.getProcessor();
+    }
+
 }

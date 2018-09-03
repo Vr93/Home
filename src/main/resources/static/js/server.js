@@ -159,6 +159,23 @@
 	});
 };
 
+$(document).ready(function(){
+	   getProcessor();
+	});
+
+	function getProcessor(){
+	$.ajax({
+		url: "/server/processor",
+		method: "GET",
+		success: function(data) {
+		    $('#server_hardwareInfo').append("<p class=\"text-center\"> Processor: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_hardwareInfo').html(e.responseText);
+		}
+	});
+};
+
 
 
 	$(document).ready(function(){

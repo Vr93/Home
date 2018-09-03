@@ -97,4 +97,15 @@ public class ServerController {
             return "Error, could not get model name!";
         }
     }
+
+    @RequestMapping(value="/server/processor", method = RequestMethod.GET)
+    @ResponseBody
+    public String getProcessor() {
+        try {
+            return ServerInformation.getProcessor();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get processor!";
+        }
+    }
 }
