@@ -278,6 +278,23 @@ $(document).ready(function(){
 	});
 };
 
+$(document).ready(function(){
+	   getFreeMemory();
+	});
+
+	function getFreeMemory(){
+	$.ajax({
+		url: "/server/freememory",
+		method: "GET",
+		success: function(data) {
+		    $('#server_memoryInfo').append("<p class=\"text-center\"> Free Memory: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_memoryInfo').html(e.responseText);
+		}
+	});
+};
+
 
 
 	$(document).ready(function(){

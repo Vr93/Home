@@ -174,4 +174,15 @@ public class ServerController {
             return "Error, could not get used memory!";
         }
     }
+
+    @RequestMapping(value="/server/freememory", method = RequestMethod.GET)
+    @ResponseBody
+    public String getFreeMemory() {
+        try {
+            return ServerInformation.getFreeMemory();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get free memory!";
+        }
+    }
 }

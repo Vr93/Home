@@ -67,5 +67,9 @@ public class ServerInformation {
         return Long.toString(SystemInfo.getMemoryUsed());
     }
 
+    public static String getFreeMemory() throws IOException, InterruptedException {
+        return Long.toString(SystemInfo.getMemoryFree());
+    }
+
 
 }
