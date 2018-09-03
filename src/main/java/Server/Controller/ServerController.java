@@ -86,4 +86,15 @@ public class ServerController {
             return "Error, could not get cpu voltage!";
         }
     }
+
+    @RequestMapping(value="/server/modelname", method = RequestMethod.GET)
+    @ResponseBody
+    public String getModelName() {
+        try {
+            return ServerInformation.getModelName();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get model name!";
+        }
+    }
 }

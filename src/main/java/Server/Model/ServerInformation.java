@@ -35,4 +35,8 @@ public class ServerInformation {
         return Float.toString(SystemInfo.getCpuVoltage());
     }
 
+    public static String getModelName() throws IOException, InterruptedException {
+        return SystemInfo.getModelName();
+    }
+
 }

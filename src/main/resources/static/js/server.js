@@ -144,6 +144,25 @@
 };
 <!-- END -- GET CPU Architecture  -->
 
+<!-- START -- GET Model Name  -->
+	$(document).ready(function(){
+	   getModelName();
+	});
+
+	function getModelName(){
+	$.ajax({
+		url: "/server/modelname",
+		method: "GET",
+		success: function(data) {
+		    $('#server_hardwareInfo').append("<p class=\"text-center\"> Model Name: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_hardwareInfo').html(e.responseText);
+		}
+	});
+};
+<!-- END -- GET Model Name  -->
+
 <!-- START -- GET Server Fan Running  -->
 	$(document).ready(function(){
 	   getServerFanRunning();
@@ -179,23 +198,22 @@
 	   getServerCPUTemp();
 	   setInterval(getServerCPUTemp, 1000);
 	});
-
 	function getServerCPUTemp(){
-	$.ajax({
-		url: "/server/cputemperature",
-		method: "GET",
-		success: function(data) {
-		    $('#serverFan_cpuTemp').empty();
-		    $('#serverFan_cpuTemp').html("<h4 class=\"text-center\"> CPU temperature: " + data + " °C</h4>");
-		    $('#serverFan_cpuTempInfo').empty();
-		    $('#serverFan_cpuTempInfo').html("<p class=\"text-center\"> CPU temperature: " + data + " °C</p>");
-		},
-		error: function(e) {
-			$('#serverFan_cpuTemp').empty();
-		    $('#serverFan_cpuTemp').html(e.responseText);
-		}
-	});
-};
+     $.ajax({
+     url: "/server/cputemperature",
+     method: "GET",
+     success: function(data) {
+     $('#serverFan_cpuTemp').empty();
+     $('#serverFan_cpuTemp').html("<h4 class=\"text-center\"> CPU temperature: " + data + " °C</h4>");
+     $('#serverFan_cpuTempInfo').empty();
+     $('#serverFan_cpuTempInfo').html("<p class=\"text-center\"> CPU temperature: " + data + " °C</p>");
+     },
+     error: function(e) {
+     $('#serverFan_cpuTemp').empty();
+     $('#serverFan_cpuTemp').html(e.responseText);
+     }
+     });
+     };
 <!-- END -- GET Server CPU Temperature -->
 
 <!-- START -- GET ServerFan setpoint  -->
