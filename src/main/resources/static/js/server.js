@@ -1,11 +1,9 @@
-<script>
 
     function openDocument(link){
     $("#doc").load(link);
     }
 
 
-<!-- START -- Version text  -->
 	$(document).ready(function(){
 	    Version_Text();
 	});
@@ -25,9 +23,8 @@
 		}
 	});
 };
-<!-- END -- Version text -->
 
-<!-- START -- GET Platform Name  -->
+
 	$(document).ready(function(){
 	   getServerPlatformName();
 	});
@@ -46,9 +43,9 @@
 		}
 	});
 };
-<!-- END -- GET Platform Name  -->
 
-<!-- START -- GET Serial Number  -->
+
+
 	$(document).ready(function(){
 	   getServerSerialNumber();
 	});
@@ -65,10 +62,10 @@
 		}
 	});
 };
-<!-- END -- GET Serial Number  -->
 
 
-<!-- START -- GET CPU Revision  -->
+
+
 	$(document).ready(function(){
 	   getServerCPURevision();
 	});
@@ -85,9 +82,9 @@
 		}
 	});
 };
-<!-- END -- GET CPU Revision  -->
 
-<!-- START -- GET CPU Architecture  -->
+
+
 	$(document).ready(function(){
 	   getServerCPUArchitecture();
 	});
@@ -104,9 +101,9 @@
 		}
 	});
 };
-<!-- END -- GET CPU Architecture  -->
 
-<!-- START -- GET CPU Architecture  -->
+
+
 	$(document).ready(function(){
 	   getServerCPUPart();
 	});
@@ -123,9 +120,9 @@
 		}
 	});
 };
-<!-- END -- GET CPU Architecture  -->
 
-<!-- START -- GET CPU Architecture  -->
+
+
 	$(document).ready(function(){
 	   getServerCPUVoltage();
 	});
@@ -142,9 +139,9 @@
 		}
 	});
 };
-<!-- END -- GET CPU Architecture  -->
 
-<!-- START -- GET Model Name  -->
+
+
 	$(document).ready(function(){
 	   getModelName();
 	});
@@ -161,9 +158,9 @@
 		}
 	});
 };
-<!-- END -- GET Model Name  -->
 
-<!-- START -- GET Server Fan Running  -->
+
+
 	$(document).ready(function(){
 	   getServerFanRunning();
 	   setInterval(getServerFanRunning, 1000);
@@ -191,9 +188,9 @@
 		}
 	});
 };
-<!-- END -- GET Server Fan Running  -->
 
-<!-- START -- GET Server CPU Temperature  -->
+
+
 	$(document).ready(function(){
 	   getServerCPUTemp();
 	   setInterval(getServerCPUTemp, 1000);
@@ -214,9 +211,9 @@
      }
      });
      };
-<!-- END -- GET Server CPU Temperature -->
 
-<!-- START -- GET ServerFan setpoint  -->
+
+
 	$(document).ready(function(){
 	   getServerFanSetpoint();
 	});
@@ -236,9 +233,9 @@
 		}
 	});
 };
-<!-- END -- GET ServerFan setpoint -->
 
-<!-- START -- UPDATE ServerFan setpoint -->
+
+
 $( document ).ready(function() {
 
 	// SUBMIT FORM
@@ -269,8 +266,7 @@ $( document ).ready(function() {
 		});
     }
 })
-<!-- END -- UPDATE ServerFan setpoint -->
 
-</script>
+
 
 
