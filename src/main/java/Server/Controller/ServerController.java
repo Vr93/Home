@@ -141,4 +141,15 @@ public class ServerController {
             return "Error, could not get hard float abi!";
         }
     }
+
+    @RequestMapping(value="/server/boardtype", method = RequestMethod.GET)
+    @ResponseBody
+    public String getBoardType() {
+        try {
+            return ServerInformation.getBoardType();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get board type!";
+        }
+    }
 }

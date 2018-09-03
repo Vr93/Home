@@ -55,4 +55,8 @@ public class ServerInformation {
         return Boolean.toString(SystemInfo.isHardFloatAbi());
     }
 
+    public static String getBoardType() throws IOException, InterruptedException {
+        return SystemInfo.getBoardType().name();
+    }
+
 }

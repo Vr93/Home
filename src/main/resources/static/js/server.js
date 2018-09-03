@@ -227,6 +227,23 @@ $(document).ready(function(){
 	});
 };
 
+$(document).ready(function(){
+	   getBoardType();
+	});
+
+	function getBoardType(){
+	$.ajax({
+		url: "/server/boardtype",
+		method: "GET",
+		success: function(data) {
+		    $('#server_hardwareInfo').append("<p class=\"text-center\"> Board Type: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_hardwareInfo').html(e.responseText);
+		}
+	});
+};
+
 
 
 	$(document).ready(function(){
