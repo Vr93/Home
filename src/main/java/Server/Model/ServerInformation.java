@@ -60,39 +60,45 @@ public class ServerInformation {
     }
 
     public static String getTotalMemory() throws IOException, InterruptedException {
-        return Long.toString(SystemInfo.getMemoryTotal());
+        /* This is in bytes, convert to MB before sent to client. */
+        return Long.toString(SystemInfo.getMemoryTotal()/(1024*100)) + " MB";
     }
 
     public static String getUsedMemory() throws IOException, InterruptedException {
-        return Long.toString(SystemInfo.getMemoryUsed());
+        /* This is in bytes, convert to MB before sent to client. */
+        return Long.toString(SystemInfo.getMemoryUsed()/(1024*100)) + " MB";
     }
 
     public static String getFreeMemory() throws IOException, InterruptedException {
-        return Long.toString(SystemInfo.getMemoryFree());
+        /* This is in bytes, convert to MB before sent to client. */
+        return Long.toString(SystemInfo.getMemoryFree()/(1024*100)) + " MB";
     }
 
     public static String getSharedMemory() throws IOException, InterruptedException {
-        return Long.toString(SystemInfo.getMemoryShared());
+        /* This is in bytes, convert to MB before sent to client. */
+        return Long.toString(SystemInfo.getMemoryShared()/(1024*100)) + " MB";
     }
 
     public static String getMemoryBuffers() throws IOException, InterruptedException {
-        return Long.toString(SystemInfo.getMemoryBuffers());
+        /* This is in bytes, convert to MB before sent to client. */
+        return Long.toString(SystemInfo.getMemoryBuffers()/(1024*100)) + " MB";
     }
 
     public static String getMemoryCached() throws IOException, InterruptedException {
-        return Long.toString(SystemInfo.getMemoryCached());
+        /* This is in bytes, convert to MB before sent to client. */
+        return Long.toString(SystemInfo.getMemoryCached()/(1024*100)) + " MB";
     }
 
     public static String getSDRamCVoltage() throws IOException, InterruptedException {
-        return Float.toString(SystemInfo.getMemoryVoltageSDRam_C());
+        return Float.toString(SystemInfo.getMemoryVoltageSDRam_C()) + " V";
     }
 
     public static String getSDRamIVoltage() throws IOException, InterruptedException {
-        return Float.toString(SystemInfo.getMemoryVoltageSDRam_I());
+        return Float.toString(SystemInfo.getMemoryVoltageSDRam_I()) + " V";
     }
 
     public static String getSDRamPVoltage() throws IOException, InterruptedException {
-        return Float.toString(SystemInfo.getMemoryVoltageSDRam_P());
+        return Float.toString(SystemInfo.getMemoryVoltageSDRam_P()) + " V";
     }
 
 
