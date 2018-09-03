@@ -130,4 +130,15 @@ public class ServerController {
             return "Error, could not get hardware revision!";
         }
     }
+
+    @RequestMapping(value="/server/hardfloatabi", method = RequestMethod.GET)
+    @ResponseBody
+    public String isHardFloatABI() {
+        try {
+            return ServerInformation.isHardFloatABI();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get hard float abi!";
+        }
+    }
 }

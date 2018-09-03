@@ -210,6 +210,23 @@ $(document).ready(function(){
 	});
 };
 
+$(document).ready(function(){
+	   isHardFloatABI();
+	});
+
+	function isHardFloatABI(){
+	$.ajax({
+		url: "/server/hardfloatabi",
+		method: "GET",
+		success: function(data) {
+		    $('#server_hardwareInfo').append("<p class=\"text-center\"> Hard Float ABI: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_hardwareInfo').html(e.responseText);
+		}
+	});
+};
+
 
 
 	$(document).ready(function(){

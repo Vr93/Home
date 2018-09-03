@@ -51,4 +51,8 @@ public class ServerInformation {
         return SystemInfo.getRevision();
     }
 
+    public static String isHardFloatABI() throws IOException, InterruptedException {
+        return Boolean.toString(SystemInfo.isHardFloatAbi());
+    }
+
 }
