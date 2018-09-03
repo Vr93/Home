@@ -218,4 +218,37 @@ public class ServerController {
             return "Error, could not get memory cached!";
         }
     }
+
+    @RequestMapping(value="/server/sdramcvoltage", method = RequestMethod.GET)
+    @ResponseBody
+    public String getSDRamCVoltage() {
+        try {
+            return ServerInformation.getSDRamCVoltage();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get sd ram c voltage!";
+        }
+    }
+
+    @RequestMapping(value="/server/sdramivoltage", method = RequestMethod.GET)
+    @ResponseBody
+    public String getSDRamIVoltage() {
+        try {
+            return ServerInformation.getSDRamIVoltage();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get sd ram i voltage!";
+        }
+    }
+
+    @RequestMapping(value="/server/sdrampvoltage", method = RequestMethod.GET)
+    @ResponseBody
+    public String getSDRamPVoltage() {
+        try {
+            return ServerInformation.getSDRamPVoltage();
+        }
+        catch(IOException | InterruptedException ex){
+            return "Error, could not get sd ram p voltage!";
+        }
+    }
 }

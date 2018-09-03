@@ -83,5 +83,17 @@ public class ServerInformation {
         return Long.toString(SystemInfo.getMemoryCached());
     }
 
+    public static String getSDRamCVoltage() throws IOException, InterruptedException {
+        return Float.toString(SystemInfo.getMemoryVoltageSDRam_C());
+    }
+
+    public static String getSDRamIVoltage() throws IOException, InterruptedException {
+        return Float.toString(SystemInfo.getMemoryVoltageSDRam_I());
+    }
+
+    public static String getSDRamPVoltage() throws IOException, InterruptedException {
+        return Float.toString(SystemInfo.getMemoryVoltageSDRam_P());
+    }
+
 
 }

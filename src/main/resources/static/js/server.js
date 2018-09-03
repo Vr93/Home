@@ -346,6 +346,57 @@ $(document).ready(function(){
 	});
 };
 
+$(document).ready(function(){
+	   getSDRamCVoltage();
+	});
+
+	function getSDRamCVoltage(){
+	$.ajax({
+		url: "/server/sdramcvoltage",
+		method: "GET",
+		success: function(data) {
+		    $('#server_memoryInfo').append("<p class=\"text-center\"> SD Ram C Voltage: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_memoryInfo').html(e.responseText);
+		}
+	});
+};
+
+$(document).ready(function(){
+	   getSDRamIVoltage();
+	});
+
+	function getSDRamIVoltage(){
+	$.ajax({
+		url: "/server/sdramivoltage",
+		method: "GET",
+		success: function(data) {
+		    $('#server_memoryInfo').append("<p class=\"text-center\"> SD Ram I Voltage: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_memoryInfo').html(e.responseText);
+		}
+	});
+};
+
+$(document).ready(function(){
+	   getSDRamPVoltage();
+	});
+
+	function getSDRamPVoltage(){
+	$.ajax({
+		url: "/server/sdrampvoltage",
+		method: "GET",
+		success: function(data) {
+		    $('#server_memoryInfo').append("<p class=\"text-center\"> SD Ram P Voltage: " + data + "</p>");
+		},
+		error: function(e) {
+		    $('#server_memoryInfo').html(e.responseText);
+		}
+	});
+};
+
 
 
 	$(document).ready(function(){
