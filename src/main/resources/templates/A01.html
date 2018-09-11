@@ -44,10 +44,10 @@
                         <!--<li class="nav-item"><a onclick="openDocument('Pages/mainPage.html')">Home</a></li>
                         <li class="nav-item"><a onclick="openDocument('Pages/device.html')">Device</a></li>-->
                         <li class="nav-item">
-                            <button class="btn btn-secondary" type="button" onclick="openDocument('Pages/mainPage.html')">Home</button>
+                            <button class="btn btn-secondary" type="button" th:href="@{/index}">Home</button>
                         </li>
                         <li class="nav-item">
-                            <button class="btn btn-secondary" type="button" onclick="openDocument('Pages/device.html')">Device</button>
+                            <button class="btn btn-secondary" type="button" th:href="@{/devices}">Devices</button>
                         </li>
                     </ul>
                 </div>

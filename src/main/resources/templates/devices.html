@@ -40,10 +40,10 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="nav-item">
-                            <button class="btn btn-secondary" type="button" onclick="openDocument('Pages/mainPage.html')">Home</button>
+                            <button class="btn btn-secondary" type="button" th:href="@{/index}">Home</button>
                         </li>
                         <li class="nav-item active">
-                            <button class="btn btn-nav-active" type="button" onclick="openDocument('Pages/device.html')">Device</button>
+                            <button class="btn btn-nav-active" type="button" th:href="@{/devices}">Devices</button>
                         </li>
                     </ul>
                 </div>

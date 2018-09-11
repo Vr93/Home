@@ -23,63 +23,43 @@
 
     <!-- Page Content Holder -->
     <div id="content">
-        <div id="mainContent">
-            <div id="mainLogin">
-                <div class="col-sm-6 col-md-4 col-md-offset-4">
-                    <div class="account-wall">
-                        <div id="my-tab-content" class="tab-content">
-                            <div class="tab-pane active" id="login">
-                                <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
-                                     alt="">
-                                <form id="loginForm" class="form-signin" action="" method="">
-                                    <div id="loginFormText"></div>
-                                    <input id="name" type="text" class="form-control" placeholder="Username" required autofocus>
-                                    <input id="password" type="password" class="form-control" placeholder="Password" required>
-                                    <input type="submit" class="btn btn-lg btn-default btn-block" value="Sign In" />
-                                </form>
 
-                            </div>
-                        </div>
-                    </div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand">Device <div id="version"></div></a>
+
+                </div>
+
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="nav-item">
+                            <button class="btn btn-nav-active" type="button" th:href="@{/index}">Home</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn btn-secondary" type="button" th:href="@{/devices}">Devices</button>
+                        </li>
+                    </ul>
                 </div>
             </div>
+        </nav>
+
+        <div id="mainContent">
+
+            <div class="col-lg-4 panel panel-default">
+                <h4 class="text-center"> Hello world </h4>
+            </div>
+
         </div>
     </div>
 <!--</div>-->
-
-<script>
-$( document ).ready(function() {
-
-	// SUBMIT FORM
-    $("#loginForm").submit(function(event) {
-		// Prevent the form from submitting via the browser.
-		event.preventDefault();
-		loginPost();
-	});
-
-
-    function loginPost(){
-    	var formData = {
-    		name : $("#name").val(),
-    		password :  $("#password").val()
-    	}
-    	$.ajax({
-			type : "POST",
-			contentType : "application/json",
-			url : "/index/login",
-			data : JSON.stringify(formData),
-			success : function(result) {
-				$("#doc").load(result);
-			},
-			error : function(e) {
-				$("#loginFormText").html("<p class=\"text-center text-danger\"> Invalid username or password! </p>");
-				$("#password").val("");
-				$("#name").val("")
-			}
-		});
-    }
-})
-</script>
 
 
 

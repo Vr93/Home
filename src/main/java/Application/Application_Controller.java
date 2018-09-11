@@ -16,6 +16,21 @@ public class Application_Controller {
         return "index";
     }
 
+    @RequestMapping(value="/devices",method = RequestMethod.GET)
+    public String devices(){
+        return "devices";
+    }
+
+    @RequestMapping(value="/A01",method = RequestMethod.GET)
+    public String A01(){
+        return "A01";
+    }
+
+    @RequestMapping(value="/server",method = RequestMethod.GET)
+    public String server(){
+        return "Server";
+    }
+
     @RequestMapping(value="/",method = RequestMethod.GET)
     public String index_empty(){
         return "index";
