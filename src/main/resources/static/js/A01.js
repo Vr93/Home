@@ -7,7 +7,7 @@ dataDataBaseInterval();
 dataDay_Temp();
 dataDay_Humidity();
 dataDay_Pressure();
-};
+
 
 function dataDay_Pressure(){
 	$.ajax({
@@ -416,7 +416,7 @@ function dataDataBaseInterval(){
 			console.log(data);
 		}
 	});
-}
+};
 
 $("#database_interval_update").submit(function(event) {
 		// Prevent the form from submitting via the browser.
@@ -442,7 +442,7 @@ function databaseIntervalPost(){
 	            $("#database_interval_update_text").html(e.responseText);
 			}
 		});
-    }
+};
 
 
 function A01_lastValues(){
@@ -522,6 +522,7 @@ function Version_Text(){
 		    $('#version').html(data);
 		}
 	});
+};
 
 
 
