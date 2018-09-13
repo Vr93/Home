@@ -469,7 +469,8 @@ function A01_lastValues(){
 		},
 		error: function(data) {
 			$('#A01_isOnline').empty();
-		    $('#A01_isOnline').html(data.responseText);
+			console.log(data);
+		    $('#A01_isOnline').html(data);
 		}
 	});
 };
