@@ -26,6 +26,11 @@ public class Application_Controller {
         return "A01";
     }
 
+    @RequestMapping(value="/A02",method = RequestMethod.GET)
+    public String A02(){
+        return "A02";
+    }
+
     @RequestMapping(value="/server",method = RequestMethod.GET)
     public String server(){
         return "Server";
