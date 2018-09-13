@@ -3,6 +3,7 @@ package Devices.Com_Master.Model;
 
 import Devices.A01.Model.A01;
 import Devices.A02.Model.A02;
+import Devices.Com_Master.SQL.SerialEvent_SQL;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
@@ -20,6 +21,12 @@ public class SerialHandler {
     public void handleSerialInput(String data){
         try {
             data = "{" + data + "}";
+
+            /* Post the data received to serial event in SQL. */
+            SerialEvent_SQL serialEventSQL = new SerialEvent_SQL();
+            serialEventSQL.insertValuesSerialEvent(data);
+
+            /* Parse the received data to JSON. */
             JsonObject obj = new JsonParser().parse(data).getAsJsonObject();
             /* Check JSON object for ID. */
             if (obj.has("id")) {
