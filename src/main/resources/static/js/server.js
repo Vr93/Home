@@ -1,12 +1,9 @@
 
-    function openDocument(link){
-    $("#doc").load(link);
-    }
-
 
 	$(document).ready(function(){
-	    Version_Text();
-	});
+       	    Version_Text();
+       	    getCPUInformation();
+       	});
 
 	function Version_Text(){
 	$.ajax({
@@ -24,378 +21,39 @@
 	});
 };
 
-
-	$(document).ready(function(){
-	   getServerPlatformName();
-	});
-
-	function getServerPlatformName(){
+function getCPUInformation(){
 	$.ajax({
-		url: "/server/platformname",
+		url: "/server/cpuinformation",
 		method: "GET",
 		success: function(data) {
 		    $('#server_platformName').empty();
-		    $('#server_platformName').html("<p class=\"text-center\"> Platform name: " + data + "</p>");
+		    var sData;
+		    for(var i = 0; i < data.length; i++){
+                if(i > 1){
+                sData = sData + "<p>" + data[i] + "</p>";
+                }
+                else{
+                sData = "<p>" + data[i] + "</p>";
+                }
+		    }
+		    $('#server_platformName').html(sData);
 		},
-		error: function(e) {
+		error: function(data) {
 			$('#server_platformName').empty();
-		    $('#server_platformName').html(e.responseText);
+		    var sData;
+            for(var i = 0; i < data.length; i++){
+                 if(i > 1){
+                 sData = sData + "<p class=\"text-center text-danger\">" + data[i] + "</p>";
+                 }
+                 else{
+                  sData = "<p class=\"text-center text-danger\">" + data[i] + "</p>";
+                 }
+            }
+             $('#server_platformName').html(sData);
 		}
 	});
 };
 
-
-
-	$(document).ready(function(){
-	   getServerSerialNumber();
-	});
-
-	function getServerSerialNumber(){
-	$.ajax({
-		url: "/server/serialnumber",
-		method: "GET",
-		success: function(data) {
-		    $('#server_hardwareInfo').append("<p class=\"text-center\"> Serial number: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_hardwareInfo').html(e.responseText);
-		}
-	});
-};
-
-
-
-
-	$(document).ready(function(){
-	   getServerCPURevision();
-	});
-
-	function getServerCPURevision(){
-	$.ajax({
-		url: "/server/cpurevision",
-		method: "GET",
-		success: function(data) {
-		    $('#server_hardwareInfo').append("<p class=\"text-center\"> CPU Revision: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_hardwareInfo').html(e.responseText);
-		}
-	});
-};
-
-
-
-	$(document).ready(function(){
-	   getServerCPUArchitecture();
-	});
-
-	function getServerCPUArchitecture(){
-	$.ajax({
-		url: "/server/cpuarchitecture",
-		method: "GET",
-		success: function(data) {
-		    $('#server_hardwareInfo').append("<p class=\"text-center\"> CPU Architecture: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_hardwareInfo').html(e.responseText);
-		}
-	});
-};
-
-
-
-	$(document).ready(function(){
-	   getServerCPUPart();
-	});
-
-	function getServerCPUPart(){
-	$.ajax({
-		url: "/server/cpupart",
-		method: "GET",
-		success: function(data) {
-		    $('#server_hardwareInfo').append("<p class=\"text-center\"> CPU Part: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_hardwareInfo').html(e.responseText);
-		}
-	});
-};
-
-
-
-	$(document).ready(function(){
-	   getServerCPUVoltage();
-	});
-
-	function getServerCPUVoltage(){
-	$.ajax({
-		url: "/server/cpuvoltage",
-		method: "GET",
-		success: function(data) {
-		    $('#server_hardwareInfo').append("<p class=\"text-center\"> CPU Voltage: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_hardwareInfo').html(e.responseText);
-		}
-	});
-};
-
-
-
-	$(document).ready(function(){
-	   getModelName();
-	});
-
-	function getModelName(){
-	$.ajax({
-		url: "/server/modelname",
-		method: "GET",
-		success: function(data) {
-		    $('#server_hardwareInfo').append("<p class=\"text-center\"> Model Name: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_hardwareInfo').html(e.responseText);
-		}
-	});
-};
-
-$(document).ready(function(){
-	   getProcessor();
-	});
-
-	function getProcessor(){
-	$.ajax({
-		url: "/server/processor",
-		method: "GET",
-		success: function(data) {
-		    $('#server_hardwareInfo').append("<p class=\"text-center\"> Processor: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_hardwareInfo').html(e.responseText);
-		}
-	});
-};
-
-$(document).ready(function(){
-	   getHardware();
-	});
-
-	function getHardware(){
-	$.ajax({
-		url: "/server/hardware",
-		method: "GET",
-		success: function(data) {
-		    $('#server_hardwareInfo').append("<p class=\"text-center\"> Hardware: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_hardwareInfo').html(e.responseText);
-		}
-	});
-};
-
-$(document).ready(function(){
-	   getHardwareRevision();
-	});
-
-	function getHardwareRevision(){
-	$.ajax({
-		url: "/server/hardwarerevision",
-		method: "GET",
-		success: function(data) {
-		    $('#server_hardwareInfo').append("<p class=\"text-center\"> Hardware Revision: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_hardwareInfo').html(e.responseText);
-		}
-	});
-};
-
-$(document).ready(function(){
-	   isHardFloatABI();
-	});
-
-	function isHardFloatABI(){
-	$.ajax({
-		url: "/server/hardfloatabi",
-		method: "GET",
-		success: function(data) {
-		    $('#server_hardwareInfo').append("<p class=\"text-center\"> Hard Float ABI: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_hardwareInfo').html(e.responseText);
-		}
-	});
-};
-
-$(document).ready(function(){
-	   getBoardType();
-	});
-
-	function getBoardType(){
-	$.ajax({
-		url: "/server/boardtype",
-		method: "GET",
-		success: function(data) {
-		    $('#server_hardwareInfo').append("<p class=\"text-center\"> Board Type: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_hardwareInfo').html(e.responseText);
-		}
-	});
-};
-
-$(document).ready(function(){
-	   getTotalMemory();
-	});
-
-	function getTotalMemory(){
-	$.ajax({
-		url: "/server/totalmemory",
-		method: "GET",
-		success: function(data) {
-		    $('#server_memoryInfo').append("<p class=\"text-center\"> Total Memory: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_memoryInfo').html(e.responseText);
-		}
-	});
-};
-
-$(document).ready(function(){
-	   getUsedMemory();
-	});
-
-	function getUsedMemory(){
-	$.ajax({
-		url: "/server/usedmemory",
-		method: "GET",
-		success: function(data) {
-		    $('#server_memoryInfo').append("<p class=\"text-center\"> Used Memory: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_memoryInfo').html(e.responseText);
-		}
-	});
-};
-
-$(document).ready(function(){
-	   getFreeMemory();
-	});
-
-	function getFreeMemory(){
-	$.ajax({
-		url: "/server/freememory",
-		method: "GET",
-		success: function(data) {
-		    $('#server_memoryInfo').append("<p class=\"text-center\"> Free Memory: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_memoryInfo').html(e.responseText);
-		}
-	});
-};
-
-$(document).ready(function(){
-	   getSharedMemory();
-	});
-
-	function getSharedMemory(){
-	$.ajax({
-		url: "/server/sharedmemory",
-		method: "GET",
-		success: function(data) {
-		    $('#server_memoryInfo').append("<p class=\"text-center\"> Shared Memory: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_memoryInfo').html(e.responseText);
-		}
-	});
-};
-
-$(document).ready(function(){
-	   getMemoryBuffers();
-	});
-
-	function getMemoryBuffers(){
-	$.ajax({
-		url: "/server/memorybuffers",
-		method: "GET",
-		success: function(data) {
-		    $('#server_memoryInfo').append("<p class=\"text-center\"> Memory Buffers: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_memoryInfo').html(e.responseText);
-		}
-	});
-};
-
-$(document).ready(function(){
-	   getMemoryCached();
-	});
-
-	function getMemoryCached(){
-	$.ajax({
-		url: "/server/memorycached",
-		method: "GET",
-		success: function(data) {
-		    $('#server_memoryInfo').append("<p class=\"text-center\"> Memory Cached: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_memoryInfo').html(e.responseText);
-		}
-	});
-};
-
-$(document).ready(function(){
-	   getSDRamCVoltage();
-	});
-
-	function getSDRamCVoltage(){
-	$.ajax({
-		url: "/server/sdramcvoltage",
-		method: "GET",
-		success: function(data) {
-		    $('#server_memoryInfo').append("<p class=\"text-center\"> SD Ram C Voltage: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_memoryInfo').html(e.responseText);
-		}
-	});
-};
-
-$(document).ready(function(){
-	   getSDRamIVoltage();
-	});
-
-	function getSDRamIVoltage(){
-	$.ajax({
-		url: "/server/sdramivoltage",
-		method: "GET",
-		success: function(data) {
-		    $('#server_memoryInfo').append("<p class=\"text-center\"> SD Ram I Voltage: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_memoryInfo').html(e.responseText);
-		}
-	});
-};
-
-$(document).ready(function(){
-	   getSDRamPVoltage();
-	});
-
-	function getSDRamPVoltage(){
-	$.ajax({
-		url: "/server/sdrampvoltage",
-		method: "GET",
-		success: function(data) {
-		    $('#server_memoryInfo').append("<p class=\"text-center\"> SD Ram P Voltage: " + data + "</p>");
-		},
-		error: function(e) {
-		    $('#server_memoryInfo').html(e.responseText);
-		}
-	});
-};
 
 
 
