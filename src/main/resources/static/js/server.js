@@ -2,7 +2,8 @@
 
 	$(document).ready(function(){
        	    Version_Text();
-       	    getCPUInformation();
+       	    //getCPUInformation();
+       	    getStorage();
        	});
 
 	function Version_Text(){
@@ -54,12 +55,97 @@ function getCPUInformation(){
 	});
 };
 
+function getStorage(){
+	$.ajax({
+		url: "/server/storage",
+		method: "GET",
+		success: function(data) {
+		    $('#server_memoryInfo').empty();
+
+		    var filePlace = [];
+		    var oneMBlocks = [];
+		    var used = [];
+		    var available = [];
+		    var usePercentage = [];
+		    var mountedOn = [];
+		    if(data.length > 0){
+		    var headers = data[0].split(",");
+		    filePlace.push(headers[0]);
+		    oneMBlocks.push(headers[1]);
+		    used.push(headers[2]);
+		    available.push(headers[3]);
+		    usePercentage.push(headers[4]);
+		    mountedOn.push(headers[5]);
+		    }
+		    for(var i = 1; i < data.length; i++){
+		    var dataSplit = data[i].split(",");
+		     filePlace.push(dataSplit[0]);
+             oneMBlocks.push(dataSplit[1]);
+             used.push(dataSplit[2]);
+             available.push(dataSplit[3]);
+             usePercentage.push(dataSplit[4]);
+             mountedOn.push(dataSplit[5]);
+		    }
+            var tableValues = [
+                          filePlace,
+                          oneMBlocks,
+                          used,
+                          available,
+                          usePercentage,
+                          mountedOn]
+
+                    var tableData = [{
+                      type: 'table',
+                      header: {
+                        values: [
+                        ["Filesystem"],
+                        ["1M-blocks"],
+                        ["Used"],
+                        ["Available"],
+                        ["Use(%)"],
+                        ["Monted On"]
+                        ],
+                        align: "center",
+                        line: {width: 1, color: 'black'},
+                        fill: {color: "grey"},
+                        font: {family: "Arial", size: 12, color: "white"}
+                      },
+                      cells: {
+                        values: tableValues,
+                        align: "center",
+                        line: {color: "black", width: 1},
+                        font: {family: "Arial", size: 11, color: ["black"]}
+                      }
+                    }]
+                    $('#server_memoryInfo').empty();
+                    Plotly.plot('server_memoryInfo', tableData);
+
+                //$('#server_memoryInfo').append("<p>" + data[i] + "</p>");
+
+
+		},
+		error: function(data) {
+			$('#server_memoryInfo').empty();
+		    var sData;
+            for(var i = 0; i < data.length; i++){
+                 if(i > 1){
+                 sData = sData + "<p class=\"text-center text-danger\">" + data[i] + "</p>";
+                 }
+                 else{
+                  sData = "<p class=\"text-center text-danger\">" + data[i] + "</p>";
+                 }
+            }
+             $('#server_memoryInfo').html(sData);
+		}
+	});
+};
+
 
 
 
 	$(document).ready(function(){
-	   getServerFanRunning();
-	   setInterval(getServerFanRunning, 1000);
+	   //getServerFanRunning();
+	   //setInterval(getServerFanRunning, 1000);
 	});
 
 	function getServerFanRunning(){
@@ -88,8 +174,8 @@ function getCPUInformation(){
 
 
 	$(document).ready(function(){
-	   getServerCPUTemp();
-	   setInterval(getServerCPUTemp, 1000);
+	   //getServerCPUTemp();
+	   //setInterval(getServerCPUTemp, 1000);
 	});
 	function getServerCPUTemp(){
      $.ajax({
@@ -111,7 +197,7 @@ function getCPUInformation(){
 
 
 	$(document).ready(function(){
-	   getServerFanSetpoint();
+	  // getServerFanSetpoint();
 	});
 
 	function getServerFanSetpoint(){

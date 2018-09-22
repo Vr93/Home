@@ -16,19 +16,18 @@ public class ServerController {
     @RequestMapping(value="/server/cputemperature", method = RequestMethod.GET)
     @ResponseBody
     public String getCPUTemperature() {
-        String retVal;
-        try {
-            retVal = Float.toString(ServerInformation.getServerCPUTemperature());
-        }
-        catch(IOException | InterruptedException ex){
-            retVal = "Error, could not get CPU Temp!";
-        }
-        return retVal;
+            return ServerInformation.getServerCPUTemperature();
     }
 
     @RequestMapping(value="/server/cpuinformation", method = RequestMethod.GET)
     @ResponseBody
     public String[] getCPUInformation() {
         return ServerInformation.getServerInformation();
+    }
+
+    @RequestMapping(value="/server/storage", method = RequestMethod.GET)
+    @ResponseBody
+    public String[] getStorage() {
+        return ServerInformation.getServerStorage();
     }
 }
