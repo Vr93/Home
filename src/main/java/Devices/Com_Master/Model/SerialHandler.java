@@ -34,11 +34,11 @@ public class SerialHandler {
                 System.out.println("id is: " + id);
                 /* A01, Outdoor Weather Station. */
                 if (id.contains("A01")) {
-                    A01_Data(obj);
+                   // A01_Data(obj);
                 }
                 /* A02, Indoor monitoring station. */
                 if (id.contains("A02")) {
-                    A02_Data(obj);
+                   // A02_Data(obj);
                 }
                 /* For new devices, add it here..*/
                 else if (id.equalsIgnoreCase("newdevice...")) {
