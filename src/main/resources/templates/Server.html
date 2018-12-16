@@ -248,8 +248,8 @@ function getStorage(){
 
 
 	$(document).ready(function(){
-	   //getServerFanRunning();
-	   //setInterval(getServerFanRunning, 1000);
+	   getServerFanRunning();
+	   setInterval(getServerFanRunning, 1000);
 	});
 
 	function getServerFanRunning(){
@@ -278,8 +278,8 @@ function getStorage(){
 
 
 	$(document).ready(function(){
-	   //getServerCPUTemp();
-	   //setInterval(getServerCPUTemp, 1000);
+	   getServerCPUTemp();
+	   setInterval(getServerCPUTemp, 1000);
 	});
 	function getServerCPUTemp(){
      $.ajax({
@@ -301,7 +301,7 @@ function getStorage(){
 
 
 	$(document).ready(function(){
-	  // getServerFanSetpoint();
+	   getServerFanSetpoint();
 	});
 
 	function getServerFanSetpoint(){

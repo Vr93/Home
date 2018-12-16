@@ -17,8 +17,7 @@ public class FanController {
     @RequestMapping(value="/serverFan/output", method = RequestMethod.GET)
     @ResponseBody
     public String getFanState() {
-       // return String.valueOf(fanHandler.getFanState());
-        return "FAN NOT WORKING";
+        return String.valueOf(fanHandler.getFanState());
     }
 
     @RequestMapping(value="/serverFan/setpoint", method = RequestMethod.GET)
@@ -51,7 +50,7 @@ public class FanController {
 
                 /* Try to update value for server fan in SQL. */
                 if (fanHandler.setSetpoint(value)) {
-                    String data = "<p class=\"text-center text-success\"> Value changed to " + valueString + " minutes! </p>";
+                    String data = "<p class=\"text-center text-success\"> Value changed to " + valueString + " °C! </p>";
                     return new ResponseEntity<>(data, HttpStatus.OK);
                 } else {
                     String data = "<p class=\"text-center text-danger\"> Error, could not update value! </p>";
@@ -59,7 +58,7 @@ public class FanController {
                 }
             }
             else{
-                String data = "<p class=\"text-center text-danger\"> Error, Value most be between 35 and 60! </p>";
+                String data = "<p class=\"text-center text-danger\"> Error, Value most be between 35°C and 60°C! </p>";
                 return new ResponseEntity<>(data, HttpStatus.CONFLICT);
             }
         }

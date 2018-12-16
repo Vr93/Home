@@ -1,6 +1,7 @@
 package Server.Model;
 
 
+import GPIO.GPIO_DO;
 import Server.SQL.Fan_SQL;
 import org.springframework.stereotype.Service;
 
@@ -8,13 +9,13 @@ import java.io.IOException;
 
 @Service
 public class FanHandler {
-  //  private Digital_Output fan;
+    private GPIO_DO fan;
     private Fan_SQL fanSQL;
 
     public FanHandler() {
-       // this.fan = new Digital_Output(1);
+        this.fan = new GPIO_DO(1);
         this.fanSQL = new Fan_SQL();
-        //startFan();
+        startFan();
     }
 
 
@@ -28,10 +29,10 @@ public class FanHandler {
                         Thread.sleep(1000*30);
                         float serverTemperature = Float.parseFloat(ServerInformation.getServerCPUTemperature());
                         if(serverTemperature > getSetpoint()){
-                           // fan.setPinHIGH();
+                            fan.setPinHIGH();
                         }
                         else{
-                            //fan.setPinLow();
+                            fan.setPinLow();
                         }
 
                     }
@@ -45,9 +46,9 @@ public class FanHandler {
         t.start();
     }
 
-    /*public boolean getFanState(){
+    public boolean getFanState(){
         return fan.getState();
-    }*/
+    }
 
     private Fan_SQL getFanSQL(){
         return this.fanSQL;
@@ -62,7 +63,7 @@ public class FanHandler {
     }
 
     public boolean setSetpoint(float setpoint) {
-        boolean updateSQL = getFanSQL().updateSetpointSQL(setpoint);
+        boolean updateSQL = getFanSQL().insertValuesServerFan(setpoint);
         return updateSQL;
     }
 

@@ -8,7 +8,7 @@ public class ServerInformation {
 
     public static String getServerCPUTemperature(){
         ArrayList<String> tempArrList = Shell.doShellCommand("cat /sys/class/thermal/thermal_zone0/temp");
-        float value = Float.parseFloat(tempArrList.get(1)) / 1000;
+        float value = Float.parseFloat(tempArrList.get(tempArrList.size() - 1)) / 1000;
         return String.valueOf(value);
     }
 
