@@ -11,6 +11,7 @@ import java.io.IOException;
 public class FanHandler {
     private GPIO_DO fan;
     private Fan_SQL fanSQL;
+    private boolean fanIsRunning;
 
     public FanHandler() {
         this.fan = new GPIO_DO(1);
@@ -30,9 +31,12 @@ public class FanHandler {
                         float serverTemperature = Float.parseFloat(ServerInformation.getServerCPUTemperature());
                         if(serverTemperature > getSetpoint()){
                             fan.setPinHIGH();
+                            setFanIsRunning(true);
                         }
                         else{
                             fan.setPinLow();
+                            setFanIsRunning(false);
+
                         }
 
                     }
@@ -46,9 +50,6 @@ public class FanHandler {
         t.start();
     }
 
-    public boolean getFanState(){
-        return fan.getState();
-    }
 
     private Fan_SQL getFanSQL(){
         return this.fanSQL;
@@ -67,5 +68,11 @@ public class FanHandler {
         return updateSQL;
     }
 
+    public boolean isFanIsRunning() {
+        return fanIsRunning;
+    }
 
+    public void setFanIsRunning(boolean fanIsRunning) {
+        this.fanIsRunning = fanIsRunning;
+    }
 }

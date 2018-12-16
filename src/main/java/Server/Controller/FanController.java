@@ -17,7 +17,7 @@ public class FanController {
     @RequestMapping(value="/serverFan/output", method = RequestMethod.GET)
     @ResponseBody
     public String getFanState() {
-        return String.valueOf(fanHandler.getFanState());
+        return String.valueOf(fanHandler.isFanIsRunning());
     }
 
     @RequestMapping(value="/serverFan/setpoint", method = RequestMethod.GET)

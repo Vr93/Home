@@ -58,9 +58,6 @@ public class GPIO_DO {
         }
     }
 
-    public boolean getState(){
-        return getPin().getState().isHigh();
-    }
 
     /**
      * Returns the pin as object for the raspberry pi GPIO.

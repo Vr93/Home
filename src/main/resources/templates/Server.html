@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Home - Sikthaugen</title>
+    <title>Home</title>
 
 
     <script src="jquery/jquery-3.3.1.js"></script>
@@ -34,15 +34,9 @@
             </div>
         </nav>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <h3 class="text-center"> Home - Server</h3>
-                </div>
-            </div>
-
         <div class="row my-3">
 
-            <div class="col-sm-4 offset-sm-1 card">
+            <div class="col-lg-5 offset-sm-1 card">
                 <div class="card-header">
                     <h3 class="text-center"> Platform information</h3>
                 </div>
@@ -50,7 +44,21 @@
                 <div id="server_platformName"></div>
             </div>
 
-            <div class="col-sm-4 offset-sm-1 card">
+            <div class="col-lg-5 card">
+                <div class="card-header">
+                    <h3 class="text-center"> Memory Information</h3>
+                </div>
+                <div class="line"></div>
+                <div id="server_memoryInfo"></div>
+            </div>
+
+
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6 offset-sm-3 card">
                 <div class="card-header">
                     <h3 class="text-center"> Cooling fan</h3>
                 </div>
@@ -64,17 +72,6 @@
                     <input id="serverFan_setpoint_update_value" type="text" class="form-control" placeholder="Setpoint value....">
                     <input type="submit" class="btn btn-lg btn-default btn-block" value="Update" />
                 </form>
-            </div>
-
-        </div>
-
-        <div class="row">
-            <div class="col-sm-8 offset-sm-2 panel card">
-                <div class="card-header">
-                    <h3 class="text-center"> Memory Information</h3>
-                </div>
-                    <div class="line"></div>
-                <div id="server_memoryInfo"></div>
             </div>
         </div>
 
@@ -232,14 +229,15 @@ function getStorage(){
 		url: "/serverFan/output",
 		method: "GET",
 		success: function(data) {
+		console.log(data);
 		    $('#serverFan_running').empty();
 		    if(data == "true"){
 		    $('#serverFan_running').empty();
-		    $('#serverFan_running').html("<img src=\"/image/fan_icon_on.png\" class=\"img-responsive center-block\">");
+		    $('#serverFan_running').html("<img src=\"/image/fan_icon_on.png\" class=\"img-responsive mx-auto d-block\">");
 		    }
 		    else{
 		    $('#serverFan_running').empty();
-		    $('#serverFan_running').html("<img src=\"/image/fan_icon_off.png\" class=\"img-responsive center-block\">");
+		    $('#serverFan_running').html("<img src=\"/image/fan_icon_off.png\" class=\"img-responsive mx-auto d-block\">");
 		    }
 
 		},
