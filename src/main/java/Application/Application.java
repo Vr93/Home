@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan("Application")
 @ComponentScan("Devices")
 @ComponentScan("Server")
+@ComponentScan("Event")
 public class Application {
 
     public static void main(String[] args) {

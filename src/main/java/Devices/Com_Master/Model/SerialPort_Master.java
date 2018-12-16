@@ -9,9 +9,10 @@ import java.io.IOException;
 @Service
 public class SerialPort_Master {
     private Serial serial;
-    //private SerialHandler serialHandler;
+    private SerialReceiveHandler serialHandler;
 
     public SerialPort_Master() {
+        this.serialHandler = new SerialReceiveHandler();
         this.serial = SerialFactory.createInstance();
         //this.serialHandler = new SerialHandler();
         System.out.println("Starting serial!");
@@ -63,8 +64,7 @@ public class SerialPort_Master {
                 try {
                     //System.out.println("Serial Receive: " + event.getHexByteString());
                     System.out.println("Serial Receive: " + event.getAsciiString());
-
-                    //serialHandler.handleSerialInput(event.getAsciiString());
+                    serialHandler.handleSerialInput(event.getAsciiString());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
