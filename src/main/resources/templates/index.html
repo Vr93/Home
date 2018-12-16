@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Home - Sikthaugen</title>
+    <title>Home</title>
 
     <!-- Bootstrap CSS CDN -->
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
@@ -43,7 +43,6 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="nav-item btn-nav-active"><a th:href="@{/index}">Home</a></li>
-                        <li class="nav-item"><a th:href="@{/devices}">Devices</a></li>
                         <li class="nav-item"><a th:href="@{/server}">Server</a></li>
                     </ul>
                 </div>
@@ -53,19 +52,6 @@
         <div id="mainContent">
 
             <div class="row">
-                <div class="col-sm-4 col-sm-offset-1 panel panel-default">
-                    <h4 class="text-center"> Outdoor weather station</h4>
-                    <div class="line"></div>
-                    <div id="A01_lastValues"></div>
-                    <div id="A01_isOnline"></div>
-                </div>
-                <div class="col-sm-4 col-sm-offset-1 panel panel-default">
-                    <h4 class="text-center"> Indoor monitoring station</h4>
-                    <div class="line"></div>
-                    <div id="A02_lastValues"></div>
-                    <div id="A02_isOnline"></div>
-                </div>
-
                 <div class="col-sm-4 col-sm-offset-1 panel panel-default">
                     <h4> Events </h4>
                     <div class="line"></div>

@@ -7,44 +7,28 @@
 
     <title>Home - Sikthaugen</title>
 
-    <!-- Bootstrap CSS CDN -->
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
-    <script src="jquery/jquery.js"></script>
-    <link href="bootstrap/css/bootstrap.min-3.3.7.css" rel="stylesheet">
 
-    <!-- Our Custom CSS -->
+    <script src="jquery/jquery.js"></script>
+    <link href="bootstrap-4.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/home.css">
     <script src="js/plotly.js"></script>
 </head>
 <body>
 
-
-
-<!--<div class="wrapper">-->
-
-    <!-- Page Content Holder -->
-    <div id="content">
-
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand">Home - Server <div id="version"></div></a>
-
-                </div>
-
-
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item"><a th:href="@{/index}">Home</a></li>
-                        <li class="nav-item"><a th:href="@{/devices}">Devices</a></li>
-                    </ul>
-                </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{/index}">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/server}">Server</a>
+                    </li>
+                </ul>
             </div>
         </nav>
 
@@ -56,18 +40,18 @@
 
         <div class="row my-3">
 
-            <div class="col-sm-4 col-sm-offset-1 panel panel-default">
-                <h3 class="text-center"> Platform information</h3>
+            <div class="col-sm-4 offset-sm-1 card">
+                <div class="card-header">
+                    <h3 class="text-center"> Platform information</h3>
+                </div>
                 <div class="line"></div>
                 <div id="server_platformName"></div>
-                <h3 class="text-center"> Hardware information</h3>
-                <div class="line"></div>
-                <div id="serverFan_cpuTempInfo"></div>
-                <div id="server_hardwareInfo"></div>
             </div>
 
-            <div class="col-sm-4 col-sm-offset-1 panel panel-default">
-                <h3 class="text-center"> Cooling fan</h3>
+            <div class="col-sm-4 offset-sm-1 card">
+                <div class="card-header">
+                    <h3 class="text-center"> Cooling fan</h3>
+                </div>
                 <div class="line"></div>
                 <div id="serverFan_running"></div>
                 <div id="serverFan_setpoint"></div>
@@ -83,28 +67,19 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-8 col-sm-offset-2 panel panel-default">
-                <h3 class="text-center"> Memory Information</h3>
-                <div class="line"></div>
+            <div class="col-sm-8 offset-sm-2 panel card">
+                <div class="card-header">
+                    <h3 class="text-center"> Memory Information</h3>
+                </div>
+                    <div class="line"></div>
                 <div id="server_memoryInfo"></div>
             </div>
         </div>
 
 
-        <footer>
-            <div id="footer_text"></div>
-        </footer>
 
 
-    </div> <!-- Page Content Holder -->
-<!--</div>-->
 
-<style>
-    .col-centered{
-    float: none;
-    margin: 0 auto;
-}
-</style>
 
 
 <script>
@@ -224,8 +199,6 @@ function getStorage(){
                     $('#server_memoryInfo').empty();
                     Plotly.plot('server_memoryInfo', tableData);
 
-                //$('#server_memoryInfo').append("<p>" + data[i] + "</p>");
-
 
 		},
 		error: function(data) {
@@ -288,8 +261,6 @@ function getStorage(){
      success: function(data) {
      $('#serverFan_cpuTemp').empty();
      $('#serverFan_cpuTemp').html("<h4 class=\"text-center\"> CPU temperature: " + data + " °C</h4>");
-     $('#serverFan_cpuTempInfo').empty();
-     $('#serverFan_cpuTempInfo').html("<p class=\"text-center\"> CPU temperature: " + data + " °C</p>");
      },
      error: function(e) {
      $('#serverFan_cpuTemp').empty();
