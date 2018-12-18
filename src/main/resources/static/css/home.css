@@ -1,4 +1,9 @@
 
+html,
+body {
+	background: #34495e;
+	width: 100%;
+}
 
 .line {
     width: 100%;
@@ -6,5 +11,8 @@
     border-bottom: 1px dashed #ddd;
     margin: 10px 0;
 }
+
+
+
 
 

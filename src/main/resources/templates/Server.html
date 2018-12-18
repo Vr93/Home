@@ -17,9 +17,9 @@
 </head>
 <body>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!--<nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">Home</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -32,47 +32,94 @@
                     </li>
                 </ul>
             </div>
+        </nav>-->
+
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Left</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="//codeply.com">Codeply</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="mx-auto order-0">
+                <a class="navbar-brand mx-auto">
+                    <img src="/image/home_logo.png" width="100" height="50" alt="logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Right</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                </ul>
+            </div>
         </nav>
 
-        <div class="row my-3">
 
-            <div class="col-lg-5 offset-sm-1 card">
-                <div class="card-header">
-                    <h3 class="text-center"> Platform information</h3>
+
+        <div class="row">
+
+            <div class="col-lg-5 offset-lg-1 my-3">
+                <div class="card mx-2">
+                    <div class="card-header">
+                        <h3 class="text-center"> Platform information</h3>
+                    </div>
+                    <div class="line"></div>
+                    <div id="server_platformName"></div>
                 </div>
-                <div class="line"></div>
-                <div id="server_platformName"></div>
             </div>
 
-            <div class="col-lg-5 card">
-                <div class="card-header">
-                    <h3 class="text-center"> Memory Information</h3>
+            <div class="col-lg-5 my-3">
+                <div class="card mx-2">
+                    <div class="card-header">
+                        <h3 class="text-center"> Memory Information</h3>
+                    </div>
+                    <div class="line"></div>
+                    <div class="mx-auto" id="server_memoryInfo"></div>
                 </div>
-                <div class="line"></div>
-                <div id="server_memoryInfo"></div>
             </div>
-
-
-
 
         </div>
 
-        <div class="row">
-            <div class="col-sm-6 offset-sm-3 card">
-                <div class="card-header">
-                    <h3 class="text-center"> Cooling fan</h3>
+        <div class="row my-3">
+
+            <div class="col-md-6 offset-md-3">
+                <div class="card mx-2">
+                    <div class="card-header">
+                        <h3 class="text-center"> Cooling fan</h3>
+                    </div>
+                        <div class="line"></div>
+                        <div id="serverFan_running"></div>
+                        <div id="serverFan_setpoint"></div>
+                        <div id="serverFan_cpuTemp"></div>
+                        <div class="line"></div>
+                        <form class="mx-3" id="serverFan_setpoint_update" action="" method="">
+                            <div id="serverFan_setpoint_update_text"></div>
+                            <input id="serverFan_setpoint_update_value" type="text" class="form-control" placeholder="Setpoint value....">
+                            <input type="submit" class="btn btn-lg btn-default btn-block" value="Update" />
+                        </form>
                 </div>
-                <div class="line"></div>
-                <div id="serverFan_running"></div>
-                <div id="serverFan_setpoint"></div>
-                <div id="serverFan_cpuTemp"></div>
-                <div class="line"></div>
-                <form id="serverFan_setpoint_update" class="form-signin" action="" method="">
-                    <div id="serverFan_setpoint_update_text"></div>
-                    <input id="serverFan_setpoint_update_value" type="text" class="form-control" placeholder="Setpoint value....">
-                    <input type="submit" class="btn btn-lg btn-default btn-block" value="Update" />
-                </form>
             </div>
+
         </div>
 
 
@@ -196,7 +243,7 @@ function getStorage(){
                       }
                     }]
                     $('#server_memoryInfo').empty();
-                    Plotly.plot('server_memoryInfo', tableData);
+                    Plotly.newPlot('server_memoryInfo', tableData,{responsive: true});
 
 
 		},
