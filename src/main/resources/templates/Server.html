@@ -17,6 +17,7 @@
 
 </head>
 <body>
+<div class="container-fluid">
 
         <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
             <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
@@ -62,28 +63,29 @@
 
         <div class="row">
 
-            <div class="col-md-5 offset-md-1 pre-scrollable">
-                <div class="scrollbar">
-                    <div class="force-overflow">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="text-center"> Platform information</h3>
+            <div class="col-md-5 offset-md-1">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center"> Platform information</h3>
+                    </div>
+                    <div class="card-body pre-scrollable">
+                        <div class="scrollbar">
+                            <div class="force-overflow">
+                                <div id="server_platformName"></div>
                             </div>
-                            <div class="line"></div>
-                            <div id="server_platformName"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-5 pre-scrollable">
-                <div class="scrollbar">
-                    <div class="force-overflow">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="text-center"> Memory Information</h3>
-                            </div>
-                            <div class="card-body">
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center"> Memory Information</h3>
+                    </div>
+                    <div class="card-body pre-scrollable">
+                        <div class="scrollbar">
+                            <div class="force-overflow">
                                 <div class="mx-auto" id="server_memoryInfo"></div>
                             </div>
                         </div>
@@ -100,18 +102,21 @@
                     <div class="card-header">
                         <h3 class="text-center"> Cooling fan</h3>
                     </div>
-                        <div class="line"></div>
+                    <div class="card-body mt-2">
                         <div id="serverFan_running"></div>
                         <div id="serverFan_setpoint"></div>
                         <div id="serverFan_cpuTemp"></div>
-                        <div class="line"></div>
-                        <form class="mx-3" id="serverFan_setpoint_update" action="" method="">
-                            <div id="serverFan_setpoint_update_text"></div>
-                            <input id="serverFan_setpoint_update_value" type="text" class="form-control" placeholder="Setpoint value....">
-                            <input type="submit" class="btn btn-lg btn-default btn-block" value="Update" />
-                        </form>
+                            <form  id="serverFan_setpoint_update" class="text-center" action="" method="">
+                                <div id="serverFan_setpoint_update_text"></div>
+                                <input id="serverFan_setpoint_update_value" type="text" class="mb-1" placeholder="Setpoint value....">
+                                <input type="submit" class="btn btn-primary mb-1" value="Update" />
+                            </form>
+                    </div>
                 </div>
             </div>
+        </div>
+
+</div> <!-- Container -->
 
 
 

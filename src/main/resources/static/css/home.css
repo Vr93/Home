@@ -3,6 +3,7 @@ html,
 body {
 	background: #A9A9A9;
 	padding-top: 50px;
+	max-width: 100%;
 }
 
 @media screen and (max-width: 768px) {
