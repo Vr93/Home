@@ -15,7 +15,7 @@ public class TT_Model {
 
     public TT_Model(){
         devices = new ArrayList<>();
-        setUpDevices();
+
     }
 
     /**
@@ -48,23 +48,7 @@ public class TT_Model {
 
     }
 
-    /**
-     * When starting the application, set up the configuration needed for all devices.
-     */
-    private void setUpDevices(){
-        TT_Database database = new TT_Database();
-        int deviceNumbers[] = database.getDevices();
-        /* Iterate the list fetched from the database. This holds an array with maximum length of 128 */
-        for(int i = 0; i < deviceNumbers.length; i++){
 
-            if(deviceNumbers[i] != 0){
-                addDevice(deviceNumbers[i]);
-            }
-
-            if(deviceNumbers[i] == 0) break;    /* 0 is reserved. */
-        }
-
-    }
 
     /**
      * Adds a TT device to the list.

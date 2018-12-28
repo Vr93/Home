@@ -28,9 +28,7 @@
                     <li class="nav-item active">
                         <a class="nav-link" th:href="@{/server}">Server</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
+                    <div id="temperatureNavBar"></div>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Link</a>
                     </li>
@@ -120,7 +118,31 @@
 
 
 
+<script>
 
+function temperaturDevice(value){
+console.log(value);
+}
+
+
+    temperature_navbar();
+
+
+	function temperature_navbar(){
+	$.ajax({
+		url: "/navbar/temperature/devices",
+		method: "GET",
+		success: function(data) {
+		    $('#temperatureNavBar').html(data);
+		    console.log(data);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+};
+
+</script>
 
 
 <script>

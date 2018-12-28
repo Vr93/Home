@@ -1,7 +1,10 @@
 package Devices.TT.Database;
 
 
+import com.google.gson.JsonObject;
+
 import java.sql.*;
+import java.util.ArrayList;
 
 public class TT_Database {
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -69,12 +72,13 @@ public class TT_Database {
         }//end try
     }
 
+
     /**
-     * Returns the device number configuration stored in database. Used at startup of the application.
-     * @return DeviceNumbers
+     * Returns the name and device configuration stored in database.
+     * @return ArrayList<JsonObject>
      */
-    public int[] getDevices() {
-        int[] deviceNumbers = new int[128];
+    public ArrayList<JsonObject> getDevices() {
+        ArrayList<JsonObject> list = new ArrayList<>();
         try {
             //STEP 2: Register JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
@@ -84,26 +88,19 @@ public class TT_Database {
 
             //STEP 4: Execute a query
             stmt = conn.createStatement();
-            String sql = "select device from TT_config";
+            String sql = "select * from TT_config";
             ResultSet rs = stmt.executeQuery(sql);
 
             //STEP 5: Extract data from result set
-            int num = 0;
             while (rs.next()) {
                 //Retrieve by column name
-                boolean deviceAlreadyExists = false;
+                JsonObject obj = new JsonObject();
                 int device = rs.getInt("device");
-                for(int i = 0; i < deviceNumbers.length; i++){
-                    if(device == deviceNumbers[i]){
-                        deviceAlreadyExists = true;
-                        break;
-                    }
-                }
-                if(!deviceAlreadyExists) {
-                    deviceNumbers[num] = device;
-                }
-                num++;
-                if(num > 127) break;
+                String name = rs.getString("name");
+                obj.addProperty("device",device);
+                obj.addProperty("name",name);
+                list.add(obj);
+
             }
             //STEP 6: Clean-up environment
             rs.close();
@@ -131,7 +128,7 @@ public class TT_Database {
                 se.printStackTrace();
             }//end finally try
         }//end try
-        return deviceNumbers;
+        return list;
     }
 
 
