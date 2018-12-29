@@ -38,7 +38,7 @@ public class TT_Controller {
                     int device = obj.get("device").getAsInt();
                     /* Create a dropdown item for each element in the database. */
                     navbar = navbar + "<a class=\"dropdown-item\"";
-                    navbar = navbar + "onclick=\"temperaturDevice(" + device + ")\">" + name + "</a >";
+                    navbar = navbar + "onclick=\"temperaturDevice('" + name + "'," + device + ")\">" + name + "</a >";
                 }
                 catch (NumberFormatException ex){
                     ex.printStackTrace();
