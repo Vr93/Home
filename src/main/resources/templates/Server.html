@@ -126,17 +126,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="pre-scrollable">
+                    <!--<div class="pre-scrollable">
                         <div class="scrollbar">
-                            <div class="force-overflow">
-                                <div id="temperaturModal_Graph" class="row col-lg-12"></div>
-                            </div>
-                        </div>
+                            <div class="force-overflow">-->
+                    <div class="col-12">
+                                <div width="100%" height="500" id="temperaturModal_Graph"></div>
                     </div>
+                    <!--</div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+            </div>-->
                 </div>
             </div>
         </div>
@@ -152,6 +150,81 @@ function temperaturDevice(name,value){
 console.log(value);
 $('#temperatureModalTitle').html("<h5>" + name + "</h5>");
 $('#temperatureModal').modal('show')
+
+TT_Data(value,30);
+
+
+function TT_Data(value,intervalDays){
+    	var formData = {
+    		id : value,
+    		dayInterval : intervalDays,
+    	}
+    	$.ajax({
+			type : "POST",
+			contentType : "application/json",
+			url : "/TT/data",
+			data : JSON.stringify(formData),
+			success : function(result) {
+                 var time = [];
+			     var pressure = [];
+			     var temperature = [];
+			     var humidity = [];
+			     var voltage = [];
+			     for(var i = 0; i < result.length; i++){
+                    var obj = JSON.parse(result[i]);
+                    pressure[i] = obj.pressure/100.0;
+                    temperature[i] = obj.temperature;
+                    humidity[i] = obj.humidity;
+                    voltage[i] = obj.voltage;
+                    console.log(obj.timestamp);
+                    time[i] = obj.timestamp.substring(0,obj.timestamp.length - 2);
+                }
+                var trace_pressure = {
+                  x: time,
+                  y: pressure,
+                  name: 'Pressure (Bar)',
+                  type: 'scatter'
+                };
+                var trace_temperature = {
+                  x: time,
+                  y: temperature,
+                  name: 'Temperature (°C)',
+                  type: 'scatter'
+                };
+                var trace_humidity = {
+                  x: time,
+                  y: humidity,
+                  name: 'Humidity (%)',
+                  type: 'scatter'
+                };
+                 var trace_voltage = {
+                  x: time,
+                  y: voltage,
+                  name: 'Voltage (VDC)',
+                  type: 'scatter'
+                };
+                var data = [trace_pressure, trace_temperature, trace_humidity, trace_voltage];
+                var layout = {
+                xaxis: {
+                title: 'time',
+                titlefont: {
+                  family: 'Courier New, monospace',
+                  size: 18,
+                  color: '#7f7f7f'
+                    }
+                   },
+            };
+                Plotly.newPlot('temperaturModal_Graph', data, layout, {responsive: true});
+			},
+			error : function(e) {
+			console.log(e);
+	            $("#temperaturModal_Graph").html(e.responseText);
+			}
+		});
+};
+
+
+
 }
 
 
@@ -165,7 +238,6 @@ function temperature_navbar(){
 		method: "GET",
 		success: function(data) {
 		    $('#temperatureNavBar').html(data);
-		    console.log(data);
 		},
 		error: function(data) {
 			console.log(data);

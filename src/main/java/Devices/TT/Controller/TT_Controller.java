@@ -2,10 +2,10 @@ package Devices.TT.Controller;
 
 import Devices.TT.Database.TT_Database;
 import com.google.gson.JsonObject;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -49,6 +49,36 @@ public class TT_Controller {
         navbar = navbar + "</div> </li>";
 
         return navbar;
+    }
+
+    /**
+     * Returns the data for the given device from database.
+     * @param input, JSON Object, "id" the device id, "dayInterval" how many days to go back for data
+     * @return String[], each string is an JSON object.
+     */
+    @PostMapping(path="/TT/data")
+    public ResponseEntity<?> TT_data(@RequestBody(required = true) String input) {
+        try{
+            /* Get input and turn this String to JSON */
+            JSONObject inputJson = new JSONObject(input);
+            /* Parse JSON from client, and fetch id and interval time. */
+            System.out.println(input);
+            int deviceId = inputJson.getInt("id");
+            int howManyDays = inputJson.getInt("dayInterval");
+            /* Get the data from database for given device and the interval of how many days to go back for data. */
+            TT_Database sql = new TT_Database();
+            ArrayList<String> list = sql.selectDataTT(deviceId,howManyDays);
+            /* Iterate the values fetched from database, each string is an json object. */
+            String[] data = new String[list.size()];
+            for(int i = 0; i < list.size(); i++){
+                data[i] = list.get(i);
+            }
+            return new ResponseEntity<>(data, HttpStatus.OK);
+        }
+        catch (NumberFormatException ex){
+            String data = "<p class=\"text-center text-danger\"> Error, could not load data! </p>";
+            return new ResponseEntity<>(data, HttpStatus.CONFLICT);
+        }
     }
 
 
