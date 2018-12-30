@@ -4,7 +4,9 @@ package Devices.TT.Database;
 import com.google.gson.JsonObject;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TT_Database {
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -197,6 +199,72 @@ public class TT_Database {
 
         }//end try
         return arrayList;
+    }
+
+
+    /**
+     * Returns the newest date a given device has data in the database.
+     * @param deviceID, the device number.
+     * @return DateInString, date formatted as string, yyyy-mm-dd.
+     */
+    public String selectNewestDate(int deviceID) {
+        String dateInString = "";
+
+        try {
+            //STEP 2: Register JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
+
+            //STEP 3: Open a connection
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            //STEP 4: Execute a query
+            stmt = conn.createStatement();
+            String sql;
+            sql = "select timestamp from TT WHERE `device`='" +deviceID  + "' ORDER BY timestamp DESC LIMIT 1";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            //STEP 5: Extract data from result set
+
+            while (rs.next()) {
+               String timestamp = rs.getString("timestamp");
+               SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+               Date date = dateFormat.parse(timestamp);
+               dateInString = date.toString();
+            }
+            //STEP 6: Clean-up environment
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        } finally {
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException se2) {
+            }// nothing we can do
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+
+        }//end try
+        /* Check whether the return value is empty before sending, if it is. Set it to current date. */
+        if(dateInString.equalsIgnoreCase("")){
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+            Date date = new Date();
+            dateInString = date.toString();
+        }
+        return dateInString;
     }
 
 
