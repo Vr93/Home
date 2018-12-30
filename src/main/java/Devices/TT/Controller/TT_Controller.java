@@ -62,7 +62,6 @@ public class TT_Controller {
             /* Get input and turn this String to JSON */
             JSONObject inputJson = new JSONObject(input);
             /* Parse JSON from client, and fetch id and interval time. */
-            System.out.println(input);
             int deviceId = inputJson.getInt("id");
             int howManyDays = inputJson.getInt("dayInterval");
             /* Get the data from database for given device and the interval of how many days to go back for data. */
