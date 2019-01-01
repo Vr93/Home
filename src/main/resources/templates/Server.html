@@ -282,15 +282,9 @@ function TT_Data(deviceId){
                 };
                 var data = [trace_pressure, trace_temperature, trace_humidity, trace_voltage];
                 var layout = {
-                xaxis: {
-                title: 'time',
-                titlefont: {
-                  family: 'Courier New, monospace',
-                  size: 18,
-                  color: '#7f7f7f'
-                    }
-                   },
-            };
+                showlegend: true,
+                 legend: {"orientation": "h", x: 0, y: 1.2}
+                };
                 Plotly.newPlot('temperaturModal_Graph', data, layout, {responsive: true});
 			},
 			error : function(e) {
