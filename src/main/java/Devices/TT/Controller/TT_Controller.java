@@ -80,5 +80,28 @@ public class TT_Controller {
         }
     }
 
+    /**
+     * Returns the min and max dates for given device for all data in the database.
+     * @param input, input as json object, device id is required.
+     * @return String[], min and max date, date formatted as string, yyyy-mm-dd.
+     */
+    @PostMapping(path="/TT/date/minmax")
+    public ResponseEntity<?> TT_data_minmax(@RequestBody(required = true) String input) {
+        try{
+            /* Get input and turn this String to JSON */
+            JSONObject inputJson = new JSONObject(input);
+            /* Parse JSON from client, and fetch device id. */
+            int deviceId = inputJson.getInt("id");
+            /* Get the min and max date for all data for the given device. */
+            TT_Database sql = new TT_Database();
+            String[] data = sql.selectMinMaxDate(deviceId);
+            return new ResponseEntity<>(data, HttpStatus.OK);
+        }
+        catch (NumberFormatException ex){
+            String data = "<p class=\"text-center text-danger\"> Error, could not load data! </p>";
+            return new ResponseEntity<>(data, HttpStatus.CONFLICT);
+        }
+    }
+
 
 }

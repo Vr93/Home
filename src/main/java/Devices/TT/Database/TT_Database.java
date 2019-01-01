@@ -2,6 +2,7 @@ package Devices.TT.Database;
 
 
 import com.google.gson.JsonObject;
+import org.joda.time.DateTime;
 
 import java.sql.*;
 import java.util.*;
@@ -203,12 +204,14 @@ public class TT_Database {
 
 
     /**
-     * Returns the newest date a given device has data in the database.
+     * Returns the min and max dates for a given device for all data in the database.
      * @param deviceID, the device number.
-     * @return DateInString, date formatted as string, yyyy-mm-dd.
+     * @return DateInString (String array [2]), date formatted as string, yyyy-mm-dd.
      */
-    public String selectNewestDate(int deviceID) {
-        String dateInString = "";
+    public String[] selectMinMaxDate(int deviceID) {
+        String[] dates = new String[2];
+        dates[0] = "";
+        dates[1] = "";
 
         try {
             //STEP 2: Register JDBC driver
@@ -220,16 +223,22 @@ public class TT_Database {
             //STEP 4: Execute a query
             stmt = conn.createStatement();
             String sql;
-            sql = "select timestamp from TT WHERE `device`='" +deviceID  + "' ORDER BY timestamp DESC LIMIT 1";
+            sql = "Select min(timestamp),max(timestamp) from TT WHERE `device`='" +deviceID  + "'";
             ResultSet rs = stmt.executeQuery(sql);
 
             //STEP 5: Extract data from result set
 
             while (rs.next()) {
-               String timestamp = rs.getString("timestamp");
-               SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-               Date date = dateFormat.parse(timestamp);
-               dateInString = date.toString();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+                String sDateMin = rs.getString("min(timestamp)");
+                String sDateMax = rs.getString("max(timestamp)");
+                System.out.println("min: " + sDateMax + "  max: " + sDateMax);
+                if(sDateMin != null && sDateMax != null) {
+                    Date dateMin = sdf.parse(sDateMin);
+                    dates[0] = sdf.format(dateMin);
+                    Date dateMax = sdf.parse(sDateMax);
+                    dates[1] = sdf.format(dateMax);
+                }
             }
             //STEP 6: Clean-up environment
             rs.close();
@@ -258,13 +267,19 @@ public class TT_Database {
             }//end finally try
 
         }//end try
-        /* Check whether the return value is empty before sending, if it is. Set it to current date. */
-        if(dateInString.equalsIgnoreCase("")){
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-            Date date = new Date();
-            dateInString = date.toString();
+
+        /* Check if the data is received from the database. In cases where there is no data in the database, values are null.
+            if this is the case, fill the data with todays date.
+         */
+        for(int i = 0; i < dates.length; i++){
+            if(dates[i].equalsIgnoreCase("")){
+                DateTime dt = new DateTime();
+                dates[i] = String.valueOf(dt.getYear()) + "-" + String.valueOf(dt.getMonthOfYear()) + "-" + String.valueOf(dt.getDayOfMonth());
+                System.out.println(dates[i]);
+            }
         }
-        return dateInString;
+
+        return dates;
     }
 
 

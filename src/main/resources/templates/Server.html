@@ -130,15 +130,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="col-6">
-                            <label for="tt_datepicker_from">From:</label>
-                            <input id="tt_datepicker_from" width="234" />
-                        </div>
-                        <div class="col-6">
-                        <label for="tt_datepicker_to">To:</label>
-                        <input id="tt_datepicker_to" width="234" />
-                        </div>
+                    <div id="tt_datepicker" class="row">
+
                     </div>
 
                     <!--<div class="pre-scrollable">
@@ -163,61 +156,81 @@
 <!-- Javascript for Temperature devices -->
 <script>
 
-function temperaturDevice(name,value){
-$('#temperatureModalTitle').html("<h2> Temperature - " + name + "</h2>");
-$('#temperatureModal').modal('show')
+function temperaturDevice(name,deviceId){
+    $('#temperatureModalTitle').html("<h2> Temperature - " + name + "</h2>");
+    $('#temperatureModal').modal('show')
 
-TT_Data(value,30);
 
-var today = new Date();
-var dd = today.getDate();
-var mm = today.getMonth()+1; //January is 0!
-var yyyy = today.getFullYear();
-if(dd<10) {
-    dd = '0'+dd
+
+    TT_Data_min_max(deviceId);
+    TT_Data(deviceId,30);
 }
-if(mm<10) {
-    mm = '0'+mm
-}
-today = yyyy + '-' + mm + '-' + dd;
 
-$('#tt_datepicker_from').datepicker({
-            format: 'yyyy-mm-dd',
-            value: String(today),
-            //minDate: '2018-12-12',
-            //maxDate: '2018-12-16',
-            uiLibrary: 'bootstrap4'
-        });
-
-$('#tt_datepicker_from').change(function() {
-    /* Check if the date in from is above to. If this is the case, set the 'to' date same as 'from'. */
-        var from_date = new Date($('#tt_datepicker_from').val());
-        var to_date = new Date($('#tt_datepicker_to').val());
-     if( from_date.getTime() > to_date.getTime() ){
-        $('#tt_datepicker_to').val(String($('#tt_datepicker_from').val()));
-     }
-});
-
-$('#tt_datepicker_to').datepicker({
-            format: 'yyyy-mm-dd',
-            value: String(today),
-           // minDate: '2018-12-12',
-            //maxDate: '2018-12-16',
-            uiLibrary: 'bootstrap4'
-        });
-
-$('#tt_datepicker_to').change(function() {
-     /* Check if the date in 'to' is less than 'from'. If this is the case, set the 'from' date same as 'to'. */
-        var from_date = new Date($('#tt_datepicker_from').val());
-        var to_date = new Date($('#tt_datepicker_to').val());
-     if( to_date.getTime() < from_date.getTime() ){
-        $('#tt_datepicker_from').val(String($('#tt_datepicker_to').val()));
-     }
-});
-
-function TT_Data(value,intervalDays){
+function TT_Data_min_max(deviceId){
     	var formData = {
-    		id : value,
+    		id : deviceId,
+    	}
+    	$.ajax({
+			type : "POST",
+			contentType : "application/json",
+			url : "/TT/date/minmax",
+			data : JSON.stringify(formData),
+			success : function(result) {
+			console.log(result);
+			    $('#tt_datepicker').empty();
+
+               $('#tt_datepicker').append("<div class=\"col-6\"><label for=\"tt_datepicker_from\">From:</label><input id=\"tt_datepicker_from\" width=\"234\" /></div>");
+
+               $('#tt_datepicker_from').datepicker({
+                    format: 'yyyy-mm-dd',
+                    value: String(result[1]),
+                    minDate: String(result[0]),
+                    maxDate: String(result[1]),
+                    uiLibrary: 'bootstrap4'
+                });
+
+                $('#tt_datepicker_from').change(function() {
+                    /* Check if the date in from is above to. If this is the case, set the 'to' date same as 'from'. */
+                        var from_date = new Date($('#tt_datepicker_from').val());
+                        var to_date = new Date($('#tt_datepicker_to').val());
+                     if( from_date.getTime() > to_date.getTime() ){
+                        $('#tt_datepicker_to').val(String($('#tt_datepicker_from').val()));
+                     }
+                });
+
+
+                var tt2 = "<div class=\"col-6\"><label for=\"tt_datepicker_to\">To:</label> <input id=\"tt_datepicker_to\" width=\"234\" /></div>"
+               $('#tt_datepicker').append(tt2);
+
+               $('#tt_datepicker_to').datepicker({
+                    format: 'yyyy-mm-dd',
+                    value: String(result[1]),
+                    minDate: String(result[0]),
+                    maxDate: String(result[1]),
+                    uiLibrary: 'bootstrap4'
+                });
+
+                $('#tt_datepicker_to').change(function() {
+                     /* Check if the date in 'to' is less than 'from'. If this is the case, set the 'from' date same as 'to'. */
+                        var from_date = new Date($('#tt_datepicker_from').val());
+                        var to_date = new Date($('#tt_datepicker_to').val());
+                     if( to_date.getTime() < from_date.getTime() ){
+                        $('#tt_datepicker_from').val(String($('#tt_datepicker_to').val()));
+                     }
+                });
+
+			},
+			error : function(e) {
+
+			}
+		});
+}; <!-- function TT_Data_min_max -->
+
+
+
+function TT_Data(deviceId,intervalDays){
+    	var formData = {
+    		id : deviceId,
     		dayInterval : intervalDays,
     	}
     	$.ajax({
@@ -233,7 +246,7 @@ function TT_Data(value,intervalDays){
 			     var voltage = [];
 			     for(var i = 0; i < result.length; i++){
                     var obj = JSON.parse(result[i]);
-                    pressure[i] = obj.pressure/100.0;
+                    pressure[i] = obj.pressure/1000.0;
                     temperature[i] = obj.temperature;
                     humidity[i] = obj.humidity;
                     voltage[i] = obj.voltage;
@@ -281,8 +294,8 @@ function TT_Data(value,intervalDays){
 	            $("#temperaturModal_Graph").html(e.responseText);
 			}
 		});
-    };
-}<!-- function TT_Data -->
+}; <!-- function TT_Data -->
+
 
 
 
