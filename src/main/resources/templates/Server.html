@@ -130,9 +130,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div id="tt_datepicker" class="row">
+                        <div id="tt_datepicker" class="row">
+                        </div>
 
-                    </div>
 
                     <!--<div class="pre-scrollable">
                         <div class="scrollbar">
@@ -157,7 +157,9 @@
 <script>
 
 function temperaturDevice(name,deviceId){
-    $('#temperatureModalTitle').html("<h2> Temperature - " + name + "</h2>");
+    $('#temperatureModalTitle').empty();
+    $('#temperatureModalTitle').append("<h2> Temperature - " + name + "</h2>");
+    $('#temperatureModalTitle').append("<h5> ID: " + deviceId + "</h5>");
     $('#temperatureModal').modal('show')
 
     TT_Data_min_max(deviceId);
@@ -176,7 +178,7 @@ function TT_Data_min_max(deviceId){
 			success : function(result) {
 			    $('#tt_datepicker').empty();
 
-               $('#tt_datepicker').append("<div class=\"col-4\"><label for=\"tt_datepicker_from\">From:</label><input id=\"tt_datepicker_from\" width=\"234\" /></div>");
+               $('#tt_datepicker').append("<div class=\"col-4\"><label for=\"tt_datepicker_from\">From:</label><input class=\"w-75 mx-auto\" id=\"tt_datepicker_from\" /></div>");
 
                $('#tt_datepicker_from').datepicker({
                     format: 'yyyy-mm-dd',
@@ -196,7 +198,7 @@ function TT_Data_min_max(deviceId){
                 });
 
 
-                var tt2 = "<div class=\"col-4\"><label for=\"tt_datepicker_to\">To:</label> <input id=\"tt_datepicker_to\" width=\"234\" /></div>"
+                var tt2 = "<div class=\"col-4\"><label for=\"tt_datepicker_to\">To:</label> <input class=\"w-75 mx-auto\" id=\"tt_datepicker_to\" /></div>"
                $('#tt_datepicker').append(tt2);
 
                $('#tt_datepicker_to').datepicker({
@@ -216,7 +218,7 @@ function TT_Data_min_max(deviceId){
                      }
                 });
 
-                var tt_btn = "<div class=\"col-4\"><button onclick=\TT_Data(" + deviceId + ") type=\"button\" class=\"btn btn-primary\">Update</button></div>"
+                var tt_btn = "<div class=\"col-4 text-center my-auto\"><button onclick=\TT_Data(" + deviceId + ") type=\"button\" class=\"btn btn-primary w-75\">Update</button></div>"
                $('#tt_datepicker').append(tt_btn);
 
                TT_Data(deviceId,30);
