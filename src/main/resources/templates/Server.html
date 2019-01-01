@@ -160,10 +160,8 @@ function temperaturDevice(name,deviceId){
     $('#temperatureModalTitle').html("<h2> Temperature - " + name + "</h2>");
     $('#temperatureModal').modal('show')
 
-
-
     TT_Data_min_max(deviceId);
-    TT_Data(deviceId,30);
+
 }
 
 function TT_Data_min_max(deviceId){
@@ -176,10 +174,9 @@ function TT_Data_min_max(deviceId){
 			url : "/TT/date/minmax",
 			data : JSON.stringify(formData),
 			success : function(result) {
-			console.log(result);
 			    $('#tt_datepicker').empty();
 
-               $('#tt_datepicker').append("<div class=\"col-6\"><label for=\"tt_datepicker_from\">From:</label><input id=\"tt_datepicker_from\" width=\"234\" /></div>");
+               $('#tt_datepicker').append("<div class=\"col-4\"><label for=\"tt_datepicker_from\">From:</label><input id=\"tt_datepicker_from\" width=\"234\" /></div>");
 
                $('#tt_datepicker_from').datepicker({
                     format: 'yyyy-mm-dd',
@@ -199,7 +196,7 @@ function TT_Data_min_max(deviceId){
                 });
 
 
-                var tt2 = "<div class=\"col-6\"><label for=\"tt_datepicker_to\">To:</label> <input id=\"tt_datepicker_to\" width=\"234\" /></div>"
+                var tt2 = "<div class=\"col-4\"><label for=\"tt_datepicker_to\">To:</label> <input id=\"tt_datepicker_to\" width=\"234\" /></div>"
                $('#tt_datepicker').append(tt2);
 
                $('#tt_datepicker_to').datepicker({
@@ -219,6 +216,11 @@ function TT_Data_min_max(deviceId){
                      }
                 });
 
+                var tt_btn = "<div class=\"col-4\"><button onclick=\TT_Data(" + deviceId + ") type=\"button\" class=\"btn btn-primary\">Update</button></div>"
+               $('#tt_datepicker').append(tt_btn);
+
+               TT_Data(deviceId,30);
+
 			},
 			error : function(e) {
 
@@ -228,11 +230,13 @@ function TT_Data_min_max(deviceId){
 
 
 
-function TT_Data(deviceId,intervalDays){
+function TT_Data(deviceId){
     	var formData = {
     		id : deviceId,
-    		dayInterval : intervalDays,
+    		dateFrom : String($('#tt_datepicker_from').val()),
+    		dateTo: String($('#tt_datepicker_to').val()),
     	}
+
     	$.ajax({
 			type : "POST",
 			contentType : "application/json",

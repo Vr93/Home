@@ -53,7 +53,7 @@ public class TT_Controller {
 
     /**
      * Returns the data for the given device from database.
-     * @param input, JSON Object, "id" the device id, "dayInterval" how many days to go back for data
+     * @param input, JSON Object, "id" the device id, "dateFrom" and "dateTo", as format yyyy-mm-dd.
      * @return String[], each string is an JSON object.
      */
     @PostMapping(path="/TT/data")
@@ -63,10 +63,11 @@ public class TT_Controller {
             JSONObject inputJson = new JSONObject(input);
             /* Parse JSON from client, and fetch id and interval time. */
             int deviceId = inputJson.getInt("id");
-            int howManyDays = inputJson.getInt("dayInterval");
+            String dateFrom = inputJson.getString("dateFrom");
+            String dateTo = inputJson.getString("dateTo");
             /* Get the data from database for given device and the interval of how many days to go back for data. */
             TT_Database sql = new TT_Database();
-            ArrayList<String> list = sql.selectDataTT(deviceId,howManyDays);
+            ArrayList<String> list = sql.selectDataTT(deviceId,dateFrom,dateTo);
             /* Iterate the values fetched from database, each string is an json object. */
             String[] data = new String[list.size()];
             for(int i = 0; i < list.size(); i++){

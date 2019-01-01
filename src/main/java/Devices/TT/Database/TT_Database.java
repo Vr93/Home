@@ -137,10 +137,11 @@ public class TT_Database {
     /**
      * Returns all data for the given device within the time limit input.
      * @param deviceID, the number of the device.
-     * @param howManyDays, how many days back in time to fetch data.
-     * @return
+     * @param dateFrom, start date for the data, in format yyyy-mm-dd.
+     * @param dateTo, end date for the data, in format yyyy-mm-dd.
+     * @return ArrayList<String>, each string is an json object with data.
      */
-    public ArrayList<String> selectDataTT(int deviceID, int howManyDays) {
+    public ArrayList<String> selectDataTT(int deviceID, String dateFrom, String dateTo) {
         ArrayList<String> arrayList = new ArrayList<>();
         try {
             //STEP 2: Register JDBC driver
@@ -152,8 +153,8 @@ public class TT_Database {
             //STEP 4: Execute a query
             stmt = conn.createStatement();
             String sql;
-            sql = "select * from TT WHERE `device`='" + deviceID + "' AND `timestamp` >= DATE_SUB(CURDATE(), INTERVAL "
-                    + howManyDays + " DAY)";
+            sql = "select * from TT WHERE `device`='" + deviceID + "' AND date(timestamp) between date('"
+                    + dateFrom + "') and date('" + dateTo + "')";
             ResultSet rs = stmt.executeQuery(sql);
 
             //STEP 5: Extract data from result set
@@ -232,7 +233,6 @@ public class TT_Database {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
                 String sDateMin = rs.getString("min(timestamp)");
                 String sDateMax = rs.getString("max(timestamp)");
-                System.out.println("min: " + sDateMax + "  max: " + sDateMax);
                 if(sDateMin != null && sDateMax != null) {
                     Date dateMin = sdf.parse(sDateMin);
                     dates[0] = sdf.format(dateMin);
@@ -275,7 +275,6 @@ public class TT_Database {
             if(dates[i].equalsIgnoreCase("")){
                 DateTime dt = new DateTime();
                 dates[i] = String.valueOf(dt.getYear()) + "-" + String.valueOf(dt.getMonthOfYear()) + "-" + String.valueOf(dt.getDayOfMonth());
-                System.out.println(dates[i]);
             }
         }
 
