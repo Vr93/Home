@@ -129,7 +129,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div id="temperaturModal_Graph_Window" style="max-height:100%" class="modal-body">
                         <div id="tt_datepicker" class="row">
                         </div>
                         <div class="row">
@@ -277,7 +277,20 @@ function TT_Data(deviceId){
                   type: 'scatter'
                 };
                 var data = [trace_pressure, trace_temperature, trace_humidity, trace_voltage];
+                // Height and width for mobile devices.
+                var height;
+                var width;
+                if(window.innerWidth < 768){
+                 width = 0.8 * $('#temperatureModal').width();
+                 height = 0.8 * $('#temperaturModal_Graph_Window').height();
+                }
+                else{
+                 width = 1 * $('#temperaturModal_Graph_Window').width();
+                 height = 0.85 * $('#temperaturModal_Graph_Window').height();
+                }
                 var layout = {
+                 width: width,
+                 height: height,
                 showlegend: true,
                  legend: {"orientation": "h", x: 0, y: 1.2}
                 };
@@ -287,9 +300,16 @@ function TT_Data(deviceId){
                      $('#temperaturModal_Graph').html("<img src=\"image/nodatafound.png\" class=\"img-fluid mx-auto d-block\" >");
                 }
                 else{
-                    $('#temperaturModal_Graph').empty();
-                    Plotly.newPlot('temperaturModal_Graph', data, layout, {responsive: true});
-                }
+                 $('#temperaturModal_Graph').empty();
+                    var myDiv = document.getElementById('temperaturModal_Graph')
+                    Plotly.newPlot(myDiv, data, layout);
+                    window.onresize = function() {
+                      Plotly.relayout(myDiv, {
+                        width: 1 * $('#temperaturModal_Graph_Window').width(),
+                        height: 0.85 * $('#temperaturModal_Graph_Window').height()
+                      })
+                    }
+                  }
 
 			},
 			error : function(e) {
