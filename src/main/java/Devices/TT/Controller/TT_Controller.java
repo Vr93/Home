@@ -2,12 +2,18 @@ package Devices.TT.Controller;
 
 import Devices.TT.Database.TT_Database;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+import org.joda.time.DateTime;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 @RestController
 public class TT_Controller {
@@ -76,6 +82,30 @@ public class TT_Controller {
             return new ResponseEntity<>(data, HttpStatus.OK);
         }
         catch (NumberFormatException ex){
+            String data = "<p class=\"text-center text-danger\"> Error, could not load data! </p>";
+            return new ResponseEntity<>(data, HttpStatus.CONFLICT);
+        }
+    }
+
+    /**
+     * Returns the latest data for the given device from database.
+     * @param input, JSON Object, "id" the device id.
+     * @return String, string is an JSON object.
+     */
+    @PostMapping(path="/TT/data/latest")
+    public ResponseEntity<?> TT_data_Latest(@RequestBody(required = true) String input) {
+        try{
+            /* Get input and turn this String to JSON */
+            JSONObject inputJson = new JSONObject(input);
+            /* Parse JSON from client, and fetch id and interval time. */
+            int deviceId = inputJson.getInt("id");
+            /* Get the data from database for given device and the interval of how many days to go back for data. */
+            TT_Database sql = new TT_Database();
+            String jsonObj = sql.selectDataTTLatest(deviceId);
+
+            return new ResponseEntity<>(jsonObj, HttpStatus.OK);
+        }
+        catch (NumberFormatException | JsonSyntaxException ex){
             String data = "<p class=\"text-center text-danger\"> Error, could not load data! </p>";
             return new ResponseEntity<>(data, HttpStatus.CONFLICT);
         }

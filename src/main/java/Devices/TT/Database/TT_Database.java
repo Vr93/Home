@@ -3,6 +3,7 @@ package Devices.TT.Database;
 
 import com.google.gson.JsonObject;
 import org.joda.time.DateTime;
+import org.json.JSONObject;
 
 import java.sql.*;
 import java.util.*;
@@ -201,6 +202,83 @@ public class TT_Database {
 
         }//end try
         return arrayList;
+    }
+
+    /**
+     * Returns the latest data for the given device.
+     * @param deviceID, the number of the device.
+     * @return String, each string is an json object with data.
+     */
+    public String selectDataTTLatest(int deviceID) {
+        String data = "";
+        try {
+            //STEP 2: Register JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
+
+            //STEP 3: Open a connection
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            //STEP 4: Execute a query
+            stmt = conn.createStatement();
+            String sql;
+            sql = "select * from TT WHERE timestamp=(SELECT MAX(timestamp) FROM TT WHERE `device`='"+ deviceID +"')";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            //STEP 5: Extract data from result set
+
+            while (rs.next()) {
+                JsonObject obj = new JsonObject();
+                float temperature = rs.getFloat("temperature");
+                obj.addProperty("temperature",temperature);
+                float humidity = rs.getFloat("humidity");
+                obj.addProperty("humidity",humidity);
+                float pressure = rs.getFloat("pressure");
+                obj.addProperty("pressure",pressure);
+                float voltage = rs.getFloat("voltage");
+                obj.addProperty("voltage",voltage);
+                String timestamp = rs.getString("timestamp");
+                obj.addProperty("timestamp",timestamp);
+                 /* Get the timestamp and create text color from it. If the latest value in SQL is more than 1 hour old, notify
+                    that the device is offline */
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+                    Date sqlTimeStamp = dateFormat.parse(timestamp);
+                    Date currentTimestamp = new Date();
+                    /* Set the currentTimestamp and subtract one hour. */
+                    currentTimestamp.setTime(currentTimestamp.getTime() - 60*60*1000);
+                    if(sqlTimeStamp.before(currentTimestamp)){
+                        obj.addProperty("online",false);
+                    }
+                    else{
+                        obj.addProperty("online",true);
+                    }
+
+                data = obj.toString();
+            }
+            //STEP 6: Clean-up environment
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (Exception se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } finally {
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException se2) {
+            }// nothing we can do
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+
+        }//end try
+        return data;
     }
 
 
