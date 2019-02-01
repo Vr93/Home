@@ -16,21 +16,6 @@ public class Application_Controller {
         return "index";
     }
 
-    @RequestMapping(value="/devices",method = RequestMethod.GET)
-    public String devices(){
-        return "devices";
-    }
-
-    @RequestMapping(value="/A01",method = RequestMethod.GET)
-    public String A01(){
-        return "A01";
-    }
-
-    @RequestMapping(value="/A02",method = RequestMethod.GET)
-    public String A02(){
-        return "A02";
-    }
-
     @RequestMapping(value="/server",method = RequestMethod.GET)
     public String server(){
         return "Server";
