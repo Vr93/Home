@@ -14,7 +14,7 @@ public class FanHandler {
     private boolean fanIsRunning;
 
     public FanHandler() {
-        this.fan = new GPIO_DO(1);
+        this.fan = new GPIO_DO(26);
         this.fanSQL = new Fan_SQL();
         startFan();
     }
