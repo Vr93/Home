@@ -12,10 +12,12 @@ public class FanHandler {
     private GPIO_DO fan;
     private Fan_SQL fanSQL;
     private boolean fanIsRunning;
+    private AverageFilter averageFilter;
 
     public FanHandler() {
         this.fan = new GPIO_DO(26);
         this.fanSQL = new Fan_SQL();
+        this.averageFilter = new AverageFilter(60);
         startFan();
     }
 
@@ -27,18 +29,19 @@ public class FanHandler {
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(1000*30);
-                        float serverTemperature = Float.parseFloat(ServerInformation.getServerCPUTemperature());
-                        if(serverTemperature > getSetpoint()){
+                        Thread.sleep(1000);
+                        getAverageFilter().insertValue(Float.parseFloat(ServerInformation.getServerCPUTemperature()));
+                        float averageValue = getAverageFilter().getAverageValue();
+                        /* If average temperature is above setpoint, start fan. */
+                        if(averageValue > getSetpoint()){
                             fan.setPinHIGH();
                             setFanIsRunning(true);
                         }
-                        else{
+                        /* If average temperature is below setpoint and a threshold for hysteresis, stop fan. */
+                        if(averageValue < getSetpoint() - 2.0f) {
                             fan.setPinLow();
                             setFanIsRunning(false);
-
                         }
-
                     }
                     catch(Exception ex){
                         ex.printStackTrace();
@@ -75,4 +78,10 @@ public class FanHandler {
     public void setFanIsRunning(boolean fanIsRunning) {
         this.fanIsRunning = fanIsRunning;
     }
+
+    public AverageFilter getAverageFilter() {
+        return averageFilter;
+    }
+
+
 }

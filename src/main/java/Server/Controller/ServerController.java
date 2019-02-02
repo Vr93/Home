@@ -12,12 +12,6 @@ public class ServerController {
     @Autowired
     private SystemLED systemLED;
 
-    @RequestMapping(value="/server/cputemperature", method = RequestMethod.GET)
-    @ResponseBody
-    public String getCPUTemperature() {
-            return ServerInformation.getServerCPUTemperature();
-    }
-
     @RequestMapping(value="/server/cpuinformation", method = RequestMethod.GET)
     @ResponseBody
     public String[] getCPUInformation() {

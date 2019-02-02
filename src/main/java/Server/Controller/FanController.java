@@ -1,6 +1,7 @@
 package Server.Controller;
 
 import Server.Model.FanHandler;
+import Server.Model.ServerInformation;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,14 @@ public class FanController {
 
     @Autowired
     private FanHandler fanHandler;
+
+    @RequestMapping(value="/server/cputemperature", method = RequestMethod.GET)
+    @ResponseBody
+    public String getCPUTemperature() {
+        /* Limit the float value to only one decimals. */
+        float value =  Math.round(fanHandler.getAverageFilter().getAverageValue()*10.0f)/10.0f;
+        return String.valueOf(value);
+    }
 
     @RequestMapping(value="/serverFan/output", method = RequestMethod.GET)
     @ResponseBody
