@@ -212,7 +212,7 @@ function TT_Data_min_max(deviceId){
                      }
                 });
 
-                var tt_btn = "<div class=\"col-4 text-center my-auto\"><button onclick=\TT_Data(" + deviceId + ") type=\"button\" class=\"btn btn-primary w-75\">Update</button></div>"
+                var tt_btn = "<div class=\"col-4 text-center my-auto\"><button onclick=\TT_Data('" + deviceId + "') type=\"button\" class=\"btn btn-primary w-75\">Update</button></div>"
                $('#tt_datepicker').append(tt_btn);
 
                TT_Data_Latest(deviceId);
