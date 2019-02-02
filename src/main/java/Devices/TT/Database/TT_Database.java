@@ -26,13 +26,13 @@ public class TT_Database {
 
     /**
      * Insert values into database for TT-devices.
-     * @param device
+     * @param uid
      * @param temperature
      * @param humidity
      * @param pressure
      * @param voltage
      */
-    public void insertValues(int device, float temperature, float humidity, float pressure, float voltage) {
+    public void insertValues(String uid, float temperature, float humidity, float pressure, float voltage) {
 
         try {
             //STEP 2: Register JDBC driver
@@ -42,9 +42,9 @@ public class TT_Database {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
             //STEP 4: Execute a query
-            String query = "INSERT INTO TT (device,temperature,humidity,pressure,voltage) VALUES (?,?,?,?,?)";
+            String query = "INSERT INTO TT (uid,temperature,humidity,pressure,voltage) VALUES (?,?,?,?,?)";
             PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setInt (1, device);
+            preparedStmt.setString (1, uid);
             preparedStmt.setFloat (2, temperature);
             preparedStmt.setFloat (3, humidity);
             preparedStmt.setFloat (4, pressure);
@@ -78,7 +78,7 @@ public class TT_Database {
 
 
     /**
-     * Returns the name and device configuration stored in database.
+     * Returns the name and device UID configuration stored in database.
      * @return ArrayList<JsonObject>
      */
     public ArrayList<JsonObject> getDevices() {
@@ -99,9 +99,9 @@ public class TT_Database {
             while (rs.next()) {
                 //Retrieve by column name
                 JsonObject obj = new JsonObject();
-                int device = rs.getInt("device");
+                String uid = rs.getString("uid");
                 String name = rs.getString("name");
-                obj.addProperty("device",device);
+                obj.addProperty("uid",uid);
                 obj.addProperty("name",name);
                 list.add(obj);
 
@@ -137,12 +137,12 @@ public class TT_Database {
 
     /**
      * Returns all data for the given device within the time limit input.
-     * @param deviceID, the number of the device.
+     * @param uid, the UID number of the device.
      * @param dateFrom, start date for the data, in format yyyy-mm-dd.
      * @param dateTo, end date for the data, in format yyyy-mm-dd.
      * @return ArrayList<String>, each string is an json object with data.
      */
-    public ArrayList<String> selectDataTT(int deviceID, String dateFrom, String dateTo) {
+    public ArrayList<String> selectDataTT(String uid, String dateFrom, String dateTo) {
         ArrayList<String> arrayList = new ArrayList<>();
         try {
             //STEP 2: Register JDBC driver
@@ -154,7 +154,7 @@ public class TT_Database {
             //STEP 4: Execute a query
             stmt = conn.createStatement();
             String sql;
-            sql = "select * from TT WHERE `device`='" + deviceID + "' AND date(timestamp) between date('"
+            sql = "select * from TT WHERE `uid`='\"" + uid + "\"' AND date(timestamp) between date('"
                     + dateFrom + "') and date('" + dateTo + "')";
             ResultSet rs = stmt.executeQuery(sql);
 
@@ -206,10 +206,10 @@ public class TT_Database {
 
     /**
      * Returns the latest data for the given device.
-     * @param deviceID, the number of the device.
+     * @param uid, the uid number of the device.
      * @return String, each string is an json object with data.
      */
-    public String selectDataTTLatest(int deviceID) {
+    public String selectDataTTLatest(String uid) {
         String data = "";
         try {
             //STEP 2: Register JDBC driver
@@ -221,7 +221,7 @@ public class TT_Database {
             //STEP 4: Execute a query
             stmt = conn.createStatement();
             String sql;
-            sql = "select * from TT WHERE timestamp=(SELECT MAX(timestamp) FROM TT WHERE `device`='"+ deviceID +"')";
+            sql = "select * from TT WHERE timestamp=(SELECT MAX(timestamp) FROM TT WHERE `uid`='\""+ uid +"\"')";
             ResultSet rs = stmt.executeQuery(sql);
 
             //STEP 5: Extract data from result set
@@ -284,10 +284,10 @@ public class TT_Database {
 
     /**
      * Returns the min and max dates for a given device for all data in the database.
-     * @param deviceID, the device number.
+     * @param uid, the uid device number.
      * @return DateInString (String array [2]), date formatted as string, yyyy-mm-dd.
      */
-    public String[] selectMinMaxDate(int deviceID) {
+    public String[] selectMinMaxDate(String uid) {
         String[] dates = new String[2];
         dates[0] = "";
         dates[1] = "";
@@ -302,7 +302,7 @@ public class TT_Database {
             //STEP 4: Execute a query
             stmt = conn.createStatement();
             String sql;
-            sql = "Select min(timestamp),max(timestamp) from TT WHERE `device`='" +deviceID  + "'";
+            sql = "Select min(timestamp),max(timestamp) from TT WHERE `uid`='\"" +uid  + "\"'";
             ResultSet rs = stmt.executeQuery(sql);
 
             //STEP 5: Extract data from result set

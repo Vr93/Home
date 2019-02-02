@@ -23,9 +23,9 @@ public class TT_Model {
         TT_Database sql = new TT_Database();
         ArrayList<JsonObject> devices = sql.getDevices();
         for(JsonObject obj: devices){
-            if(obj.has("device")){
-                int device = Integer.valueOf(obj.get("device").toString());
-                addDevice(device);
+            if(obj.has("uid")){
+                String uid = obj.get("uid").toString();
+                addDevice(uid);
             }
         }
     }
@@ -39,11 +39,11 @@ public class TT_Model {
 
         boolean deviceFound = false;
 
-        int deviceNumber = Integer.valueOf(obj.get("TT").toString());
+        String uid = obj.get("TT").toString();
 
         for(TT_device dev: devices){
             /* Check the received deviceNumber against the list holding the devices. */
-            if(dev.getDevice() == deviceNumber){
+            if(dev.getDeviceUID().equals(uid)){
                 /* If found, update the values. The device will post values to database itself. */
                 if(obj.has("t")) dev.setTemperature(Float.valueOf(obj.get("t").toString()));
                 if(obj.has("h")) dev.setHumidity(Float.valueOf(obj.get("h").toString()));
@@ -55,7 +55,7 @@ public class TT_Model {
         /* If the device is not found, store a event message in the database. */
         if(!deviceFound) {
             Event_Database event = new Event_Database();
-            event.insertEvent("Data received from TT:" + deviceNumber + " , but no configuration found.");
+            event.insertEvent("Data received from TT:" + uid + " , but no configuration found.");
         }
 
     }
@@ -64,11 +64,10 @@ public class TT_Model {
 
     /**
      * Adds a TT device to the list.
-     * @param deviceNumber
+     * @param uid
      */
-    public void addDevice(int deviceNumber){
-        System.out.println("TT Device added: " + deviceNumber);
-        getDevices().add(new TT_device(deviceNumber));
+    public void addDevice(String uid){
+        getDevices().add(new TT_device(uid));
     }
 
     /**

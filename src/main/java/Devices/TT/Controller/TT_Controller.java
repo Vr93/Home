@@ -38,13 +38,13 @@ public class TT_Controller {
         /* Iterate the json object*/
         for(JsonObject obj: list){
             /* Check if json object has both device name and id. */
-            if(obj.has("name") && obj.has("device")){
+            if(obj.has("name") && obj.has("uid")){
                 try {
                     String name = obj.get("name").getAsString();
-                    int device = obj.get("device").getAsInt();
+                    String uid = obj.get("uid").getAsString();
                     /* Create a dropdown item for each element in the database. */
                     navbar = navbar + "<a class=\"dropdown-item\"";
-                    navbar = navbar + "onclick=\"temperaturDevice('" + name + "'," + device + ")\">" + name + "</a >";
+                    navbar = navbar + "onclick=\"temperaturDevice('" + name + "','" + uid + "')\">" + name + "</a >";
                 }
                 catch (NumberFormatException ex){
                     ex.printStackTrace();
@@ -59,7 +59,7 @@ public class TT_Controller {
 
     /**
      * Returns the data for the given device from database.
-     * @param input, JSON Object, "id" the device id, "dateFrom" and "dateTo", as format yyyy-mm-dd.
+     * @param input, JSON Object, "uid" the device uid, "dateFrom" and "dateTo", as format yyyy-mm-dd.
      * @return String[], each string is an JSON object.
      */
     @PostMapping(path="/TT/data")
@@ -68,12 +68,12 @@ public class TT_Controller {
             /* Get input and turn this String to JSON */
             JSONObject inputJson = new JSONObject(input);
             /* Parse JSON from client, and fetch id and interval time. */
-            int deviceId = inputJson.getInt("id");
+            String uid = inputJson.getString("uid");
             String dateFrom = inputJson.getString("dateFrom");
             String dateTo = inputJson.getString("dateTo");
             /* Get the data from database for given device and the interval of how many days to go back for data. */
             TT_Database sql = new TT_Database();
-            ArrayList<String> list = sql.selectDataTT(deviceId,dateFrom,dateTo);
+            ArrayList<String> list = sql.selectDataTT(uid,dateFrom,dateTo);
             /* Iterate the values fetched from database, each string is an json object. */
             String[] data = new String[list.size()];
             for(int i = 0; i < list.size(); i++){
@@ -89,7 +89,7 @@ public class TT_Controller {
 
     /**
      * Returns the latest data for the given device from database.
-     * @param input, JSON Object, "id" the device id.
+     * @param input, JSON Object, "uid" the device uid.
      * @return String, string is an JSON object.
      */
     @PostMapping(path="/TT/data/latest")
@@ -98,10 +98,10 @@ public class TT_Controller {
             /* Get input and turn this String to JSON */
             JSONObject inputJson = new JSONObject(input);
             /* Parse JSON from client, and fetch id and interval time. */
-            int deviceId = inputJson.getInt("id");
+            String uid = inputJson.getString("uid");
             /* Get the data from database for given device and the interval of how many days to go back for data. */
             TT_Database sql = new TT_Database();
-            String jsonObj = sql.selectDataTTLatest(deviceId);
+            String jsonObj = sql.selectDataTTLatest(uid);
 
             return new ResponseEntity<>(jsonObj, HttpStatus.OK);
         }
@@ -122,10 +122,10 @@ public class TT_Controller {
             /* Get input and turn this String to JSON */
             JSONObject inputJson = new JSONObject(input);
             /* Parse JSON from client, and fetch device id. */
-            int deviceId = inputJson.getInt("id");
+            String uid = inputJson.getString("uid");
             /* Get the min and max date for all data for the given device. */
             TT_Database sql = new TT_Database();
-            String[] data = sql.selectMinMaxDate(deviceId);
+            String[] data = sql.selectMinMaxDate(uid);
             return new ResponseEntity<>(data, HttpStatus.OK);
         }
         catch (NumberFormatException ex){

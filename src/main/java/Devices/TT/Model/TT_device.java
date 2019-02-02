@@ -15,9 +15,9 @@ public class TT_device {
     private float voltageOLD;       // Voltage value last time it was posted to the database.
 
     private int updateInterval; // Interval time to send values to SQL.
-    private int device;         // The device ID.
+    private String device;         // The device UID.
 
-    public TT_device(int device){
+    public TT_device(String device){
         this.updateInterval = 10;   // Minutes
         this.device = device;
         startThread();
@@ -53,7 +53,7 @@ public class TT_device {
             /* Check if there is updated values, post these to SQL if there is. */
             if ((getHumidity() != getHumidityOLD()) || (getPressure() != getPressureOLD()) || (getTemperature() != getTemperatureOLD())) {
                 TT_Database sql = new TT_Database();
-                sql.insertValues(getDevice(),getTemperature(), getHumidity(), getPressure(),getVoltage());  //Insert to SQL, Home - > Temperature.
+                sql.insertValues(getDeviceUID(),getTemperature(), getHumidity(), getPressure(),getVoltage());  //Insert to SQL, Home - > Temperature.
                 /* After posing value, set the last values to the last received. */
                 setTemperatureOLD(getTemperature());
                 setHumidityOLD(getHumidity());
@@ -145,10 +145,10 @@ public class TT_device {
     }
 
     /**
-     * Returns the number of the device.
+     * Returns the UID number of the device.
      * @return DeviceNumber
      */
-    public int getDevice(){
+    public String getDeviceUID(){
         return this.device;
     }
 

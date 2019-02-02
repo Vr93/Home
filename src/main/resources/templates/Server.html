@@ -162,7 +162,7 @@ function temperaturDevice(name,deviceId){
 
 function TT_Data_min_max(deviceId){
     	var formData = {
-    		id : deviceId,
+    		uid : deviceId,
     	}
     	$.ajax({
 			type : "POST",
@@ -229,7 +229,7 @@ function TT_Data_min_max(deviceId){
 
 function TT_Data(deviceId){
     	var formData = {
-    		id : deviceId,
+    		uid : deviceId,
     		dateFrom : String($('#tt_datepicker_from').val()),
     		dateTo: String($('#tt_datepicker_to').val()),
     	}
@@ -249,7 +249,7 @@ function TT_Data(deviceId){
 			     var voltage = [];
 			     for(var i = 0; i < result.length; i++){
                     var obj = JSON.parse(result[i]);
-                    pressure[i] = obj.pressure/1000.0;
+                    pressure[i] = obj.pressure;
                     temperature[i] = obj.temperature;
                     humidity[i] = obj.humidity;
                     voltage[i] = obj.voltage;
@@ -258,7 +258,7 @@ function TT_Data(deviceId){
                 var trace_pressure = {
                   x: time,
                   y: pressure,
-                  name: 'Pressure (Bar)',
+                  name: 'Pressure (hPa)',
                   type: 'scatter'
                 };
                 var trace_temperature = {
@@ -324,7 +324,7 @@ function TT_Data(deviceId){
 
 function TT_Data_Latest(deviceId){
     	var formData = {
-    		id : deviceId,
+    		uid : deviceId,
     	}
 
     	$.ajax({
@@ -342,13 +342,13 @@ function TT_Data_Latest(deviceId){
                 if(obj.online){
                     var values = "<h5 style=\"color:green\"" + "data-toggle=\"tooltip\" data-placement=\"top\"" +
                     "title=\"" + obj.timestamp +"\">" + obj.temperature + "°C " +
-                    + obj.pressure/1000.0 + "bar " +  obj.humidity + "% " + obj.voltage + "VDC " + "</h5>";
+                    + obj.pressure + "hPa " +  obj.humidity + "% " + obj.voltage + "VDC " + "</h5>";
                     $('#temperatureModalTitle').append(values);
                  }
                  else{
                     var values = "<h5 style=\"color:red\"" + "data-toggle=\"tooltip\" data-placement=\"top\"" +
                     "title=\"" + obj.timestamp +"\">" + obj.temperature + "°C " +
-                    + obj.pressure/1000.0 + "bar " +  obj.humidity + "% " + obj.voltage + "VDC " + " (Device is offline)</h5>";
+                    + obj.pressure + "hPa " +  obj.humidity + "% " + obj.voltage + "VDC " + " (Device is offline)</h5>";
                     $('#temperatureModalTitle').append(values);
 
                  }
