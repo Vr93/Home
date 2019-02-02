@@ -1,6 +1,8 @@
 package Devices.Com_Master.Model;
 
+import Server.Model.SystemLED;
 import com.pi4j.io.serial.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -10,6 +12,9 @@ import java.io.IOException;
 public class SerialPort_Master {
     private Serial serial;
     private SerialReceiveHandler serialHandler;
+
+    @Autowired
+    private Serial_LED serial_LED;
 
     public SerialPort_Master() {
         this.serialHandler = new SerialReceiveHandler();
@@ -64,6 +69,9 @@ public class SerialPort_Master {
                 try {
                     //System.out.println("Serial Receive: " + event.getHexByteString());
                     System.out.println("Serial Receive: " + event.getAsciiString());
+
+                    /* Blink the LED whenever data is received. */
+                    serial_LED.blink();
                     serialHandler.handleSerialInput(event.getAsciiString());
                 } catch (IOException e) {
                     e.printStackTrace();

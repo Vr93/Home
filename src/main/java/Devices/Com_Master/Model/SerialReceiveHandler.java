@@ -27,7 +27,6 @@ public class SerialReceiveHandler {
             }
         }
         catch(JsonSyntaxException ex){
-            ex.printStackTrace();
         }
     }
 
