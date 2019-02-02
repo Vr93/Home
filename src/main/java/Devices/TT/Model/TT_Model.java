@@ -4,6 +4,7 @@ import Event.Database.Event_Database;
 import Devices.TT.Database.TT_Database;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,7 +16,18 @@ public class TT_Model {
 
     public TT_Model(){
         devices = new ArrayList<>();
+        fetchDevicesFromSQL();
+    }
 
+    private void fetchDevicesFromSQL(){
+        TT_Database sql = new TT_Database();
+        ArrayList<JsonObject> devices = sql.getDevices();
+        for(JsonObject obj: devices){
+            if(obj.has("device")){
+                int device = Integer.valueOf(obj.get("device").toString());
+                addDevice(device);
+            }
+        }
     }
 
     /**
@@ -55,6 +67,7 @@ public class TT_Model {
      * @param deviceNumber
      */
     public void addDevice(int deviceNumber){
+        System.out.println("TT Device added: " + deviceNumber);
         getDevices().add(new TT_device(deviceNumber));
     }
 
