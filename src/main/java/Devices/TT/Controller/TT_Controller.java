@@ -44,7 +44,7 @@ public class TT_Controller {
                     String uid = obj.get("uid").getAsString();
                     /* Create a dropdown item for each element in the database. */
                     navbar = navbar + "<a class=\"dropdown-item\"";
-                    navbar = navbar + "onclick=\"temperaturDevice('" + name + "','" + uid + "')\">" + name + "</a >";
+                    navbar = navbar + "onclick=\"temperatureDevice('" + name + "','" + uid + "')\">" + name + "</a >";
                 }
                 catch (NumberFormatException ex){
                     ex.printStackTrace();
@@ -75,10 +75,13 @@ public class TT_Controller {
             TT_Database sql = new TT_Database();
             ArrayList<String> list = sql.selectDataTT(uid,dateFrom,dateTo);
             /* Iterate the values fetched from database, each string is an json object. */
-            String[] data = new String[list.size()];
+            String[] data = new String[list.size() + 1]; /* +1 because the last index has visulazation settings. */
             for(int i = 0; i < list.size(); i++){
                 data[i] = list.get(i);
             }
+            /* Adds the visulazation settings to the last index, enable temp, enable humidty, enable presure and enable voltage. */
+            JsonObject visulazationSettings = sql.getDeviceConfig(uid);
+            data[list.size()] = visulazationSettings.toString();
             return new ResponseEntity<>(data, HttpStatus.OK);
         }
         catch (NumberFormatException ex){
@@ -99,11 +102,14 @@ public class TT_Controller {
             JSONObject inputJson = new JSONObject(input);
             /* Parse JSON from client, and fetch id and interval time. */
             String uid = inputJson.getString("uid");
+            String[] data = new String[2];
             /* Get the data from database for given device and the interval of how many days to go back for data. */
             TT_Database sql = new TT_Database();
-            String jsonObj = sql.selectDataTTLatest(uid);
-
-            return new ResponseEntity<>(jsonObj, HttpStatus.OK);
+            data[0] = sql.selectDataTTLatest(uid);
+            /* Adds the visulazation settings to the json object, enable temp, enable humidty, enable presure and enable voltage. */
+            JsonObject visulazationSettings = sql.getDeviceConfig(uid);
+            data[1] =  visulazationSettings.toString();
+            return new ResponseEntity<>(data, HttpStatus.OK);
         }
         catch (NumberFormatException | JsonSyntaxException ex){
             String data = "<p class=\"text-center text-danger\"> Error, could not load data! </p>";

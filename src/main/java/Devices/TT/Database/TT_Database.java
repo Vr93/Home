@@ -135,6 +135,71 @@ public class TT_Database {
         return list;
     }
 
+
+    /**
+     * Returns the visulazation settings for the device, as JsonObject.
+     * - Enable Temperature
+     * - Enable Humidity
+     * - Enable Pressure
+     * - Enable Voltage
+     * @param UID
+     * @return JsonObject
+     */
+    public JsonObject getDeviceConfig(String UID) {
+        JsonObject obj = new JsonObject();
+        try {
+            //STEP 2: Register JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
+
+            //STEP 3: Open a connection
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            //STEP 4: Execute a query
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM `TT_config` WHERE `UID` =\"" + UID + "\"";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            //STEP 5: Extract data from result set
+            while (rs.next()) {
+                //Retrieve by column name
+                boolean enableTemperature = rs.getBoolean("TempEnable");
+                obj.addProperty("TempEnable",enableTemperature);
+                boolean enableHumidity = rs.getBoolean("HumidityEnable");
+                obj.addProperty("HumidityEnable",enableHumidity);
+                boolean enablePressure = rs.getBoolean("PressureEnable");
+                obj.addProperty("PressureEnable",enablePressure);
+                boolean enableVoltage = rs.getBoolean("VoltageEnable");
+                obj.addProperty("VoltageEnable",enableVoltage);
+            }
+            //STEP 6: Clean-up environment
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        } finally {
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException se2) {
+            }// nothing we can do
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+        }//end try
+        return obj;
+    }
+
     /**
      * Returns all data for the given device within the time limit input.
      * @param uid, the UID number of the device.
